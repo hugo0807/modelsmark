@@ -177,9 +177,37 @@ Vercel 会在 DNS 生效后自动签发证书（通常 1-30 分钟）。验证�
 
 ## 网络环境说明（重要）
 
-本机实测：国内网络下 `github.com` 与 `*.vercel.app` 均存在连接不稳定/被阻断的情况，但 `api.github.com`、`api.vercel.com` 可达。
+本机实测（国内网络）：
 
-**GitHub 授权被阻断时的绕过方案**：
+| 域名 | 直连 | 说明 |
+|---|---|---|
+| `api.github.com` | ✅ 可达（约 0.2s） | **GitHub API 通道，所有脚本走这里** |
+| `github.com` | ❌ TCP 连接超时 | 主站被阻断，`git push` / `git fetch` 均失败 |
+| `*.vercel.app` | ❌ 不可直连 | 线上验证需借助 GitHub Actions 海外 runner |
+
+### 推送到 GitHub：走 API 通道
+
+`github.com` 不可达时，`git push` 无法工作。仓库提供了两个脚本绕过：
+
+```bash
+# 推送改动（等价于 git push，且能触发 Actions 的 push 事件）
+node scripts/push-via-api.js <PAT> [文件...]
+
+# 把本地分支对齐到远端 HEAD（重建远端 commit 对象）
+python scripts/sync-remote.py <PAT> [ref]
+```
+
+**原理**：GitHub Git Data API 与 `api.github.com` 同源，不受主站阻断影响。
+`push-via-api.js` 依次创建 blob → tree → commit → 更新 ref；
+`sync-remote.py` 按 git 原始对象格式重建远端 commit 并对齐本地 SHA。
+
+> 重建远端 commit 时有两个易错点（已踩坑）：
+> 1. **时区必须写 `+0800`**，即使 API 返回的是 UTC 时刻——用 `+0000` 算出的 SHA 不一致；
+> 2. **GitHub API 生成的 commit，消息结尾不带换行**，本地 `git commit` 生成的对象则带。
+
+若之后网络恢复，`git push` 依然可用，无需改动任何配置。
+
+### GitHub 授权被阻断时的绕过方案
 
 ```bash
 # 关闭 git 代理（全局生效）
@@ -192,6 +220,9 @@ curl --noproxy '*' --resolve github.com:443:140.82.113.3 \
   -d '{"client_id":"Iv1.b507a08c87ecfe98","scope":"repo read:org workflow"}' \
   https://github.com/login/device/code
 ```
+
+> 注意：`api.github.com` 可达不代表 `github.com` 可达。设备码流程的 token 换取接口
+> 在 `github.com/login/oauth/access_token`，主站不可达时该步骤需靠固定 IP 或代理完成。
 
 ---
 
