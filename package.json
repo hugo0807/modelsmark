@@ -5,7 +5,8 @@
   "description": "全球模型 API 价格与能力基准实时对比平台",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/build-compat.cjs",
+    "build:raw": "next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
@@ -19,6 +20,9 @@
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
+  },
+  "engines": {
+    "node": "22.x"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

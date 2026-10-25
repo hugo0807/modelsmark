@@ -8,6 +8,7 @@ node_modules/
 out/
 build/
 dist/
+.build/
 *_old_*/
 screenshots/
 
@@ -32,3 +33,5 @@ scrape-report.json
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
