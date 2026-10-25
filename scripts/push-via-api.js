@@ -117,10 +117,19 @@ async function main() {
   const treeEntries = [];
   for (const file of files) {
     const abs = path.join(ROOT, file);
+
+    // 文件在本地已不存在 -> 视为删除（tree entry sha 置 null）
     if (!fs.existsSync(abs)) {
-      console.log(`[push] 跳过（本地不存在）: ${file}`);
+      treeEntries.push({
+        path: file,
+        mode: '100644',
+        type: 'blob',
+        sha: null,
+      });
+      console.log(`[push] 删除 ${file}`);
       continue;
     }
+
     const content = fs.readFileSync(abs);
     const blob = await request('POST', `/repos/${REPO}/git/blobs`, pat, {
       content: content.toString('base64'),
