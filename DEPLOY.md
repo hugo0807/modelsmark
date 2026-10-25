@@ -5,13 +5,80 @@
 | 路径 | 网址 | 适合场景 | 状态 |
 |---|---|---|---|
 | **A. 即时发布** | `https://modelsmark.app.workbuddy.host/?sharecode=B446I2BLWQ` | 马上要给人看、内部预览 | ✅ 已上线 |
-| **B. GitHub + Cloudflare** | `modelsmark.pages.dev` | 长期运营、自有域名、自动周更 | 待配置 |
+| **B. GitHub + Vercel** | `https://modelsmark-sigma.vercel.app` | 长期运营、自动周更、源仓库托管 | ✅ 已上线（国内访问需绑自定义域名）|
 
-路径 A 已可直接使用，无需任何账号。路径 B 用于建立长期自动更新的基础设施——**两者不冲突，路径 B 建成后可以随时把路径 A 下线**。
+路径 A 已可直接使用。路径 B 用于建立长期自动更新的基础设施——**两者不冲突**。
+
+> ⚠️ **国内访问提示**：`*.vercel.app` 域名在中国大陆网络下通常无法直连（实测本机 DNS 解析正常但 TCP 连接超时）。要国内访问必须绑定自定义域名，见下方「路径 B-3」。
 
 ---
 
-## 路径 B：GitHub + Cloudflare Pages
+## 路径 B：GitHub + Vercel
+
+### B-1. Vercel 项目已配置完成
+
+| 配置项 | 值 |
+|---|---|
+| Project | `295698670-1601s-projects/modelsmark` |
+| 生产域名 | `https://modelsmark-sigma.vercel.app` |
+| Framework | `nextjs` |
+| Build Command | `npm run build` |
+| Install Command | `npm install --no-audit --no-fund` |
+| Node Version | 22.x |
+
+**关键配置说明**：本项目使用 Next.js `output: 'export'` 静态导出，产物在 `out/`。
+
+- ✅ `vercel.json` 中**不能**设置 `outputDirectory: "out"` —— 会与 Next.js 框架预设冲突，导致构建报
+  `The file ".../out/routes-manifest.json" couldn't be found`。
+- ✅ Vercel 会自动识别 `output: 'export'` 并使用 `out/` 作为产物目录，无需手动指定。
+- ✅ `vercel.json` 已配置 `trailingSlash: true` 与静态资源缓存头。
+
+如需重新部署：
+
+```bash
+cd modelsmark
+vercel deploy --prod
+```
+
+### B-2. 推送代码到 GitHub
+
+```bash
+cd modelsmark
+git remote add origin https://github.com/<你的用户名>/modelsmark.git
+git push -u origin main
+```
+
+### B-3. 绑定自定义域名（国内访问必需）
+
+**第一步：在 Vercel 添加域名**
+
+1. 打开 https://vercel.com/295698670-1601s-projects/modelsmark/settings/domains
+2. 点 **Add Domain**，输入你的域名，例如 `modelsmark.com` 或 `www.modelsmark.com`
+3. Vercel 会给出两条 DNS 记录要求
+
+**第二步：在域名 DNS 服务商添加解析记录**
+
+Vercel 默认推荐 A 记录（任选其一，指向任一 IP 均可）：
+
+| 类型 | 主机 | 值 | TTL |
+|---|---|---|---|
+| A | `@`（根域） | `76.76.21.21` | 60 |
+| CNAME | `www` | `cname.vercel-dns.com` | 60 |
+
+> 若使用阿里云/腾讯云 DNS，也可直接用 CNAME：`@` → `cname.vercel-dns.com`，并按域名商要求把根域 CNAME 转为 A 记录（DNSPod 需付费套餐支持）。
+
+**第三步：等待验证**
+
+Vercel 会在 DNS 生效后自动签发证书（通常 1-30 分钟）。验证通过后生产域名会自动切换到你的域名。
+
+**注意事项**：
+
+- 中国大陆服务器提供商的域名需完成 **ICP 备案**才能绑定（Vercel 会提示 "Domain is not compliant with ICP"）。这是硬性要求。
+- 若无备案，可用香港/海外节点域名，或直接沿用路径 A 的 `workbuddy.host` 域名。
+
+---
+
+## 路径 B 备选：Cloudflare Pages
 
 ### 1. 注册 Cloudflare 账号
 
@@ -32,41 +99,18 @@
 
 1. 打开 https://dash.cloudflare.com/
 2. 右侧任一区域旁边有一串 32 位十六进制字符，那就是 **Account ID**
-3. 或进入账号首页 → 侧边栏 "Account ID"
 
-### 4. 在 GitHub 创建仓库并推送
-
-1. 打开 https://github.com/new
-2. 仓库名填 `modelsmark`
-3. **不要勾选** README / .gitignore / license（本地已有提交）
-4. 点 Create repository
-5. 在项目目录执行：
-
-```bash
-cd modelsmark
-git remote add origin https://github.com/<你的用户名>/modelsmark.git
-git push -u origin main
-```
-
-或者用项目里的助手脚本：
-
-```bash
-bash scripts/deploy-helper.sh push
-```
-
-### 5. 配置 GitHub Secrets
+### 4. 配置 GitHub Secrets
 
 在仓库页面：**Settings → Secrets and variables → Actions → New repository secret**
-
-添加三个：
 
 | Name | Value |
 |---|---|
 | `CLOUDFLARE_API_TOKEN` | 第 2 步复制的 Token |
 | `CLOUDFLARE_ACCOUNT_ID` | 第 3 步的 Account ID |
-| `CLOUDFLARE_PROJECT_NAME` | `modelsmark`（自己起，全小写） |
+| `CLOUDFLARE_PROJECT_NAME` | `modelsmark`（自己起，全小写）|
 
-### 6. 连接 Pages 项目
+### 5. 连接 Pages 项目
 
 1. 打开 https://dash.cloudflare.com/pages
 2. 点 **Create application** → **Connect to Git**
@@ -78,40 +122,25 @@ bash scripts/deploy-helper.sh push
    - **Root directory**：留空（仓库根就是 modelsmark）
 5. 点 **Save and Deploy**
 
-### 7. 补充环境变量
-
-部署后如果页面数据不对，在 Pages 项目 → **Settings → Environment variables** 添加：
-
-```
-NODE_VERSION = 22
-NEXT_TELEMETRY_DISABLED = 1
-```
-
-### 8. 验证
-
-部署成功后会给出 `https://modelsmark.pages.dev` 之类的地址。
-
 ---
 
-## 方案 B 备选：Vercel
+## 网络环境说明（重要）
 
-### 1. 注册
+本机实测：国内网络下 `github.com` 与 `*.vercel.app` 均存在连接不稳定/被阻断的情况，但 `api.github.com`、`api.vercel.com` 可达。
 
-1. 打开 https://vercel.com/signup
-2. 用 GitHub 账号一键登录（推荐，能自动关联仓库）
+**GitHub 授权被阻断时的绕过方案**：
 
-### 2. 导入项目
+```bash
+# 关闭 git 代理（全局生效）
+git config --global http.proxy ""
+git config --global https.proxy ""
 
-1. 登录后点 **Add New... → Project**
-2. 选择 `modelsmark` 仓库
-3. Framework 会自动识别为 Next.js，保持默认
-4. **Build Command** 确认是 `npm run build`
-5. 点 **Deploy**
-
-### 3. 自定义域名（可选）
-
-Vercel 会分配 `modelsmark.vercel.app`。绑定自己的域名：
-**Settings → Domains → Add**，按提示加 CNAME 记录。
+# 设备码授权走 API 直连时可用固定 IP
+curl --noproxy '*' --resolve github.com:443:140.82.113.3 \
+  -X POST -H "Accept: application/json" -H "Content-Type: application/json" \
+  -d '{"client_id":"Iv1.b507a08c87ecfe98","scope":"repo read:org workflow"}' \
+  https://github.com/login/device/code
+```
 
 ---
 
@@ -147,7 +176,11 @@ npx serve out        # 或任意静态服务器
 
 **Q: 构建报 `EPERM: ... .next/trace`**
 
-Windows 上残留的 node 进程占用了目录。执行 `taskkill //F //IM node.exe` 后重新构建。Linux 上不会出现。
+Windows 上残留的 node 进程占用了目录。项目已内置 `scripts/build-compat.cjs` 做降级处理（排他创建失败时自动退化为普通创建），`npm run build` 应能直接通过。若仍失败，执行 `taskkill //F //IM node.exe` 后重试。Linux 上不会出现。
+
+**Q: Vercel 报 `out/routes-manifest.json` 找不到**
+
+`vercel.json` 里设置了 `outputDirectory: "out"`，与 Next.js 框架预设冲突。**删除该字段**——Vercel 会自动识别 `output: 'export'`。
 
 **Q: Pages 部署后 404**
 
