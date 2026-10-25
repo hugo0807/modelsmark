@@ -21,16 +21,20 @@
 |---|---|
 | Project | `295698670-1601s-projects/modelsmark` |
 | 生产域名 | `https://modelsmark-sigma.vercel.app` |
-| Framework | `nextjs` |
+| Framework | `null`（按纯静态站发布）|
+| Output Directory | `out` |
 | Build Command | `npm run build` |
 | Install Command | `npm install --no-audit --no-fund` |
 | Node Version | 22.x |
 
 **关键配置说明**：本项目使用 Next.js `output: 'export'` 静态导出，产物在 `out/`。
 
-- ✅ `vercel.json` 中**不能**设置 `outputDirectory: "out"` —— 会与 Next.js 框架预设冲突，导致构建报
-  `The file ".../out/routes-manifest.json" couldn't be found`。
-- ✅ Vercel 会自动识别 `output: 'export'` 并使用 `out/` 作为产物目录，无需手动指定。
+- ✅ `vercel.json` **必须**设置 `"framework": null` + `"outputDirectory": "out"`。
+  若框架被识别为 `nextjs`，Vercel 会走服务端构建流程，产物目录不匹配，
+  结果是**线上所有路径都返回 404 页面**（排查该问题时曾误判为"内容截断"，
+  实为 404 页字节数与本地 `out/404.html` 完全一致）。
+- ❌ 不要用 `vercel deploy --prebuilt`：该模式会把源码目录一并上传，
+  Vercel 仍按源码项目识别框架，导致同样的 404 问题。
 - ✅ `vercel.json` 已配置 `trailingSlash: true` 与静态资源缓存头。
 
 如需重新部署：
@@ -52,17 +56,16 @@ git push -u origin main
 
 ### B-3. 配置 GitHub Actions 部署凭证
 
-部署工作流（`.github/workflows/deploy.yml`）采用 **`vercel build` + `vercel deploy --prebuilt`** 方案：
-构建在 GitHub runner 上完成，只把静态产物上传到 Vercel。这样不依赖 Vercel 的 Git 集成，
-国内网络环境下同样可靠。
+部署工作流（`.github/workflows/deploy.yml`）在 push 到 `main` 时自动触发：
+拉取项目配置 → 部署到 Vercel 生产环境（构建由 Vercel 侧执行）。
 
 在仓库页面：**Settings → Secrets and variables → Actions → New repository secret**
 
 | Name | Value |
 |---|---|
 | `VERCEL_TOKEN` | Vercel 账号的访问令牌（见下方获取方式）|
-| `VERCEL_ORG_ID` | `team_onk3Co4tJV53iEuL3UPhh8Ap` |
-| `VERCEL_PROJECT_ID` | `prj_spk2JAmo033slq7ARiqyI54Mkith` |
+
+> `VERCEL_ORG_ID` 与 `VERCEL_PROJECT_ID` 非敏感，已直接写在 workflow 的 `env` 中，无需配置。
 
 **获取 VERCEL_TOKEN**：
 

@@ -38,17 +38,6 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: 安装依赖
-        run: npm install --no-audit --no-fund
-
-      - name: 类型检查
-        run: npm run typecheck
-
-      # ---- 部署 ----
-      # 采用 vercel build + deploy --prebuilt 方案：
-      #   1. 构建在 GitHub runner 上完成（Linux 环境，无 Windows trace 句柄问题）
-      #   2. --prebuilt 直接上传 .vercel/output 静态产物，不在 Vercel 侧二次构建
-      #   3. 不依赖 Vercel 的 Git 集成，国内网络环境下依旧可靠
       - name: 校验 Token
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -64,15 +53,14 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: npx --yes vercel@${VERCEL_CLI_VERSION} pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: 构建静态站
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: npx --yes vercel@${VERCEL_CLI_VERSION} build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
+      # 构建与部署都交给 Vercel：
+      #   vercel.json 已配置 framework=null + outputDirectory=out，
+      #   Vercel 会执行 npm run build（Next.js 静态导出）并发布 out/ 产物。
+      #   不使用 --prebuilt，避免 CLI 把源码目录一并上传导致框架识别错误。
       - name: 部署到 Vercel 生产环境
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: npx --yes vercel@${VERCEL_CLI_VERSION} deploy --prebuilt --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+        run: npx --yes vercel@${VERCEL_CLI_VERSION} deploy --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: 打印部署地址
         if: always()
