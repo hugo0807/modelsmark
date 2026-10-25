@@ -1,0 +1,65 @@
+name: 线上站点健康检查
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 每周一 23:00 UTC+8 巡检
+    - cron: '0 15 * * 0'
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 检查生产站点各页面
+        run: |
+          set -u
+          BASE="https://modelsmark-sigma.vercel.app"
+          FAILED=0
+
+          for path in "/" "/prices/" "/benchmarks/" "/about/" "/models/glm-5-3/"; do
+            CODE=$(curl -s -o /tmp/page.html -w "%{http_code}" --max-time 30 "${BASE}${path}" || echo "000")
+            SIZE=$(wc -c < /tmp/page.html 2>/dev/null || echo 0)
+            TITLE=$(grep -o '<title>[^<]*</title>' /tmp/page.html 2>/dev/null | head -1 | sed 's/<[^>]*>//g')
+            # 404 页面的特征：内容里没有站点主标题
+            IS404=$(grep -c "404" /tmp/page.html 2>/dev/null || echo 0)
+            echo "${path} -> HTTP ${CODE} | ${SIZE} bytes | ${TITLE}"
+            if [ "${CODE}" != "200" ] || [ "${SIZE}" -lt 5000 ]; then
+              echo "  ::error::${path} 响应异常（HTTP ${CODE}, ${SIZE} bytes）"
+              FAILED=1
+            fi
+          done
+
+          echo ""
+          echo "=== 首页关键内容校验 ==="
+          curl -s --max-time 30 "${BASE}/" -o /tmp/home.html || true
+          for kw in "ModelsMark" "性价比" "跑分"; do
+            CNT=$(grep -o "${kw}" /tmp/home.html 2>/dev/null | wc -l)
+            echo "  ${kw}: ${CNT} 次"
+            if [ "${CNT}" -eq 0 ]; then
+              echo "  ::error::首页缺少关键词 ${kw}，疑似 404 页"
+              FAILED=1
+            fi
+          done
+
+          echo ""
+          echo "=== prices 页数据校验 ==="
+          curl -s --max-time 30 "${BASE}/prices/" -o /tmp/prices.html || true
+          PSIZE=$(wc -c < /tmp/prices.html 2>/dev/null || echo 0)
+          echo "  prices 页大小: ${PSIZE} bytes（正常应 > 50KB）"
+          if [ "${PSIZE}" -lt 50000 ]; then
+            echo "  ::error::prices 页体积异常，疑似返回了 404 页"
+            FAILED=1
+          fi
+
+          echo ""
+          if [ "${FAILED}" -eq 0 ]; then
+            echo "✅ 线上站点全部正常"
+          else
+            echo "❌ 线上站点存在异常，见上方 ::error:: 标注"
+            exit 1
+          fi
