@@ -1,0 +1,154 @@
+[
+  {
+    "id": "moonshot",
+    "name": "月之暗面官方",
+    "type": "first_party",
+    "group": "月之暗面",
+    "url": "https://platform.moonshot.cn",
+    "domestic": true
+  },
+  {
+    "id": "bigmodel",
+    "name": "智谱官方",
+    "type": "first_party",
+    "group": "智谱 AI",
+    "url": "https://open.bigmodel.cn",
+    "domestic": true
+  },
+  {
+    "id": "deepseek",
+    "name": "DeepSeek 官方",
+    "type": "first_party",
+    "group": "深度求索",
+    "url": "https://platform.deepseek.com",
+    "domestic": true
+  },
+  {
+    "id": "mimo",
+    "name": "小米 MiMo 官方",
+    "type": "first_party",
+    "group": "小米",
+    "url": "https://mimo.mi.com",
+    "domestic": true
+  },
+  {
+    "id": "minimax",
+    "name": "MiniMax 官方",
+    "type": "first_party",
+    "group": "MiniMax",
+    "url": "https://platform.minimaxi.com",
+    "domestic": true
+  },
+  {
+    "id": "openai",
+    "name": "OpenAI 官方",
+    "type": "first_party",
+    "group": "OpenAI",
+    "url": "https://platform.openai.com",
+    "domestic": false
+  },
+  {
+    "id": "anthropic",
+    "name": "Anthropic 官方",
+    "type": "first_party",
+    "group": "Anthropic",
+    "url": "https://console.anthropic.com",
+    "domestic": false
+  },
+  {
+    "id": "google-ai-studio",
+    "name": "Google AI Studio",
+    "type": "first_party",
+    "group": "Google",
+    "url": "https://ai.google.dev",
+    "domestic": false
+  },
+  {
+    "id": "google-vertex",
+    "name": "Google Vertex AI",
+    "type": "first_party",
+    "group": "Google",
+    "url": "https://cloud.google.com/vertex-ai",
+    "domestic": false
+  },
+  {
+    "id": "xai",
+    "name": "xAI 官方",
+    "type": "first_party",
+    "group": "xAI",
+    "url": "https://x.ai",
+    "domestic": false
+  },
+  {
+    "id": "aliyun-bailian",
+    "name": "阿里云百炼",
+    "type": "cloud",
+    "group": "阿里云",
+    "url": "https://bailian.console.aliyun.com",
+    "domestic": true
+  },
+  {
+    "id": "volcengine-ark",
+    "name": "火山引擎方舟",
+    "type": "cloud",
+    "group": "字节跳动",
+    "url": "https://console.volcengine.com/ark",
+    "domestic": true
+  },
+  {
+    "id": "tencent-tokenhub",
+    "name": "腾讯云 TokenHub",
+    "type": "cloud",
+    "group": "腾讯云",
+    "url": "https://cloud.tencent.com/product/tnh",
+    "domestic": true
+  },
+  {
+    "id": "baidu-qianfan",
+    "name": "百度智能云千帆",
+    "type": "cloud",
+    "group": "百度云",
+    "url": "https://cloud.baidu.com/product/wenxinworkshop",
+    "domestic": true
+  },
+  {
+    "id": "mobile-cloud",
+    "name": "移动云",
+    "type": "cloud",
+    "group": "中国移动",
+    "url": "https://ecloud.10086.cn",
+    "domestic": true
+  },
+  {
+    "id": "ctyun",
+    "name": "天翼云 · 息壤",
+    "type": "cloud",
+    "group": "中国电信",
+    "url": "https://www.ctyun.cn",
+    "domestic": true
+  },
+  {
+    "id": "cucloud",
+    "name": "联通云",
+    "type": "cloud",
+    "group": "中国联通",
+    "url": "https://www.cucloud.cn",
+    "domestic": true
+  },
+  {
+    "id": "qiniu",
+    "name": "七牛云",
+    "type": "cloud",
+    "group": "七牛云",
+    "url": "https://www.qiniu.com",
+    "domestic": true
+  },
+  {
+    "id": "siliconflow",
+    "name": "硅基流动",
+    "type": "cloud",
+    "group": "硅基流动",
+    "url": "https://siliconflow.cn",
+    "domestic": true
+  }
+]

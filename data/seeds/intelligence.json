@@ -1,0 +1,22 @@
+[
+  { "modelId": "claude-opus-5-5", "index": 58, "rank": 1, "costPerTaskUsd": 5.98, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "claude-sonnet-5-5", "index": 56, "rank": 2, "costPerTaskUsd": null, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "kimi-k3-1-pro", "index": 55, "rank": 4, "costPerTaskUsd": 2.11, "outputTokensPerSec": 77.1, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "gpt-6-astra", "index": 53, "rank": 5, "costPerTaskUsd": 3.26, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "gemini-4-argon", "index": 53, "rank": 5, "costPerTaskUsd": 1.99, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "gpt-6-1-sol", "index": 52, "rank": 7, "costPerTaskUsd": 0.72, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "qwen3-8-max", "index": 45.42, "rank": 8, "costPerTaskUsd": null, "outputTokensPerSec": 37.1, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "qwen3-8-max-0902", "index": 45.42, "rank": 8, "costPerTaskUsd": null, "outputTokensPerSec": 37.1, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "qwen3-7-max", "index": null, "rank": null, "costPerTaskUsd": null, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "qwen3-7-plus", "index": null, "rank": null, "costPerTaskUsd": null, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "qwen3-7-flash", "index": null, "rank": null, "costPerTaskUsd": null, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "qwen3-8-flash", "index": null, "rank": null, "costPerTaskUsd": null, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "qwen3-8-27b", "index": 33.7, "rank": null, "costPerTaskUsd": null, "outputTokensPerSec": 45.2, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "mimo-v2-6-pro", "index": 46.3, "rank": 9, "costPerTaskUsd": null, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "deepseek-v4-1-flash", "index": 45.1, "rank": 10, "costPerTaskUsd": null, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "glm-5-3", "index": 44.8, "rank": 11, "costPerTaskUsd": null, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "kimi-k3", "index": 44, "rank": 12, "costPerTaskUsd": 2.0, "outputTokensPerSec": 38.5, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "glm-5-3-flash", "index": 41.8, "rank": 13, "costPerTaskUsd": null, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "minimax-m3", "index": 42.7, "rank": 14, "costPerTaskUsd": null, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" },
+  { "modelId": "hunyuan-hy3", "index": 25.3, "rank": 15, "costPerTaskUsd": null, "outputTokensPerSec": null, "source": "Artificial Analysis", "measuredAt": "2026-10-23" }
+]

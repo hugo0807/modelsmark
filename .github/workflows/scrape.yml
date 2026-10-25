@@ -1,0 +1,74 @@
+name: 每周抓取价格与跑分
+
+on:
+  schedule:
+    # 每周一 06:00 UTC+8 = 周一 22:00 UTC（避开 GitHub 高峰时段）
+    - cron: '0 22 * * 0'
+  workflow_dispatch:
+    inputs:
+      only:
+        description: '仅抓取指定渠道 id（留空则全部）'
+        required: false
+        type: string
+
+concurrency:
+  group: scrape-prices
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 安装浏览器
+        run: npx playwright install --with-deps chromium
+
+      - name: 执行抓取
+        id: scrape
+        run: |
+          if [ -n "${{ inputs.only }}" ]; then
+            npm run scrape -- --only "${{ inputs.only }}"
+          else
+            npm run scrape
+          fi
+
+      - name: 校验数据
+        run: npm run validate
+
+      - name: 数据校验失败时中止
+        if: failure()
+        run: |
+          echo "::error::数据校验未通过，本次快照不予发布"
+          exit 1
+
+      - name: 提交数据变更
+        run: |
+          git config user.name  "modelsmark-bot"
+          git config user.email "bot@modelsmark.dev"
+          git add data/
+          if git diff --staged --quiet; then
+            echo "无数据变化，跳过提交"
+          else
+            git commit -m "chore(data): 每周快照 ${{ steps.scrape.outputs.snapshot_id || 'auto' }}"
+            git push
+          fi
+
+      - name: 上传原始页面存档
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: raw-snapshots-${{ github.run_number }}
+          path: data/raw/
+          retention-days: 30
+          if-no-files-found: ignore

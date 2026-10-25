@@ -1,0 +1,8 @@
+{
+  "source": "中国人民银行授权中国外汇交易中心公布 · 银行间外汇市场人民币汇率中间价",
+  "rates": [
+    { "date": "2026-10-16", "usdCny": 6.722, "source": "中国人民银行授权中国外汇交易中心公布", "sourceUrl": "http://www.chinamoney.com.cn" },
+    { "date": "2026-10-19", "usdCny": 6.7208, "source": "中国人民银行授权中国外汇交易中心公布", "sourceUrl": "http://www.chinamoney.com.cn" },
+    { "date": "2026-10-23", "usdCny": 6.718, "source": "中国人民银行授权中国外汇交易中心公布", "sourceUrl": "http://www.chinamoney.com.cn" }
+  ]
+}

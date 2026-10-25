@@ -1,0 +1,31 @@
+{
+  "name": "modelsmark",
+  "version": "0.1.0",
+  "private": true,
+  "description": "全球模型 API 价格与能力基准实时对比平台",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "scrape": "tsx scripts/run-scrape.ts",
+    "scrape:one": "tsx scripts/run-scrape.ts --only",
+    "validate": "tsx scripts/validate.ts",
+    "seed": "tsx scripts/seed.ts",
+    "export": "node scripts/export-snapshot.mjs"
+  },
+  "dependencies": {
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "playwright": "^1.49.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}

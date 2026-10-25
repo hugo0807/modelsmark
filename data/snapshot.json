@@ -1,0 +1,167 @@
+{
+  "id": "2026-W44",
+  "date": "2026-10-25",
+  "usdCny": 6.718,
+  "channelStatus": {
+    "deepseek": {
+      "channelId": "deepseek",
+      "status": "ok",
+      "dataAsOf": "2026-10-25T02:00:17.032Z",
+      "records": 2,
+      "error": null,
+      "changes": 2
+    },
+    "moonshot": {
+      "channelId": "moonshot",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 2,
+      "error": "月之暗面官方: 页面结构变化，未解析出任何价格",
+      "changes": 2
+    },
+    "bigmodel": {
+      "channelId": "bigmodel",
+      "status": "ok",
+      "dataAsOf": "2026-10-25T01:52:51.372Z",
+      "records": 1,
+      "error": null,
+      "changes": 3
+    },
+    "mimo": {
+      "channelId": "mimo",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 2,
+      "error": "小米 MiMo 官方: 页面结构变化，未解析出任何价格",
+      "changes": 2
+    },
+    "minimax": {
+      "channelId": "minimax",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 2,
+      "error": "MiniMax 官方: 页面结构变化，未解析出任何价格",
+      "changes": 2
+    },
+    "openai": {
+      "channelId": "openai",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 3,
+      "error": "OpenAI 官方: 页面结构变化，未解析出任何价格",
+      "changes": 3
+    },
+    "anthropic": {
+      "channelId": "anthropic",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 3,
+      "error": "Anthropic 官方: 页面结构变化，未解析出任何价格",
+      "changes": 3
+    },
+    "google-ai-studio": {
+      "channelId": "google-ai-studio",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 3,
+      "error": "fetch failed",
+      "changes": 3
+    },
+    "google-vertex": {
+      "channelId": "google-vertex",
+      "status": "stale",
+      "dataAsOf": "2026-10-16T08:00:00Z",
+      "records": 0,
+      "error": "尚未接入适配器",
+      "changes": 0
+    },
+    "xai": {
+      "channelId": "xai",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 1,
+      "error": "page.goto: net::ERR_CONNECTION_TIMED_OUT at https://x.ai/docs/models\nCall log:\n\u001b[2m  - navigating to \"https://x.ai/docs/models\", waiting until \"domcontentloaded\"\u001b[22m\n",
+      "changes": 1
+    },
+    "aliyun-bailian": {
+      "channelId": "aliyun-bailian",
+      "status": "ok",
+      "dataAsOf": "2026-10-25T01:52:51.372Z",
+      "records": 5,
+      "error": null,
+      "changes": 12
+    },
+    "volcengine-ark": {
+      "channelId": "volcengine-ark",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 1,
+      "error": "火山引擎方舟: 页面结构变化，未解析出任何价格",
+      "changes": 1
+    },
+    "tencent-tokenhub": {
+      "channelId": "tencent-tokenhub",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 4,
+      "error": "腾讯云 TokenHub: 页面结构变化，未解析出任何价格",
+      "changes": 4
+    },
+    "baidu-qianfan": {
+      "channelId": "baidu-qianfan",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 2,
+      "error": "百度智能云千帆: 页面结构变化，未解析出任何价格",
+      "changes": 2
+    },
+    "mobile-cloud": {
+      "channelId": "mobile-cloud",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 4,
+      "error": "移动云: 页面结构变化，未解析出任何价格",
+      "changes": 4
+    },
+    "ctyun": {
+      "channelId": "ctyun",
+      "status": "ok",
+      "dataAsOf": "2026-10-25T01:52:51.372Z",
+      "records": 4,
+      "error": null,
+      "changes": 6
+    },
+    "cucloud": {
+      "channelId": "cucloud",
+      "status": "ok",
+      "dataAsOf": "2026-10-25T01:52:51.372Z",
+      "records": 2,
+      "error": null,
+      "changes": 5
+    },
+    "qiniu": {
+      "channelId": "qiniu",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 2,
+      "error": "七牛云: 页面结构变化，未解析出任何价格",
+      "changes": 2
+    },
+    "siliconflow": {
+      "channelId": "siliconflow",
+      "status": "stale",
+      "dataAsOf": "2026-10-23T08:00:00Z",
+      "records": 4,
+      "error": "硅基流动: HTTP 401 https://api.siliconflow.cn/v1/models?type=text",
+      "changes": 4
+    }
+  },
+  "counts": {
+    "models": 29,
+    "channels": 19,
+    "paygPrices": 2,
+    "packagePrices": 0,
+    "scores": 83
+  },
+  "builtAt": "2026-10-25T02:00:17.032Z"
+}

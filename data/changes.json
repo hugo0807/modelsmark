@@ -1,0 +1,22 @@
+[
+  {
+    "kind": "added",
+    "modelId": "deepseek-v4-1-flash",
+    "channelId": "deepseek",
+    "billingMode": "payg",
+    "fromCny": null,
+    "toCny": 1.77,
+    "delta": null,
+    "tierLabel": "空闲时段"
+  },
+  {
+    "kind": "price",
+    "modelId": "deepseek-v4-pro",
+    "channelId": "deepseek",
+    "billingMode": "payg",
+    "fromCny": 1.77,
+    "toCny": 6.65,
+    "delta": 2.76,
+    "tierLabel": "空闲时段"
+  }
+]
