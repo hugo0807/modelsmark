@@ -74,10 +74,29 @@ git push -u origin main
 3. 点 **Create** 后**立刻复制**（只显示一次）
 4. 粘贴到上面表格的 `VERCEL_TOKEN` secret 里
 
+> ⚠️ **不要用 CLI 的会话 Token**：`vca_` 前缀的登录态约 6~7 小时后过期，
+> 且 Vercel 已限制 `tokens create` 接口（返回 `Cannot create tokens for this app`），
+> 只能在网页手动创建。
+
+### 用脚本自动写入 Secret（可选）
+
+如果希望由脚本完成加密写入（避免明文进入 shell 历史），仓库提供了
+`scripts/write-gh-secrets.js`——它会用仓库公钥做 libsodium sealed box 加密后再提交：
+
+```bash
+node scripts/write-gh-secrets.js <PAT> VERCEL_TOKEN=<你的 token>
+```
+
+**前提**：所用 PAT 必须拥有 **Repository permissions → Secrets: Read and write**。
+用 Fine-grained PAT 时若缺这一项，接口会返回
+`403 Resource not accessible by personal access token`（此时 `actions/workflows`、
+`actions/runs` 等读取接口仍是 200，容易误判为"权限已配好"）。
+
 配置完成后，`main` 分支每次 push（改动 `src/`、`data/`、`scripts/` 等路径时）
 会自动触发：安装依赖 → 类型检查 → 构建 → 部署到生产环境。
 
 手动触发：**Actions → 构建并部署到 Vercel → Run workflow**
+（手动触发需要 PAT 具备 **Actions: Read and write**；push 触发则只需 Contents 写权限。）
 
 ### B-4. 绑定自定义域名（国内访问必需，可选）
 
@@ -148,7 +167,7 @@ Vercel 会在 DNS 生效后自动签发证书（通常 1-30 分钟）。验证�
 2. 点 **Create application** → **Connect to Git**
 3. 授权 GitHub，选择 `modelsmark` 仓库
 4. 构建配置：
-   - **Framework preset**：Next.js
+   - **Framework preset**：None（纯静态站，见路径 B-1 的关键说明）
    - **Build command**：`npm run build`
    - **Build output directory**：`out`
    - **Root directory**：留空（仓库根就是 modelsmark）
@@ -178,11 +197,41 @@ curl --noproxy '*' --resolve github.com:443:140.82.113.3 \
 
 ## 周更调度是否已生效
 
-部署后，`.github/workflows/scrape.yml` 会自动接管：
+项目里有三个工作流，各自职责如下：
 
-- 每周一 22:00 UTC（= 周一 06:00 CST）触发
-- 跑 19 个渠道适配器 → 校验 → 有变化则提交 `data/` → 触发 `deploy.yml` 重新构建发布
-- 失败时保留上期数据并在 `scrape-report.json` 记录
+| 工作流 | 触发方式 | 职责 |
+|---|---|---|
+| `deploy.yml` | push 到 `main`（限定路径）/ 手动 | 构建并部署到 Vercel 生产环境 |
+| `scrape.yml` | 每周一 22:00 UTC（= 周一 06:00 CST）/ 手动 | 跑 19 个渠道适配器 → 校验 → 有变化则提交 `data/` |
+| `health-check.yml` | push 到 `main` / 每周一 15:00 UTC / 手动 | 巡检线上站点各页面是否正常 |
+
+**串联关系**：`scrape.yml` 提交数据变更 → 自动触发 `deploy.yml` 重新构建发布 →
+再触发 `health-check.yml` 校验线上结果，形成闭环。
+
+失败时保留上期数据并在 `scrape-report.json` 记录。
+
+### ⚠️ 前置条件：`VERCEL_TOKEN` 必须先配置好
+
+`deploy.yml` 依赖仓库 Secret `VERCEL_TOKEN`。**未配置时 push 会触发部署但必然失败**，
+工作流会在「校验 Token」步骤以 `::error::缺少 VERCEL_TOKEN secret` 终止，
+不会产生任何部署（线上站点保持上一版，不受影响）。
+
+配置方法见 [B-3](#b-3-配置-github-actions-部署凭证)。
+
+### 本地无法直连 vercel.app 时怎么验证？
+
+国内网络下 `*.vercel.app` 常连不上（实测 TCP 超时），本地 `curl` 无法判断线上是否正常。
+**用 `health-check.yml` 验证**——它在 GitHub 海外 runner 上跑，能直连 vercel.app：
+
+- 巡检 5 个路径（`/`、`/prices/`、`/benchmarks/`、`/about/`、`/models/glm-5-3/`）
+- 检查 HTTP 状态码与响应体字节数
+- 校验首页关键词（ModelsMark / 性价比 / 跑分）是否存在
+- 校验 prices 页体积 > 50KB（404 页约 9KB，可据此区分）
+
+手动触发：**Actions → 线上站点健康检查 → Run workflow**
+
+> 排查 404 问题时，正是这个工作流的「prices 页体积」检查起了决定性作用：
+> 线上返回 9227 字节，与本地 `out/404.html` 完全一致，由此确认是 404 页而非内容截断。
 
 **注意**：GitHub Actions 在中国大陆访问不稳定，如果定时任务经常超时，可以改用自建服务器 + cron，或改用其他 CI（如 Gitee、Gitee Go）。
 
@@ -210,13 +259,25 @@ npx serve out        # 或任意静态服务器
 
 Windows 上残留的 node 进程占用了目录。项目已内置 `scripts/build-compat.cjs` 做降级处理（排他创建失败时自动退化为普通创建），`npm run build` 应能直接通过。若仍失败，执行 `taskkill //F //IM node.exe` 后重试。Linux 上不会出现。
 
-**Q: Vercel 报 `out/routes-manifest.json` 找不到**
+**Q: Vercel 报 `out/routes-manifest.json` 找不到 / 线上全是 404**
 
-`vercel.json` 里设置了 `outputDirectory: "out"`，与 Next.js 框架预设冲突。**删除该字段**——Vercel 会自动识别 `output: 'export'`。
+**不要删除 `outputDirectory`**，这正是 404 的根因。本项目用 Next.js `output: 'export'` 静态导出，
+产物在 `out/`；若框架被识别为 `nextjs`，Vercel 会走服务端构建流程并找不到 `out/`，
+最终**所有路径返回 404 页**。
+
+正确配置是 `vercel.json` 里：
+
+```json
+{ "framework": null, "outputDirectory": "out" }
+```
+
+项目级设置里也要对应改成 **Framework: None** + **Output Directory: out**。
+快速判断线上是否中招：对比响应体字节数与本地 `out/404.html`——**完全一致就是 404 页**。
 
 **Q: Pages 部署后 404**
 
 检查构建输出目录是否为 `out`（不是 `.next`）。本项目配置了 `output: 'export'`，产物在 `out/`。
+若用的是 Vercel，Framework preset 必须设为 **None**，不能是 Next.js。
 
 **Q: 抓取任务全部失败**
 

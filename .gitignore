@@ -39,4 +39,5 @@ next-env.d.ts
 
 # 临时凭据
 .tmp/
+.tmp*/
 .env*
