@@ -34,7 +34,9 @@ scrape-report.json
 *.tsbuildinfo
 next-env.d.ts
 
+# Vercel
 .vercel
 
-.vercel
+# 临时凭据
+.tmp/
 .env*
