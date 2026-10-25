@@ -19,9 +19,19 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
+
+    env:
+      # 用于核对线上部署版本（可选，缺失时跳过该检查）
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
     steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: 检查生产站点各页面
         run: |
           set -u
@@ -61,6 +71,55 @@ jobs:
           if [ "${PSIZE}" -lt 50000 ]; then
             echo "  ::error::prices 页体积异常，疑似返回了 404 页"
             FAILED=1
+          fi
+
+          echo ""
+          echo "=== 模型详情页全量巡检 ==="
+          # 从仓库的 data/seeds/models.json 取出全部模型 slug（id 即 slug），逐个访问详情页，
+          # 确保不是只有个别页面正常（曾出现过首页正常但部分模型页 404 的情况）。
+          MODEL_SLUGS=$(node -e "
+            const list = require('./data/seeds/models.json');
+            const slugs = [...new Set(list.map(m => m.id).filter(Boolean))];
+            console.log(slugs.join(' '));
+          " 2>/dev/null || echo "")
+          MODEL_COUNT=0
+          MODEL_BAD=0
+          for slug in ${MODEL_SLUGS}; do
+            CODE=$(curl -s -o /tmp/m.html -w "%{http_code}" --max-time 20 "${BASE}/models/${slug}/" || echo "000")
+            SIZE=$(wc -c < /tmp/m.html 2>/dev/null || echo 0)
+            MODEL_COUNT=$((MODEL_COUNT + 1))
+            if [ "${CODE}" != "200" ] || [ "${SIZE}" -lt 5000 ]; then
+              echo "  ::error::模型页 ${slug} 异常（HTTP ${CODE}, ${SIZE} bytes）"
+              MODEL_BAD=$((MODEL_BAD + 1))
+              FAILED=1
+            fi
+          done
+          echo "  已巡检 ${MODEL_COUNT} 个模型详情页，异常 ${MODEL_BAD} 个"
+          if [ "${MODEL_COUNT}" -eq 0 ]; then
+            echo "  ::error::未能解析模型列表，巡检覆盖度存疑"
+            FAILED=1
+          fi
+
+          echo ""
+          echo "=== 线上部署版本核对 ==="
+          if [ -n "${VERCEL_TOKEN}" ]; then
+            DEPLOY_JSON=$(curl -s --max-time 30 \
+              -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+              "https://api.vercel.com/v6/deployments?projectId=prj_spk2JAmo033slq7ARiqyI54Mkith&target=production&limit=1" \
+              || echo "")
+            DEPLOY_STATE=$(echo "${DEPLOY_JSON}" | node -e "
+              let s=''; process.stdin.on('data',d=>s+=d).on('end',()=>{
+                try {
+                  const j = JSON.parse(s);
+                  const list = j.deployments || j;
+                  const d = list[0] || {};
+                  console.log((d.state||d.readyState||'?') + '|' + (d.meta && d.meta.githubCommitSha ? d.meta.githubCommitSha.slice(0,8) : 'n/a'));
+                } catch(e) { console.log('PARSE_ERROR|n/a'); }
+              });
+            ")
+            echo "  最新生产部署: ${DEPLOY_STATE}"
+          else
+            echo "  (未配置 VERCEL_TOKEN，跳过部署版本核对)"
           fi
 
           echo ""
