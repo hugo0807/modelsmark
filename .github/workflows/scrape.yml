@@ -20,8 +20,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
 
+    # 提交数据变更需要 GITHUB_TOKEN 的 contents 写权限
+    permissions:
+      contents: write
+
     steps:
       - uses: actions/checkout@v4
+        with:
+          # 保留凭据，供后续 git push 使用
+          persist-credentials: true
 
       - uses: actions/setup-node@v4
         with:
@@ -61,7 +68,7 @@ jobs:
             echo "无数据变化，跳过提交"
           else
             git commit -m "chore(data): 每周快照 ${{ steps.scrape.outputs.snapshot_id || 'auto' }}"
-            git push
+            git push origin HEAD:main
           fi
 
       - name: 上传原始页面存档
