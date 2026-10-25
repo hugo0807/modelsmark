@@ -6,10 +6,12 @@ on:
     paths:
       - 'src/**'
       - 'data/**'
+      - 'scripts/**'
       - 'package.json'
       - 'package-lock.json'
       - 'next.config.mjs'
       - 'vercel.json'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 concurrency:
@@ -19,7 +21,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
       - uses: actions/checkout@v4
@@ -35,15 +37,34 @@ jobs:
       - name: 类型检查
         run: npm run typecheck
 
-      - name: 构建静态站
-        run: npm run build
+      # ---- 部署 ----
+      # 采用 vercel build + deploy --prebuilt 方案：
+      #   1. 构建在本仓库 runner 上完成（Linux 环境不受 Windows trace 句柄问题影响）
+      #   2. --prebuilt 直接上传 .vercel/output 静态产物，不在 Vercel 侧二次构建
+      #   3. 不依赖 Vercel 的 Git 集成，国内网络环境下依旧可靠
+      - name: 拉取 Vercel 项目配置
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: npx --yes vercel@latest pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
-      # 首选方案：仓库已通过 Vercel Git 集成关联，push 即自动部署。
-      # 本 workflow 仅作校验与产物留档；真正的发布由 Vercel 的 Git 集成完成。
-      - name: 上传构建产物存档
-        uses: actions/upload-artifact@v4
-        with:
-          name: modelsmark-build-${{ github.run_number }}
-          path: out
-          retention-days: 7
-          if-no-files-found: error
+      - name: 构建静态站
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: npx --yes vercel@latest build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: 部署到 Vercel 生产环境
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: npx --yes vercel@latest deploy --prebuilt --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: 打印部署地址
+        if: always()
+        run: |
+          echo "生产地址：https://modelsmark-sigma.vercel.app"
+          echo "可访问性检查：curl -sI https://modelsmark-sigma.vercel.app"

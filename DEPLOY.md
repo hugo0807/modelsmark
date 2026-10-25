@@ -42,13 +42,42 @@ vercel deploy --prod
 
 ### B-2. 推送代码到 GitHub
 
+仓库地址：`https://github.com/hugo0807/modelsmark`
+
 ```bash
 cd modelsmark
-git remote add origin https://github.com/<你的用户名>/modelsmark.git
+git remote -v                                    # 确认 origin 指向该仓库
 git push -u origin main
 ```
 
-### B-3. 绑定自定义域名（国内访问必需）
+### B-3. 配置 GitHub Actions 部署凭证
+
+部署工作流（`.github/workflows/deploy.yml`）采用 **`vercel build` + `vercel deploy --prebuilt`** 方案：
+构建在 GitHub runner 上完成，只把静态产物上传到 Vercel。这样不依赖 Vercel 的 Git 集成，
+国内网络环境下同样可靠。
+
+在仓库页面：**Settings → Secrets and variables → Actions → New repository secret**
+
+| Name | Value |
+|---|---|
+| `VERCEL_TOKEN` | Vercel 账号的访问令牌（见下方获取方式）|
+| `VERCEL_ORG_ID` | `team_onk3Co4tJV53iEuL3UPhh8Ap` |
+| `VERCEL_PROJECT_ID` | `prj_spk2JAmo033slq7ARiqyI54Mkith` |
+
+**获取 VERCEL_TOKEN**：
+
+1. 打开 https://vercel.com/account/tokens
+2. 点 **Create Token**，命名 `modelsmark-ci`，选 **Expiration** 期限
+3. 点 **Create** 后**立刻复制**（只显示一次）
+4. 粘贴到上面表格的 `VERCEL_TOKEN` secret 里
+
+配置完成后，`main` 分支每次 push（改动 `src/`、`data/`、`scripts/` 等路径时）
+会自动触发：安装依赖 → 类型检查 → 构建 → 部署到生产环境。
+
+手动触发：**Actions → 构建并部署到 Vercel → Run workflow**
+
+### B-4. 绑定自定义域名（国内访问必需，可选）
+
 
 **第一步：在 Vercel 添加域名**
 
