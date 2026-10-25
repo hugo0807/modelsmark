@@ -81,16 +81,23 @@ git push -u origin main
 ### 用脚本自动写入 Secret（可选）
 
 如果希望由脚本完成加密写入（避免明文进入 shell 历史），仓库提供了
-`scripts/write-gh-secrets.js`——它会用仓库公钥做 libsodium sealed box 加密后再提交：
+`scripts/write-gh-secrets.py`——它会用仓库公钥做 libsodium sealed box 加密后再提交：
 
 ```bash
-node scripts/write-gh-secrets.js <PAT> VERCEL_TOKEN=<你的 token>
+pip install pynacl
+python scripts/write-gh-secrets.py <PAT> VERCEL_TOKEN=<你的 token>
 ```
 
 **前提**：所用 PAT 必须拥有 **Repository permissions → Secrets: Read and write**。
 用 Fine-grained PAT 时若缺这一项，接口会返回
 `403 Resource not accessible by personal access token`（此时 `actions/workflows`、
 `actions/runs` 等读取接口仍是 200，容易误判为"权限已配好"）。
+
+> ⚠️ **加密实现必须是 PyNaCl 的 `nacl.public.SealedBox`**（或 libsodium 的
+> `crypto_box_seal`）。用 tweetnacl 的 `nacl.box.before` + `nacl.secretbox`
+> 手搓组合**不被 GitHub 接受**，会返回：
+> `422 Bad request - validation failed due to an improperly encrypted secret`。
+> 两者看似等价，但 libsodium 的 sealed box 密钥派生细节与手搓组合不一致。
 
 配置完成后，`main` 分支每次 push（改动 `src/`、`data/`、`scripts/` 等路径时）
 会自动触发：安装依赖 → 类型检查 → 构建 → 部署到生产环境。

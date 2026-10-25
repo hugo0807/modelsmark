@@ -14,7 +14,8 @@
     "scrape:one": "tsx scripts/run-scrape.ts --only",
     "validate": "tsx scripts/validate.ts",
     "seed": "tsx scripts/seed.ts",
-    "export": "node scripts/export-snapshot.mjs"
+    "export": "node scripts/export-snapshot.mjs",
+    "secret": "python scripts/write-gh-secrets.py"
   },
   "dependencies": {
     "next": "^15.1.0",
@@ -30,7 +31,6 @@
     "@types/react-dom": "^19.0.0",
     "playwright": "^1.49.0",
     "tsx": "^4.19.0",
-    "tweetnacl": "^1.0.3",
     "typescript": "^5.7.0"
   }
 }
