@@ -8,10 +8,14 @@ node_modules/
 out/
 build/
 dist/
+*_old_*/
+screenshots/
 
-# 数据抓取产物（本地调试用，仓库内保留最新快照）
+# 数据抓取临时产物（最新快照保留在仓库中）
 data/raw/*
 !data/raw/.gitkeep
+data/prices.prev.json
+scrape-report.json
 *.log
 
 # 环境变量
