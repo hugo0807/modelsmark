@@ -1,10 +1,17 @@
 # 部署指南
 
-两种方案，任选其一。**推荐 Cloudflare Pages**：免费额度足够（静态站每月 10 万次请求），且国内访问比 Vercel 稳定。
+当前有两条可用路径：
+
+| 路径 | 网址 | 适合场景 | 状态 |
+|---|---|---|---|
+| **A. 即时发布** | `https://modelsmark.app.workbuddy.host/?sharecode=B446I2BLWQ` | 马上要给人看、内部预览 | ✅ 已上线 |
+| **B. GitHub + Cloudflare** | `modelsmark.pages.dev` | 长期运营、自有域名、自动周更 | 待配置 |
+
+路径 A 已可直接使用，无需任何账号。路径 B 用于建立长期自动更新的基础设施——**两者不冲突，路径 B 建成后可以随时把路径 A 下线**。
 
 ---
 
-## 方案 A：Cloudflare Pages（推荐）
+## 路径 B：GitHub + Cloudflare Pages
 
 ### 1. 注册 Cloudflare 账号
 
@@ -27,16 +34,24 @@
 2. 右侧任一区域旁边有一串 32 位十六进制字符，那就是 **Account ID**
 3. 或进入账号首页 → 侧边栏 "Account ID"
 
-### 4. 推代码到 GitHub
+### 4. 在 GitHub 创建仓库并推送
+
+1. 打开 https://github.com/new
+2. 仓库名填 `modelsmark`
+3. **不要勾选** README / .gitignore / license（本地已有提交）
+4. 点 Create repository
+5. 在项目目录执行：
 
 ```bash
 cd modelsmark
-git init
-git add .
-git commit -m "feat: ModelsMark 初始版本"
-git branch -M main
 git remote add origin https://github.com/<你的用户名>/modelsmark.git
 git push -u origin main
+```
+
+或者用项目里的助手脚本：
+
+```bash
+bash scripts/deploy-helper.sh push
 ```
 
 ### 5. 配置 GitHub Secrets
@@ -78,7 +93,7 @@ NEXT_TELEMETRY_DISABLED = 1
 
 ---
 
-## 方案 B：Vercel
+## 方案 B 备选：Vercel
 
 ### 1. 注册
 
