@@ -1,6 +1,13 @@
 name: 线上站点健康检查
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'data/**'
+      - 'vercel.json'
+      - '.github/workflows/health-check.yml'
   workflow_dispatch:
   schedule:
     # 每周一 23:00 UTC+8 巡检
