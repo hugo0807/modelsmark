@@ -1,4 +1,4 @@
-name: 构建并部署到 Cloudflare Pages
+name: 构建并部署到 Vercel
 
 on:
   push:
@@ -7,7 +7,9 @@ on:
       - 'src/**'
       - 'data/**'
       - 'package.json'
+      - 'package-lock.json'
       - 'next.config.mjs'
+      - 'vercel.json'
   workflow_dispatch:
 
 concurrency:
@@ -28,7 +30,7 @@ jobs:
           cache: 'npm'
 
       - name: 安装依赖
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       - name: 类型检查
         run: npm run typecheck
@@ -36,20 +38,12 @@ jobs:
       - name: 构建静态站
         run: npm run build
 
-      - name: 上传构建产物
-        uses: actions/upload-pages-artifact@v3
+      # 首选方案：仓库已通过 Vercel Git 集成关联，push 即自动部署。
+      # 本 workflow 仅作校验与产物留档；真正的发布由 Vercel 的 Git 集成完成。
+      - name: 上传构建产物存档
+        uses: actions/upload-artifact@v4
         with:
+          name: modelsmark-build-${{ github.run_number }}
           path: out
-
-      - name: 部署到 Cloudflare Pages
-        id: deploy
-        uses: cloudflare/pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-          directory: out
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 输出访问地址
-        run: echo "部署完成：${{ steps.deploy.outputs.deployment-url }}"
+          retention-days: 7
+          if-no-files-found: error
