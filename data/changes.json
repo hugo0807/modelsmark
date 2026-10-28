@@ -1,12 +1,42 @@
 [
   {
-    "kind": "added",
+    "kind": "price",
+    "modelId": "gpt-6-astra",
+    "channelId": "openai",
+    "billingMode": "payg",
+    "fromCny": 134.36,
+    "toCny": 28.55,
+    "delta": -0.79,
+    "tierLabel": null
+  },
+  {
+    "kind": "price",
+    "modelId": "gpt-6-1-sol",
+    "channelId": "openai",
+    "billingMode": "payg",
+    "fromCny": 26.88,
+    "toCny": 85.66,
+    "delta": 2.19,
+    "tierLabel": null
+  },
+  {
+    "kind": "price",
+    "modelId": "gpt-6-luna",
+    "channelId": "openai",
+    "billingMode": "payg",
+    "fromCny": 1.34,
+    "toCny": 1.43,
+    "delta": 0.07,
+    "tierLabel": null
+  },
+  {
+    "kind": "price",
     "modelId": "deepseek-v4-1-flash",
     "channelId": "deepseek",
     "billingMode": "payg",
-    "fromCny": null,
+    "fromCny": 1.75,
     "toCny": 1.77,
-    "delta": null,
+    "delta": 0.01,
     "tierLabel": "空闲时段"
   },
   {
@@ -14,9 +44,189 @@
     "modelId": "deepseek-v4-pro",
     "channelId": "deepseek",
     "billingMode": "payg",
-    "fromCny": 1.77,
+    "fromCny": 6.75,
     "toCny": 6.65,
-    "delta": 2.76,
+    "delta": -0.01,
     "tierLabel": "空闲时段"
+  },
+  {
+    "kind": "price",
+    "modelId": "glm-5-3-flash",
+    "channelId": "bigmodel",
+    "billingMode": "payg",
+    "fromCny": 1.3,
+    "toCny": 158,
+    "delta": 120.54,
+    "tierLabel": null
+  },
+  {
+    "kind": "price",
+    "modelId": "glm-5-3",
+    "channelId": "bigmodel",
+    "billingMode": "payg",
+    "fromCny": 13,
+    "toCny": 44.23,
+    "delta": 2.4,
+    "tierLabel": null
+  },
+  {
+    "kind": "price",
+    "modelId": "mimo-v2-6-pro",
+    "channelId": "mimo",
+    "billingMode": "payg",
+    "fromCny": 3.75,
+    "toCny": 0.11,
+    "delta": -0.97,
+    "tierLabel": null
+  },
+  {
+    "kind": "price",
+    "modelId": "mimo-v2-6-flash",
+    "channelId": "mimo",
+    "billingMode": "payg",
+    "fromCny": 1.25,
+    "toCny": 0.04,
+    "delta": -0.97,
+    "tierLabel": null
+  },
+  {
+    "kind": "price",
+    "modelId": "qwen3-8-max",
+    "channelId": "aliyun-bailian",
+    "billingMode": "payg",
+    "fromCny": 18,
+    "toCny": 3.1,
+    "delta": -0.83,
+    "tierLabel": null
+  },
+  {
+    "kind": "price",
+    "modelId": "qwen3-7-max",
+    "channelId": "aliyun-bailian",
+    "billingMode": "payg",
+    "fromCny": 18,
+    "toCny": 3.7,
+    "delta": -0.79,
+    "tierLabel": null
+  },
+  {
+    "kind": "added",
+    "modelId": "qwen3-7-plus",
+    "channelId": "aliyun-bailian",
+    "billingMode": "payg",
+    "fromCny": null,
+    "toCny": 3.7,
+    "delta": null,
+    "tierLabel": null
+  },
+  {
+    "kind": "price",
+    "modelId": "qwen3-7-flash",
+    "channelId": "aliyun-bailian",
+    "billingMode": "payg",
+    "fromCny": 0.35,
+    "toCny": 3.7,
+    "delta": 9.57,
+    "tierLabel": null
+  },
+  {
+    "kind": "price",
+    "modelId": "qwen3-8-flash",
+    "channelId": "aliyun-bailian",
+    "billingMode": "payg",
+    "fromCny": 1.28,
+    "toCny": 3.1,
+    "delta": 1.42,
+    "tierLabel": null
+  },
+  {
+    "kind": "added",
+    "modelId": "glm-5-3",
+    "channelId": "ctyun",
+    "billingMode": "package",
+    "fromCny": null,
+    "toCny": 2.66,
+    "delta": null,
+    "tierLabel": "基础版"
+  },
+  {
+    "kind": "price",
+    "modelId": "deepseek-v4-1-flash",
+    "channelId": "cucloud",
+    "billingMode": "payg",
+    "fromCny": 4.5,
+    "toCny": 2.63,
+    "delta": -0.42,
+    "tierLabel": "高峰时段"
+  },
+  {
+    "kind": "price",
+    "modelId": "deepseek-v4-1-flash",
+    "channelId": "cucloud",
+    "billingMode": "payg",
+    "fromCny": 2.25,
+    "toCny": 3.45,
+    "delta": 0.53,
+    "tierLabel": "空闲时段"
+  },
+  {
+    "kind": "removed",
+    "modelId": "deepseek-v4-1-flash",
+    "channelId": "deepseek",
+    "billingMode": "payg",
+    "fromCny": 3.5,
+    "toCny": null,
+    "delta": null,
+    "tierLabel": "高峰时段"
+  },
+  {
+    "kind": "removed",
+    "modelId": "qwen3-8-max-0902",
+    "channelId": "aliyun-bailian",
+    "billingMode": "payg",
+    "fromCny": 18,
+    "toCny": null,
+    "delta": null,
+    "tierLabel": null
+  },
+  {
+    "kind": "removed",
+    "modelId": "qwen3-7-plus",
+    "channelId": "aliyun-bailian",
+    "billingMode": "payg",
+    "fromCny": 3.5,
+    "toCny": null,
+    "delta": null,
+    "tierLabel": "≤256K"
+  },
+  {
+    "kind": "removed",
+    "modelId": "glm-5-3",
+    "channelId": "ctyun",
+    "billingMode": "package",
+    "fromCny": 2.66,
+    "toCny": null,
+    "delta": null,
+    "tierLabel": "开发者/中小企业版"
+  },
+  {
+    "kind": "removed",
+    "modelId": "deepseek-v4-1-flash",
+    "channelId": "cucloud",
+    "billingMode": "package",
+    "fromCny": 2.5,
+    "toCny": null,
+    "delta": null,
+    "tierLabel": "个人版"
+  },
+  {
+    "kind": "removed",
+    "modelId": "deepseek-v4-pro",
+    "channelId": "deepseek",
+    "billingMode": "payg",
+    "fromCny": 13.3,
+    "toCny": null,
+    "delta": null,
+    "tierLabel": "高峰时段"
   }
 ]
