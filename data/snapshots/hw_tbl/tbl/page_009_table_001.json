@@ -1,0 +1,27 @@
+{
+  "page": 9,
+  "rows": 5,
+  "columns": 5,
+  "cells": [
+    {"row": 0, "column": 0, "row_span": 1, "column_span": 1, "text": "模型"},
+    {"row": 0, "column": 1, "row_span": 1, "column_span": 1, "text": "画面限制"},
+    {"row": 0, "column": 2, "row_span": 1, "column_span": 1, "text": "视频时长\n（秒）"},
+    {"row": 0, "column": 3, "row_span": 1, "column_span": 1, "text": "用量\n（Token\n）"},
+    {"row": 0, "column": 4, "row_span": 1, "column_span": 1, "text": "价格（元/个）"},
+    {"row": 1, "column": 0, "row_span": 4, "column_span": 1, "text": "Wan2.2-\nT2V-A14B"},
+    {"row": 1, "column": 1, "row_span": 2, "column_span": 1, "text": "画面比例：16:9\n分辨率：480P\n宽×高（像素）：\n832×480\n帧率（帧/秒）：8"},
+    {"row": 1, "column": 2, "row_span": 1, "column_span": 1, "text": "3"},
+    {"row": 1, "column": 3, "row_span": 1, "column_span": 1, "text": "37440"},
+    {"row": 1, "column": 4, "row_span": 1, "column_span": 1, "text": "0.19"},
+    {"row": 2, "column": 2, "row_span": 1, "column_span": 1, "text": "5"},
+    {"row": 2, "column": 3, "row_span": 1, "column_span": 1, "text": "62400"},
+    {"row": 2, "column": 4, "row_span": 1, "column_span": 1, "text": "0.31"},
+    {"row": 3, "column": 1, "row_span": 2, "column_span": 1, "text": "画面比例：16:9\n分辨率：720P\n宽×高（像素）：\n1280×720\n帧率（帧/秒）：\n16"},
+    {"row": 3, "column": 2, "row_span": 1, "column_span": 1, "text": "3"},
+    {"row": 3, "column": 3, "row_span": 1, "column_span": 1, "text": "172800"},
+    {"row": 3, "column": 4, "row_span": 1, "column_span": 1, "text": "0.86"},
+    {"row": 4, "column": 2, "row_span": 1, "column_span": 1, "text": "5"},
+    {"row": 4, "column": 3, "row_span": 1, "column_span": 1, "text": "288000"},
+    {"row": 4, "column": 4, "row_span": 1, "column_span": 1, "text": "1.44"}
+  ]
+}

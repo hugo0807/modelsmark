@@ -1,0 +1,142 @@
+[
+  {
+    "name": "Claude Opus 5.5 (max with fallback)",
+    "index": 58,
+    "rank": 1
+  },
+  {
+    "name": "GPT-6 Astra (max)",
+    "index": 57,
+    "rank": 2
+  },
+  {
+    "name": "GPT-6.1 Sol (max)",
+    "index": 55,
+    "rank": 3
+  },
+  {
+    "name": "Claude Sonnet 5.5 (max with fallback)",
+    "index": 54,
+    "rank": 4
+  },
+  {
+    "name": "GPT-6.1 Terra (max)",
+    "index": 51,
+    "rank": 5
+  },
+  {
+    "name": "Gemini 4 Argon (high)",
+    "index": 50,
+    "rank": 6
+  },
+  {
+    "name": "Muse Wonder Full (max)",
+    "index": 50,
+    "rank": 7
+  },
+  {
+    "name": "Claude Fable 5.1 (max with fallback)",
+    "index": 49,
+    "rank": 8
+  },
+  {
+    "name": "Kimi K3.1 Pro",
+    "index": 46,
+    "rank": 9
+  },
+  {
+    "name": "Muse Wonder (max)",
+    "index": 43,
+    "rank": 10
+  },
+  {
+    "name": "Claude Haiku 5.5 (max)",
+    "index": 36,
+    "rank": 11
+  },
+  {
+    "name": "Grok 4.7 (xhigh)",
+    "index": 34,
+    "rank": 12
+  },
+  {
+    "name": "Qwen3.8 Max (0902)",
+    "index": 34,
+    "rank": 13
+  },
+  {
+    "name": "DeepSeek V4.1 Flash 1017 (max)",
+    "index": 32,
+    "rank": 14
+  },
+  {
+    "name": "GLM-5.3 (max)",
+    "index": 32,
+    "rank": 15
+  },
+  {
+    "name": "Gemini 3.8 Flash (high)",
+    "index": 31,
+    "rank": 16
+  },
+  {
+    "name": "MiMo-V2.6-Pro",
+    "index": 30,
+    "rank": 17
+  },
+  {
+    "name": "Ling 3.1 Flash 1019",
+    "index": 29,
+    "rank": 18
+  },
+  {
+    "name": "MiniMax-M3.1-Flash",
+    "index": 29,
+    "rank": 19
+  },
+  {
+    "name": "Step 5 Preview",
+    "index": 29,
+    "rank": 20
+  },
+  {
+    "name": "GPT-6 Luna (max)",
+    "index": 28,
+    "rank": 21
+  },
+  {
+    "name": "Mistral Large 4 Preview",
+    "index": 25,
+    "rank": 22
+  },
+  {
+    "name": "Muse Spark Open (xhigh)",
+    "index": 25,
+    "rank": 23
+  },
+  {
+    "name": "Qwen3.8 27B (xhigh)",
+    "index": 20,
+    "rank": 24
+  },
+  {
+    "name": "K2 Horizon 375B A23B",
+    "index": 18,
+    "rank": 25
+  },
+  {
+    "name": "Beam 1.0",
+    "index": 18,
+    "rank": 26
+  },
+  {
+    "name": "Nemotron 3.5 Super VL",
+    "index": 14,
+    "rank": 27
+  },
+  {
+    "name": "Inkling (xhigh)",
+    "index": 12,
+    "rank": 28
+  }
+]

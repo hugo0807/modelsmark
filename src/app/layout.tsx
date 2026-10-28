@@ -6,19 +6,22 @@ import { loadDataset } from '../lib/data';
 export const metadata: Metadata = {
   title: 'ModelsMark — 全球模型 API 价格与能力基准',
   description:
-    '海外与国内大模型 API 价格实时对比，涵盖 19 个官方与云平台渠道，14 项能力基准跑分排名。每周自动更新。',
-  keywords: ['大模型', 'API 价格', 'Token 定价', '跑分', 'benchmark', 'LLM'],
+    '同一模型在各渠道的真实报价横向对比：官方直售、云厂商、运营商、第三方 Token Hub。价格全部来自官方定价页，每条可溯源。',
+  keywords: ['大模型', 'API 价格', 'Token 定价', '跑分', 'benchmark', 'LLM', 'Token Plan'],
 };
 
 const NAV = [
-  { href: '/', label: '概览' },
-  { href: '/prices', label: '价格榜' },
+  { href: '/', label: '首页' },
+  { href: '/plans', label: '套餐对比' },
   { href: '/benchmarks', label: '能力榜' },
-  { href: '/about', label: '标准说明' },
+  { href: '/about', label: '说明' },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const ds = loadDataset();
+
+  const modelCount = ds.aggregates.length;
+  const channelCount = new Set(ds.prices.map((p) => p.channelId)).size;
 
   return (
     <html lang="zh-CN">
@@ -36,8 +39,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               ))}
             </nav>
             <div className="header-meta">
-              <span className="fx-badge">1 USD = {ds.usdCny.toFixed(4)} CNY</span>
-              <span>更新 {ds.updatedAt}</span>
+              <span className="fx-badge">1 USD = {ds.usdCny.toFixed(3)} CNY</span>
+              <span>
+                {modelCount} 模型 · {channelCount} 渠道
+              </span>
             </div>
           </div>
         </header>
@@ -51,7 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 ModelsMark
               </div>
               <div>
-                数据每周自动抓取更新 · 快照 {ds.snapshotId} · 汇率取自央行中间价
+                数据抓取自各渠道官方定价页 · 快照 {ds.snapshotId} · 汇率取自央行中间价
               </div>
             </div>
             <div>

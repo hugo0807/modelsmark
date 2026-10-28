@@ -41,3 +41,16 @@ next-env.d.ts
 .tmp/
 .tmp*/
 .env*
+
+# 本地抓取中间产物（官方页面快照已入库到 data/snapshots/）
+.probe/
+.tmp_*
+*.tmp
+hwpage_text.txt
+sffull_text.txt
+netpage_text.txt
+
+# 数据中间产物（可由 npm run data:pipeline 重建）
+data/ingest-report.json
+data/pending-models.json
+data/validate-report.json

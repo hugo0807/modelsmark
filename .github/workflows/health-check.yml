@@ -38,7 +38,7 @@ jobs:
           BASE="https://modelsmark-sigma.vercel.app"
           FAILED=0
 
-          for path in "/" "/prices/" "/benchmarks/" "/about/" "/models/glm-5-3/"; do
+          for path in "/" "/plans/" "/benchmarks/" "/about/" "/models/glm-5-3/"; do
             CODE=$(curl -s -o /tmp/page.html -w "%{http_code}" --max-time 30 "${BASE}${path}" || echo "000")
             SIZE=$(wc -c < /tmp/page.html 2>/dev/null || echo 0)
             TITLE=$(grep -o '<title>[^<]*</title>' /tmp/page.html 2>/dev/null | head -1 | sed 's/<[^>]*>//g')
@@ -54,7 +54,7 @@ jobs:
           echo ""
           echo "=== 首页关键内容校验 ==="
           curl -s --max-time 30 "${BASE}/" -o /tmp/home.html || true
-          for kw in "ModelsMark" "性价比" "跑分"; do
+          for kw in "ModelsMark" "性价比" "能力榜" "全渠道最低"; do
             CNT=$(grep -o "${kw}" /tmp/home.html 2>/dev/null | wc -l)
             echo "  ${kw}: ${CNT} 次"
             if [ "${CNT}" -eq 0 ]; then
@@ -64,14 +64,23 @@ jobs:
           done
 
           echo ""
-          echo "=== prices 页数据校验 ==="
-          curl -s --max-time 30 "${BASE}/prices/" -o /tmp/prices.html || true
-          PSIZE=$(wc -c < /tmp/prices.html 2>/dev/null || echo 0)
-          echo "  prices 页大小: ${PSIZE} bytes（正常应 > 50KB）"
-          if [ "${PSIZE}" -lt 50000 ]; then
-            echo "  ::error::prices 页体积异常，疑似返回了 404 页"
+          echo "=== 套餐对比页数据校验 ==="
+          # 架构冻结后价格榜已并入模型详情页，独立页改为「套餐对比」
+          curl -s --max-time 30 "${BASE}/plans/" -o /tmp/plans.html || true
+          PSIZE=$(wc -c < /tmp/plans.html 2>/dev/null || echo 0)
+          echo "  plans 页大小: ${PSIZE} bytes（正常应 > 20KB）"
+          if [ "${PSIZE}" -lt 20000 ]; then
+            echo "  ::error::plans 页体积异常，疑似返回了 404 页"
             FAILED=1
           fi
+          for kw in "Token Plan" "Agent Plan" "折合"; do
+            CNT=$(grep -o "${kw}" /tmp/plans.html 2>/dev/null | wc -l)
+            echo "  ${kw}: ${CNT} 次"
+            if [ "${CNT}" -eq 0 ]; then
+              echo "  ::error::套餐页缺少关键词 ${kw}，疑似 404 页"
+              FAILED=1
+            fi
+          done
 
           echo ""
           echo "=== 模型详情页全量巡检 ==="

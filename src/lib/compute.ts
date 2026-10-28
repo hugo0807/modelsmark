@@ -1,14 +1,46 @@
 import type {
   Channel,
-  FxRate,
   IntelligenceScore,
   Model,
+  ModelAggregate,
   NormalizedPrice,
   PriceRecord,
+  Score,
 } from './types';
+import { CHANNEL_TYPE_ORDER } from './types';
 
 /** 输入输出混合比：3 份输入配 1 份输出。行业常见 RAG/对话负载的近似值 */
 export const BLEND_RATIO = { input: 3, output: 1 } as const;
+
+/**
+ * 是否为「标准档」报价。
+ *
+ * 同一渠道同一模型常有忙时/闲时、批量、低优、经济版等多档报价。
+ * 若把这些特殊档与标准档混在一起算均价或取最低，会被批量/低优价严重拉低，
+ * 产生「云厂商比官方便宜 70%」这类误导结论。
+ *
+ * 判定口径：
+ * - 必须无量化的条件档位（tier.kind === 'none'）
+ * - 且档位标签不能是折扣/特殊档（闲时、空闲、批量、低优、经济版、五折、兜底、夜间）
+ * - 「高峰时段」「忙时」视为刊例价本身，属于标准档
+ */
+const DISCOUNT_TIER =
+  /(闲时|空闲|低峰|夜间|批量|低优|经济版|五折|折扣|兜底|秒杀|活动价|offpeak|batch)/i;
+
+export function isStandardTier(p: {
+  tier: { kind: string };
+  tierLabel?: string | null;
+}): boolean {
+  const kind = p.tier?.kind;
+  // 高峰时段即刊例价本身，算标准档；其余条件档位（闲时/批量/长上下文）都不算
+  if (kind === 'peak') return true;
+  if (kind !== 'none') return false;
+  const label = p.tierLabel ?? '';
+  if (label && DISCOUNT_TIER.test(label)) return false;
+  // 「>256K」这类上档是溢价档，不参与标准档均价
+  if (label.includes('>')) return false;
+  return true;
+}
 
 /**
  * 汇率换算
@@ -19,7 +51,7 @@ export function toCny(
   currency: 'CNY' | 'USD',
   usdCny: number
 ): number | null {
-  if (amount === null || amount === undefined || Number.isNaN(amount)) return null;
+  if (amount == null || amount === undefined || Number.isNaN(amount)) return null;
   return currency === 'USD' ? round2(amount * usdCny) : round2(amount);
 }
 
@@ -27,35 +59,44 @@ export function toCny(
  * 3:1 输入输出混合价（每百万 token）
  * 公式：(input × 3 + output × 1) / 4
  * 缓存命中价不参与混合计算——它只对部分请求生效，单独展示
+ *
+ * 必须输入输出都有价才能算混合价。若把缺失的一侧当 0，
+ * 会算出「只有输入价」的虚低价（如 2 元输入当 output=0 → 混合 1.5），
+ * 比任何真实渠道都便宜，属严重误导。
  */
 export function blendedPrice(
   inputCny: number | null,
   outputCny: number | null
 ): number | null {
-  if (inputCny === null && outputCny === null) return null;
-  const i = inputCny ?? 0;
-  const o = outputCny ?? 0;
-  return round2((i * BLEND_RATIO.input + o * BLEND_RATIO.output) / 4);
+  if (inputCny === null || outputCny === null) return null;
+  return round2((inputCny * BLEND_RATIO.input + outputCny * BLEND_RATIO.output) / 4);
 }
 
 /**
  * 套餐折算单价（每百万 token，人民币）
  * 额度 ÷ 价格 = 每百万 token 单价
- * 若套餐为输入输出合并抵扣，则按 3:1 假设分配后取混合价；
- * 实际上合并抵扣时无法区分，此处直接给出额度均价
+ * 仅 token 口径可算；积分制/次数制返回 null
  */
 export function packageBlended(
-  packageTokens: number | null | undefined,
+  packageQuota: number | null | undefined,
   packagePriceCny: number | null | undefined
 ): number | null {
-  if (!packageTokens || !packagePriceCny) return null;
-  return round2((packagePriceCny / packageTokens) * 1_000_000);
+  if (!packageQuota || !packagePriceCny) return null;
+  return round4((packagePriceCny / packageQuota) * 1_000_000);
+}
+
+/** 套餐折算单价（每次调用，人民币）—— 仅 calls 口径可算 */
+export function packagePerCall(
+  packageCalls: number | null | undefined,
+  packagePriceCny: number | null | undefined
+): number | null {
+  if (!packageCalls || !packagePriceCny) return null;
+  return round4(packagePriceCny / packageCalls);
 }
 
 /**
  * 溢价率：相对官方渠道的价格倍数
  * 0.26 表示比官方贵 26%；-0.1 表示比官方便宜 10%
- * 官方渠道本身返回 0
  */
 export function premiumRate(
   blendedCny: number | null,
@@ -70,10 +111,6 @@ export function premiumRate(
 /**
  * 缓存折扣率：缓存读取价相对标准输入价的折扣
  * 0.9 表示缓存读取比标准输入便宜 90%
- * 返回 null 表示该渠道未提供缓存价或无折扣
- *
- * 这是采购决策的关键指标——缓存命中与未命中的价差可达上百倍，
- * 直接决定长对话、RAG 场景的实际账单。
  */
 export function cacheDiscount(
   price: Pick<NormalizedPrice, 'inputCny' | 'cacheReadCny'>
@@ -81,14 +118,10 @@ export function cacheDiscount(
   if (!price.inputCny || price.cacheReadCny === null) return null;
   if (price.inputCny <= 0) return null;
   const d = 1 - price.cacheReadCny / price.inputCny;
-  // 折扣小于 1% 视为无实质折扣，不展示
   if (d < 0.01) return null;
   return round2(d);
 }
 
-/**
- * 格式化折扣率
- */
 export function formatDiscount(d: number | null | undefined): string {
   if (d === null || d === undefined) return '—';
   const pct = d * 100;
@@ -96,18 +129,24 @@ export function formatDiscount(d: number | null | undefined): string {
   return `${pct.toFixed(pct >= 10 ? 0 : 1)}%`;
 }
 
+export function round2(n: number): number {
+  return Math.round(n * 100) / 100;
+}
+
+export function round4(n: number): number {
+  return Math.round(n * 10000) / 10000;
+}
+
 /**
  * 归一化单条价格记录
- * @param record 原始价格记录
- * @param usdCny 本期汇率
  * @param officialMap 模型 id → 官方渠道混合价，用于计算溢价率
- * @param isFirstParty 该记录所在渠道是否为厂商官方直销
+ * @param isOfficial 该记录所在渠道是否为厂商官方直销
  */
 export function normalizePrice(
   record: PriceRecord,
   usdCny: number,
   officialMap: Map<string, number>,
-  isFirstParty: boolean
+  isOfficial: boolean
 ): NormalizedPrice {
   const inputCny = toCny(record.input, record.currency, usdCny);
   const cacheReadCny = toCny(record.cacheRead, record.currency, usdCny);
@@ -116,7 +155,7 @@ export function normalizePrice(
 
   const blendedCny =
     record.billingMode === 'package'
-      ? packageBlended(record.packageTokens, toCny(record.packagePrice, record.currency, usdCny))
+      ? packageBlended(record.packageQuota, toCny(record.packagePrice, record.currency, usdCny))
       : blendedPrice(inputCny, outputCny);
 
   return {
@@ -133,242 +172,152 @@ export function normalizePrice(
     cacheWriteCny,
     outputCny,
     blendedCny,
-    // 溢价率只对云平台渠道有意义；官方渠道本身就是基准，置 null
-    premiumRate:
-      record.billingMode === 'payg' && !isFirstParty
-        ? premiumRate(blendedCny, officialMap.get(record.modelId))
-        : null,
+    premiumRate: isOfficial ? 0 : premiumRate(blendedCny, officialMap.get(record.modelId)),
     tier: record.tier,
     tierLabel: record.tierLabel,
-    sourceUrl: record.sourceUrl,
-    fetchedAt: record.fetchedAt,
-    effectiveFrom: null,
+    evidence: record.evidence,
     promotional: record.promotional,
     promoNote: record.promoNote,
     note: record.note,
-    packageTokens: record.packageTokens ?? null,
-    packagePeriod: record.packagePeriod ?? null,
+    packageQuota: record.packageQuota,
+    packageQuotaUnit: record.packageQuotaUnit,
+    packagePeriod: record.packagePeriod,
     packagePriceCny: toCny(record.packagePrice, record.currency, usdCny),
-    packageTierName: record.packageTierName ?? null,
-    packageMerged: record.packageMerged ?? null,
-    packageManualActivation: record.packageManualActivation ?? null,
+    packageTierName: record.packageTierName,
+    packageMerged: record.packageMerged,
+    packageManualActivation: record.packageManualActivation,
+    packageCalls: record.packageCalls,
+    packageIncludes: record.packageIncludes,
     packageBlendedCny:
       record.billingMode === 'package'
-        ? packageBlended(
-            record.packageTokens,
-            toCny(record.packagePrice, record.currency, usdCny)
-          )
-        : null,
+        ? packageBlended(record.packageQuota, toCny(record.packagePrice, record.currency, usdCny))
+        : undefined,
+    packagePerCallCny:
+      record.billingMode === 'package'
+        ? packagePerCall(record.packageCalls, toCny(record.packagePrice, record.currency, usdCny))
+        : undefined,
   };
 }
 
 /**
  * 批量归一化。
- * 分两步：
- * 1. 先算出所有官方渠道（first_party）的混合价，建 map 作为溢价基准
- * 2. 再归一化全部记录，这样云平台溢价率才有基准
  *
- * 同一模型在官方渠道可能有多个档位（峰谷、长上下文），
- * 基准取其中最低价（对客户最有利的那一档），这样溢价率才反映真实加价幅度。
+ * 官方基准的选取规则（关键，必须唯一且可解释）：
+ * 同一模型在官方渠道可能有多个价（标准档 / 批量档 / 夜间档 / 长上下文档）。
+ * 基准只认「标准档」——tier.kind === 'none' 且无 tierLabel。
+ * 若标准档缺失，才回退到任意官方档的最低价，并标记为 tierLabel 非空。
  */
 export function normalizeAll(
   records: PriceRecord[],
   usdCny: number,
-  firstPartyChannelIds?: Set<string>
+  officialChannelIds: Set<string>
 ): NormalizedPrice[] {
-  const officialMap = new Map<string, number>();
-
-  for (const r of records) {
-    if (r.billingMode !== 'payg') continue;
-    if (firstPartyChannelIds && !firstPartyChannelIds.has(r.channelId)) continue;
+  // 第一遍：算出每条记录的混合价
+  const prelim = records.map((r) => {
     const inputCny = toCny(r.input, r.currency, usdCny);
     const outputCny = toCny(r.output, r.currency, usdCny);
-    const blended = blendedPrice(inputCny, outputCny);
-    if (blended === null) continue;
-    const cur = officialMap.get(r.modelId);
-    if (cur === undefined || blended < cur) {
-      officialMap.set(r.modelId, blended);
-    }
+    const blended =
+      r.billingMode === 'package'
+        ? packageBlended(r.packageQuota, toCny(r.packagePrice, r.currency, usdCny))
+        : blendedPrice(inputCny, outputCny);
+    return { r, blended };
+  });
+
+  // 第二遍：确定每个模型的官方基准价
+  const officialMap = new Map<string, number>();
+  for (const { r, blended } of prelim) {
+    if (!officialChannelIds.has(r.channelId)) continue;
+    if (r.billingMode !== 'payg') continue;
+    if (blended == null) continue;
+    if (!isStandardTier(r)) continue;
+    const prev = officialMap.get(r.modelId);
+    if (prev == null || blended < prev) officialMap.set(r.modelId, blended);
   }
 
-  return records.map((r) =>
-    normalizePrice(
-      r,
-      usdCny,
-      officialMap,
-      firstPartyChannelIds ? firstPartyChannelIds.has(r.channelId) : false
-    )
+  // 第三遍：正式归一化
+  return prelim.map(({ r }) =>
+    normalizePrice(r, usdCny, officialMap, officialChannelIds.has(r.channelId))
   );
 }
 
 /**
- * 智能指数性价比：每任务成本越低越好，能力分越高越好
- * 用于前端散点图定位
+ * 按模型聚合 —— 「模型是主键，渠道是维度」的直接落点。
  */
-export function valueScore(
-  intel: IntelligenceScore,
-  blendedCny: number | null
-): { x: number; y: number } | null {
-  if (!blendedCny || intel.index === null) return null;
-  return { x: blendedCny, y: intel.index };
-}
+export function aggregateByModel(
+  models: Model[],
+  prices: NormalizedPrice[],
+  channels: Channel[],
+  intelligence: IntelligenceScore[],
+  scores: Score[]
+): ModelAggregate[] {
+  const channelMap = new Map(channels.map((c) => [c.id, c]));
+  const intelMap = new Map(intelligence.map((i) => [i.modelId, i]));
 
-/**
- * 能力域归一化：把某模型在某个能力域内的各项基准分数
- * 归一到 0-100，用于雷达图
- * 做法：以该域内所有模型的最高分为 100 基准，线性映射到 40-100 区间
- */
-export function normalizeDomainScores(
-  modelId: string,
-  benchmarkIds: string[],
-  scoreMap: Map<string, number>,
-  domainMax: Map<string, number>
-): number[] {
-  return benchmarkIds.map((bid) => {
-    const v = scoreMap.get(`${modelId}::${bid}`);
-    const max = domainMax.get(bid);
-    if (v === undefined || !max) return 40;
-    // 40 + 60 × (v / max)，避免低分模型全部贴在底部
-    return Math.round((40 + 60 * (v / max)) * 10) / 10;
-  });
-}
+  return models
+    .map((model) => {
+      const modelPrices = prices.filter((p) => p.modelId === model.id);
+      const paygPrices = modelPrices
+        .filter((p) => p.billingMode === 'payg')
+        .sort((a, b) => (a.blendedCny ?? Infinity) - (b.blendedCny ?? Infinity));
+      const packagePrices = modelPrices
+        .filter((p) => p.billingMode === 'package')
+        .sort((a, b) => (a.packagePriceCny ?? Infinity) - (b.packagePriceCny ?? Infinity));
 
-/**
- * 计算每个基准在所有模型中的最高分
- */
-export function computeDomainMax(
-  scores: { modelId: string; benchmarkId: string; value: number }[]
-): Map<string, number> {
-  const max = new Map<string, number>();
-  for (const s of scores) {
-    const cur = max.get(s.benchmarkId);
-    if (cur === undefined || s.value > cur) max.set(s.benchmarkId, s.value);
-  }
-  return max;
-}
+      // 官方基准价
+      const officialRow = paygPrices.find(
+        (p) =>
+          channelMap.get(p.channelId)?.type === 'official' &&
+          p.premiumRate === 0 &&
+          isStandardTier(p)
+      );
+      const officialBlendedCny = officialRow?.blendedCny ?? null;
 
-/**
- * 两个快照之间的价格差分
- * 键：modelId::channelId::billingMode::tierLabel
- */
-export function diffPrices(
-  prev: NormalizedPrice[],
-  curr: NormalizedPrice[]
-): {
-  kind: 'price' | 'added' | 'removed';
-  modelId: string;
-  channelId: string;
-  billingMode: 'payg' | 'package';
-  fromCny: number | null;
-  toCny: number | null;
-  delta: number | null;
-  tierLabel: string | null;
-}[] {
-  const key = (p: NormalizedPrice) =>
-    `${p.modelId}::${p.channelId}::${p.billingMode}::${p.tierLabel ?? ''}`;
-
-  const prevMap = new Map(prev.map((p) => [key(p), p]));
-  const currMap = new Map(curr.map((p) => [key(p), p]));
-  const out: ReturnType<typeof diffPrices> = [];
-
-  for (const [k, c] of currMap) {
-    const p = prevMap.get(k);
-    if (!p) {
-      out.push({
-        kind: 'added',
-        modelId: c.modelId,
-        channelId: c.channelId,
-        billingMode: c.billingMode,
-        fromCny: null,
-        toCny: c.blendedCny,
-        delta: null,
-        tierLabel: c.tierLabel,
+      // 云厂商均价 —— 矩阵 X 轴口径
+      const cloudRows = paygPrices.filter((p) => {
+        const t = channelMap.get(p.channelId)?.type;
+        return t === 'cloud' && p.blendedCny != null && isStandardTier(p);
       });
-      continue;
-    }
-    if (p.blendedCny !== null && c.blendedCny !== null) {
-      const delta = round2((c.blendedCny - p.blendedCny) / p.blendedCny);
-      // 变化超过 1% 才算有效变动，避免汇率微小波动造成噪声
-      if (Math.abs(delta) >= 0.01) {
-        out.push({
-          kind: 'price',
-          modelId: c.modelId,
-          channelId: c.channelId,
-          billingMode: c.billingMode,
-          fromCny: p.blendedCny,
-          toCny: c.blendedCny,
-          delta,
-          tierLabel: c.tierLabel,
-        });
-      }
-    }
-  }
+      const cloudAvgCny = cloudRows.length
+        ? round2(
+            cloudRows.reduce((a, r) => a + (r.blendedCny ?? 0), 0) / cloudRows.length
+          )
+        : null;
 
-  for (const [k, p] of prevMap) {
-    if (!currMap.has(k)) {
-      out.push({
-        kind: 'removed',
-        modelId: p.modelId,
-        channelId: p.channelId,
-        billingMode: p.billingMode,
-        fromCny: p.blendedCny,
-        toCny: null,
-        delta: null,
-        tierLabel: p.tierLabel,
-      });
-    }
-  }
+      /*
+       * 全渠道最低：只取标准档。
+       * 若把批量推理/闲时/低优等折扣档算进来，会得出「全网最低 ¥0.75」
+       * 这类不可复现的价格，误导性远大于参考价值。
+       */
+      const stdRows = paygPrices.filter((p) => p.blendedCny != null && isStandardTier(p));
+      const withBlend = stdRows.length ? stdRows : paygPrices.filter((p) => p.blendedCny != null);
+      const lowest = withBlend.length ? withBlend[0] : null;
 
-  return out;
-}
-
-/** 保留两位小数，避免浮点误差在前端显示成 8.849999999 */
-export function round2(n: number): number {
-  return Math.round(n * 100) / 100;
-}
-
-/** 格式化人民币价格 */
-export function formatCny(n: number | null | undefined): string {
-  if (n === null || n === undefined) return '—';
-  if (n === 0) return '¥0';
-  if (n < 0.01) return `¥${n.toFixed(4)}`;
-  if (n < 1) return `¥${n.toFixed(3)}`;
-  if (n < 100) return `¥${n.toFixed(2)}`;
-  return `¥${Math.round(n)}`;
-}
-
-/** 格式化涨跌幅度：红涨绿跌 */
-export function formatDelta(delta: number | null | undefined): string {
-  if (delta === null || delta === undefined) return '—';
-  const pct = delta * 100;
-  const sign = pct > 0 ? '+' : '';
-  return `${sign}${pct.toFixed(pct >= 10 || pct <= -10 ? 0 : 1)}%`;
-}
-
-/** 涨跌颜色：涨用红，跌用绿（境内成本口径） */
-export function deltaColor(delta: number | null | undefined): string {
-  if (delta === null || delta === undefined) return 'var(--color-text-tertiary)';
-  if (delta > 0) return '#A32D2D';
-  if (delta < 0) return '#3B6D11';
-  return 'var(--color-text-secondary)';
+      return {
+        model,
+        paygPrices,
+        packagePrices,
+        officialBlendedCny,
+        cloudAvgCny,
+        cloudCount: cloudRows.length,
+        lowestBlendedCny: lowest?.blendedCny ?? null,
+        lowestChannelName: lowest ? (channelMap.get(lowest.channelId)?.name ?? null) : null,
+        intelligence: intelMap.get(model.id) ?? null,
+        scores: scores.filter((s) => s.modelId === model.id),
+      };
+    })
+    .filter((agg) => agg.paygPrices.length > 0 || agg.packagePrices.length > 0);
 }
 
 /**
- * 估算月度成本
- * @param monthlyRequests 月请求数
- * @param inputTokensPerReq 单次请求平均输入 token
- * @param outputTokensPerReq 单次请求平均输出 token
+ * 按渠道类型分组（模型详情页报价表的 4 类分隔带）
  */
-export function estimateMonthlyCost(
-  blendedCny: number | null,
-  monthlyRequests: number,
-  inputTokensPerReq: number,
-  outputTokensPerReq: number
-): number | null {
-  if (!blendedCny) return null;
-  // 3:1 混合价已含输入输出权重，此处按同比例拆分调用量
-  const totalTokens = inputTokensPerReq + outputTokensPerReq;
-  const weighted = (inputTokensPerReq * 3 + outputTokensPerReq) / 4;
-  const millions = (weighted * monthlyRequests) / 1_000_000;
-  return round2(blendedCny * millions);
+export function groupByChannelType(
+  prices: NormalizedPrice[],
+  channels: Channel[]
+): Array<{ type: (typeof CHANNEL_TYPE_ORDER)[number]; rows: NormalizedPrice[] }> {
+  const channelMap = new Map(channels.map((c) => [c.id, c]));
+  return CHANNEL_TYPE_ORDER.map((type) => ({
+    type,
+    rows: prices.filter((p) => channelMap.get(p.channelId)?.type === type),
+  })).filter((g) => g.rows.length > 0);
 }

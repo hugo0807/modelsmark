@@ -1,11 +1,12 @@
 /**
  * ModelsMark 核心数据类型定义
  *
- * 设计原则：
- * 1. 价格一律以「每百万 token」为单位存储，避免展示层重复换算
- * 2. 币种保留原始计价币种（CNY / USD），换算在标准化层完成，原始值同时保留
- * 3. 计费档位（峰谷、长上下文、批量）用 tier 表达，不做数值展开
- * 4. 任何一条价格记录都必须能追溯到来源 URL + 抓取时间
+ * 设计原则（架构已冻结，2026-10-27）：
+ * 1. 【模型是主键，渠道是维度】所有价格记录以 modelId 为聚合根，渠道只是同一模型的不同售卖路径
+ * 2. 价格一律以「每百万 token」存储，展示层不做重复换算
+ * 3. 币种保留原始计价币种（CNY / USD），换算在标准化层完成，原始值同时保留
+ * 4. 计费档位（峰谷、长上下文、批量）用 tier 表达，不做数值展开
+ * 5. 【铁律】任何一条价格记录都必须能追溯到 sourceUrl + fetchedAt + evidence 锚点
  */
 
 // ───────────────────────────────────────────
@@ -19,22 +20,57 @@ export type Currency = 'CNY' | 'USD';
 export type Origin = 'domestic' | 'overseas';
 
 /**
- * 渠道类型
- * - first_party: 模型厂商官方直售（DeepSeek 官方、OpenAI 官方）
- * - cloud: 云平台转售刊例价（阿里云百炼、火山方舟等）
+ * 渠道类型 —— 四分类，架构已冻结
+ * - official:  模型厂商官方直售（DeepSeek 官方、OpenAI 官方）
+ * - cloud:     云厂商转售（阿里云百炼、火山方舟、腾讯云 TokenHub、百度千帆、华为云 ModelArts）
+ * - carrier:   运营商（移动云、天翼云·息壤、联通云）
+ * - third:     第三方 Token Hub（硅基流动、七牛云、无问芯穹）
  */
-export type ChannelType = 'first_party' | 'cloud';
+export type ChannelType = 'official' | 'cloud' | 'carrier' | 'third';
+
+/** 渠道类型的中文标签与展示顺序（模型详情页报价表按此顺序分隔） */
+export const CHANNEL_TYPE_ORDER: ChannelType[] = ['official', 'cloud', 'carrier', 'third'];
+
+export const CHANNEL_TYPE_LABEL: Record<ChannelType, string> = {
+  official: '官方直售',
+  cloud: '云厂商',
+  carrier: '运营商',
+  third: '第三方 Token Hub',
+};
+
+/** 渠道类型的一句话说明，展示在分隔带上 */
+export const CHANNEL_TYPE_DESC: Record<ChannelType, string> = {
+  official: '模型厂商第一方直销，价格即官方刊例价',
+  cloud: '云厂商以自有平台转售模型，常见折扣或买赠',
+  carrier: '运营商政企云转售，绑定专线与合规方案',
+  third: '第三方模型聚合平台，主打低价与统一网关',
+};
 
 /**
  * 计费模式
- * - payg:   按量计费，单价随调用量线性累计
+ * - payg:    按量计费，单价随调用量线性累计
  * - package: 套餐/资源包，预付额度换取折扣
  */
 export type BillingMode = 'payg' | 'package';
 
 /**
+ * 套餐额度的口径 —— 决定套餐如何折算单价
+ * - tokens:  按 token 额度计（Token Plan / 资源包），可直接折 ¥/M tokens
+ * - calls:   按调用次数计（Agent Plan），只能折 ¥/次
+ * - mixed:   混合口径（次数 + token 额度并存），不可直接折算
+ */
+/**
+ * 套餐额度口径
+ * - tokens：按 token 数计（如 Token Plan 个人版）
+ * - calls：按调用次数计（如 Agent Plan）
+ * - mixed：按 credits / 点数等非 token 单位计（如联通云团队版 Token Plan）
+ * - credits：显式的 credits 口径（团队版按 credits 结算）
+ */
+export type QuotaUnit = 'tokens' | 'calls' | 'mixed' | 'credits';
+
+/**
  * 价格档位条件。null 表示无附加条件（标准档）
- * - peak / offpeak: 时段定价（DeepSeek、联通云）
+ * - peak / offpeak: 时段定价（DeepSeek、联通云、硅基流动）
  * - long_context:   长上下文档位（输入超过阈值后单价跳变）
  * - batch:          批量推理折扣档
  */
@@ -44,6 +80,28 @@ export type TierCondition =
   | { kind: 'offpeak'; window: string; note: string }
   | { kind: 'long_context'; threshold: number; unit: 'token'; note: string }
   | { kind: 'batch'; note: string };
+
+// ───────────────────────────────────────────
+// 证据
+// ───────────────────────────────────────────
+
+/**
+ * 证据锚点 —— 接地不变量的载体。
+ * 每条价格记录都必须挂一个 evidence，指向抓取到的官方页面原文或公开 API 响应。
+ */
+export interface Evidence {
+  /** 官方页面 / 公开 API 的 URL */
+  sourceUrl: string;
+  /** 抓取时间 ISO */
+  fetchedAt: string;
+  /**
+   * 证据原文片段：官方页面里出现该价格的那段文字，或 API 返回的原始字段。
+   * 用于人工核验与自动接地校验——页面上找不到这段文字 = 数据不可信。
+   */
+  quote: string;
+  /** 页面自身的更新时间戳（若官方提供） */
+  pageUpdatedAt?: string | null;
+}
 
 // ───────────────────────────────────────────
 // 模型
@@ -85,7 +143,7 @@ export interface Channel {
   id: string;
   /** 渠道名，如 阿里云百炼 */
   name: string;
-  /** 渠道类型 */
+  /** 渠道类型（四分类） */
   type: ChannelType;
   /** 所属公司/集团，用于「同集团跨云」聚合 */
   group: string;
@@ -104,7 +162,7 @@ export interface Channel {
  * 按量价和套餐价共用此结构，用 billingMode 区分
  */
 export interface PriceRecord {
-  /** 模型 id */
+  /** 模型 id（全局主键） */
   modelId: string;
   /** 渠道 id */
   channelId: string;
@@ -126,31 +184,35 @@ export interface PriceRecord {
   tierLabel: string | null;
   /** 适用模型名（当渠道下模型名与全局 slug 不同时） */
   vendorModelId: string | null;
-  /** 该条记录的来源 URL */
-  sourceUrl: string;
-  /** 抓取时间 ISO */
-  fetchedAt: string;
   /** 是否为促销/限时价 */
   promotional: boolean;
   /** 促销说明，如「至 2026-12-31」 */
   promoNote: string | null;
   /** 备注：口径特殊说明 */
   note: string | null;
+  /** 证据锚点 */
+  evidence: Evidence;
 
   // ── 以下为套餐价专有字段 ──
 
-  /** 套餐额度（token 总数） */
-  packageTokens?: number | null;
+  /** 套餐额度 */
+  packageQuota: number | null;
+  /** 额度口径 */
+  packageQuotaUnit: QuotaUnit;
   /** 套餐周期，如「1 个月」 */
-  packagePeriod?: string | null;
+  packagePeriod: string | null;
   /** 套餐总价（原始币种） */
-  packagePrice?: number | null;
+  packagePrice: number | null;
   /** 套餐档位名，如「基础版」「旗舰版」 */
-  packageTierName?: string | null;
+  packageTierName: string | null;
   /** 输入输出是否合并抵扣 */
-  packageMerged?: boolean | null;
+  packageMerged: boolean | null;
   /** 是否需手动激活 */
-  packageManualActivation?: boolean | null;
+  packageManualActivation: boolean | null;
+  /** 按次数计的套餐：单次调用额度数 */
+  packageCalls: number | null;
+  /** 套餐包含的能力描述 */
+  packageIncludes: string | null;
 }
 
 /**
@@ -183,21 +245,54 @@ export interface NormalizedPrice {
   premiumRate: number | null;
   tier: TierCondition;
   tierLabel: string | null;
-  sourceUrl: string;
-  fetchedAt: string;
-  /** 该渠道这条价格数据的实际生效日期（可能早于 fetchedAt） */
-  effectiveFrom: string | null;
+  /** 证据锚点（随记录透传，供前端做来源链接） */
+  evidence: Evidence;
   promotional: boolean;
   promoNote: string | null;
   note: string | null;
-  packageTokens?: number | null;
+  packageQuota?: number | null;
+  packageQuotaUnit?: QuotaUnit;
   packagePeriod?: string | null;
   packagePriceCny?: number | null;
   packageTierName?: string | null;
   packageMerged?: boolean | null;
   packageManualActivation?: boolean | null;
-  /** 套餐折算的单价（每百万 token，人民币） */
+  packageCalls?: number | null;
+  packageIncludes?: string | null;
+  /** 套餐折算的单价（每百万 token，人民币）——仅 token 口径可算 */
   packageBlendedCny?: number | null;
+  /** 套餐折算的单价（每次调用，人民币）——仅 calls 口径可算 */
+  packagePerCallCny?: number | null;
+}
+
+// ───────────────────────────────────────────
+// 模型聚合视图（模型是主键的直接体现）
+// ───────────────────────────────────────────
+
+/**
+ * 模型维度的聚合结果 —— 首页矩阵与模型详情页的直接输入。
+ * 一个模型 = 一条记录，内含它分布在各渠道的价格。
+ */
+export interface ModelAggregate {
+  model: Model;
+  /** 该模型所有渠道的按量价（已按混合价升序） */
+  paygPrices: NormalizedPrice[];
+  /** 该模型所有渠道的套餐价 */
+  packagePrices: NormalizedPrice[];
+  /** 官方渠道的混合价（对比基准），无官方价则为 null */
+  officialBlendedCny: number | null;
+  /** 云厂商渠道的混合价均值（矩阵 X 轴口径） */
+  cloudAvgCny: number | null;
+  /** 参与云厂商均值的渠道数 */
+  cloudCount: number;
+  /** 全渠道最低混合价 */
+  lowestBlendedCny: number | null;
+  /** 达成最低价的渠道名 */
+  lowestChannelName: string | null;
+  /** 智能指数 */
+  intelligence: IntelligenceScore | null;
+  /** 基准分数 */
+  scores: Score[];
 }
 
 // ───────────────────────────────────────────
@@ -366,4 +461,6 @@ export interface Dataset {
   intelligence: IntelligenceScore[];
   changes: PriceChange[];
   channelStatus: Record<string, ChannelStatus>;
+  /** 按模型聚合的结果（模型为主键的落点） */
+  aggregates: ModelAggregate[];
 }

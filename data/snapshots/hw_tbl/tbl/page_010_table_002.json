@@ -1,0 +1,23 @@
+{
+  "page": 10,
+  "rows": 5,
+  "columns": 5,
+  "cells": [
+    {"row": 0, "column": 0, "row_span": 1, "column_span": 1, "text": "模型名称"},
+    {"row": 0, "column": 1, "row_span": 1, "column_span": 1, "text": "应用场景"},
+    {"row": 0, "column": 2, "row_span": 1, "column_span": 1, "text": "输出视频限\n制"},
+    {"row": 0, "column": 3, "row_span": 1, "column_span": 1, "text": "输出视频分\n辨率"},
+    {"row": 0, "column": 4, "row_span": 1, "column_span": 1, "text": "输出单价（元/秒）"},
+    {"row": 1, "column": 0, "row_span": 4, "column_span": 1, "text": "PixVerse\nV6 T2V"},
+    {"row": 1, "column": 1, "row_span": 4, "column_span": 1, "text": "文字生成\n视频"},
+    {"row": 1, "column": 2, "row_span": 4, "column_span": 1, "text": "输出视频类\n型：有声\n输出视频格\n式：MP4"},
+    {"row": 1, "column": 3, "row_span": 1, "column_span": 1, "text": "360P"},
+    {"row": 1, "column": 4, "row_span": 1, "column_span": 1, "text": "0.210"},
+    {"row": 2, "column": 3, "row_span": 1, "column_span": 1, "text": "540P"},
+    {"row": 2, "column": 4, "row_span": 1, "column_span": 1, "text": "0.270"},
+    {"row": 3, "column": 3, "row_span": 1, "column_span": 1, "text": "720P"},
+    {"row": 3, "column": 4, "row_span": 1, "column_span": 1, "text": "0.360"},
+    {"row": 4, "column": 3, "row_span": 1, "column_span": 1, "text": "1080P"},
+    {"row": 4, "column": 4, "row_span": 1, "column_span": 1, "text": "0.680"}
+  ]
+}

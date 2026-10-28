@@ -1,0 +1,13 @@
+{
+  "page": 5,
+  "rows": 2,
+  "columns": 3,
+  "cells": [
+    {"row": 0, "column": 0, "row_span": 1, "column_span": 1, "text": "适用场景"},
+    {"row": 0, "column": 1, "row_span": 1, "column_span": 1, "text": "仅支持个人用户购买。\n只支持在ClaudeCode、\nOpen Claw等AI工具中使用。\n适用于可预估资源使用周期的\n场景，价格比按需计费模式更\n优惠。对于长期使用者，推荐\n该方式。\n● 模型选型对比：您需要在\nGLM-5.1、Kimi-K2.6、\nDeep Seek-V4-Flash等主流\n模型间频繁切换，以测试不\n同模型在您业务中的表现。\n● 特定模型深度用户：您的应\n用主要依赖上述列表中的特\n定文本对话模型，且调用量\n较大，希望通过套餐模型降\n低单位调用成本。\n● 开发者个人学习：希望以较\n低的固定成本持续体验最新\n版本的大模型。"},
+    {"row": 0, "column": 2, "row_span": 1, "column_span": 1, "text": "支持在线体验和模型调用。\n适用于tokens用量有波动的场\n景，按照实际使用量收费。\n● 用量波动较大或测试验\n证：您处于项目初期验证\n阶段，调用链不确定，希\n望按照实际用量付费，避\n免资源闲置浪费。\n● 企业级复杂业务流：需要\n组合使用多种模型能力，\n需要调用预置服务中的全\n量API类型。\n● RAG应用开发：您的业务\n不仅包括文本生成，还需\n要视频生成、图片生成、\n图像理解、文本向量化、\n重排序等功能"},
+    {"row": 1, "column": 0, "row_span": 1, "column_span": 1, "text": "计费项"},
+    {"row": 1, "column": 1, "row_span": 1, "column_span": 1, "text": "Maa S Token Plan计费"},
+    {"row": 1, "column": 2, "row_span": 1, "column_span": 1, "text": "文本生成模型计费\n视频生成模型计费\n图片生成模型计费\n图像理解模型计费\n文本向量化模型计费\n重排序模型计费"}
+  ]
+}

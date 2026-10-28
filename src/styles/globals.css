@@ -10,6 +10,8 @@
 
   --accent: #378add;
   --accent-bg: #e6f1fb;
+  --accent-overseas: #d85a30;
+  --accent-overseas-bg: #faece7;
   --domestic: #d85a30;
   --domestic-bg: #faece7;
   --overseas: #5f5e5a;
@@ -21,6 +23,8 @@
 
   --radius: 10px;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
     'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
 }
@@ -492,4 +496,253 @@ tr.plan-row td:first-child {
   .wrap {
     padding: 0 16px;
   }
+}
+
+/* ═══════════════════════════════════════════════
+   冻结架构新增样式（2026-10-28）
+   模型是主键、渠道是维度 —— 四类渠道分组
+   ═══════════════════════════════════════════════ */
+
+/* ── 对齐规则必须压过 table.data th { text-align: left }（其特异性更高）── */
+table.data th.right,
+table.data td.right {
+  text-align: right;
+}
+table.data th.center,
+table.data td.center {
+  text-align: center;
+}
+table.data th.left,
+table.data td.left {
+  text-align: left;
+}
+
+/* 数字块：整数右对齐 + 小数左对齐，使同列各行的小数点连成一条竖线 */
+.n {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: flex-end;
+}
+.n .i {
+  min-width: 3ch;
+  text-align: right;
+}
+.n .d {
+  min-width: 4ch;
+  text-align: left;
+}
+/* 纯整数：无小数块，尾缀紧跟数值 */
+.n-int .i {
+  min-width: 0;
+}
+/* 货币符号与数值同属一个 inline-flex，符号紧贴数字且整列符号左缘对齐 */
+.p {
+  display: inline-block;
+  margin-right: 0;
+}
+.n .s {
+  margin-left: 1px;
+}
+.num .s {
+  color: var(--text-tertiary);
+}
+
+.flat {
+  color: var(--text-tertiary);
+}
+
+/* 短文本列不折行 */
+table.data td.nw,
+table.data th.nw {
+  white-space: nowrap;
+}
+
+/* 套餐名称：名称与「需手动开通」标签同排 */
+td.pkg-name {
+  white-space: nowrap;
+}
+td.pkg-name .tag {
+  margin-left: 6px;
+  vertical-align: 1px;
+}
+
+/* ── 渠道类型徽章 ── */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.6;
+  padding: 1px 7px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.badge-official {
+  background: rgba(37, 99, 235, 0.1);
+  color: #1d4ed8;
+}
+.badge-cloud {
+  background: rgba(13, 148, 136, 0.12);
+  color: #0f766e;
+}
+.badge-carrier {
+  background: rgba(217, 119, 6, 0.12);
+  color: #b45309;
+}
+.badge-third {
+  background: rgba(124, 58, 237, 0.11);
+  color: #6d28d9;
+}
+
+/* ── 渠道分组分隔带 ── */
+tr.chan-band td {
+  background: var(--bg-subtle);
+  font-weight: 600;
+  font-size: 12px;
+  padding: 8px 14px;
+  border-top: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border);
+}
+tr.chan-band .badge {
+  margin-right: 8px;
+}
+tr.chan-band .badge + span {
+  font-weight: 400;
+  font-size: 11px;
+}
+
+/* ── 段落标题 ── */
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 20px 0 8px;
+}
+.section-title .sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-tertiary);
+  margin-left: 8px;
+}
+
+/* ── 模型链接 / 副文本 ── */
+.m-link {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+.m-link:hover {
+  color: var(--accent);
+}
+.m-sub {
+  color: var(--text-secondary);
+}
+
+/* ── 来源链接 ── */
+.src-link {
+  color: var(--accent);
+  font-size: 12px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.src-link:hover {
+  text-decoration: underline;
+}
+
+/* ── 筛选/跳转标签 ── */
+.filter {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 10px;
+  text-decoration: none;
+}
+a.filter:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── 空状态 / 脚注 ── */
+.empty-note {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  line-height: 1.9;
+  padding: 16px;
+}
+.footnote {
+  margin: 18px 0 32px;
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+.footnote p {
+  margin: 0 0 8px;
+}
+.footnote strong {
+  color: var(--text-primary);
+}
+
+/* ── 性价比矩阵 ── */
+.matrix-wrap {
+  width: 100%;
+}
+.matrix-label {
+  font-size: 10px;
+  font-family: var(--font-sans);
+  pointer-events: none;
+  user-select: none;
+}
+.matrix-label.active {
+  font-weight: 600;
+  font-size: 11px;
+}
+.axis-text {
+  font-size: 10px;
+  fill: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+.axis-title {
+  font-size: 11px;
+  fill: var(--text-secondary);
+  font-family: var(--font-sans);
+}
+.matrix-point {
+  cursor: pointer;
+}
+.matrix-legend {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+  margin-top: 8px;
+}
+.matrix-legend .dot {
+  margin-right: 5px;
+}
+.matrix-hint {
+  margin-left: auto;
+}
+
+/* 矩阵悬停明细（替代 SVG <title>，React 19 会提升 <title> 导致内容丢失） */
+.matrix-hover-info {
+  font-size: 10px;
+  fill: var(--text-primary);
+  font-family: var(--font-mono);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* 矩阵悬停明细（替代 SVG <title>，React 19 会提升 <title> 导致内容丢失） */
+.matrix-hover-info {
+  font-size: 10px;
+  fill: var(--text-primary);
+  font-family: var(--font-mono);
+  pointer-events: none;
+  user-select: none;
 }

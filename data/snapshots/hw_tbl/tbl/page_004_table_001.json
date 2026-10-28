@@ -1,0 +1,19 @@
+{
+  "page": 4,
+  "rows": 4,
+  "columns": 3,
+  "cells": [
+    {"row": 0, "column": 0, "row_span": 1, "column_span": 1, "text": "计费模式"},
+    {"row": 0, "column": 1, "row_span": 1, "column_span": 1, "text": "Token Plan个人版套餐"},
+    {"row": 0, "column": 2, "row_span": 1, "column_span": 1, "text": "按需计费"},
+    {"row": 1, "column": 0, "row_span": 1, "column_span": 1, "text": "付费方式"},
+    {"row": 1, "column": 1, "row_span": 1, "column_span": 1, "text": "预付费。\n按照订单的购买周期结算。"},
+    {"row": 1, "column": 2, "row_span": 1, "column_span": 1, "text": "后付费。\n实际使用的Tokens数量、图片\n生成数量、视频时长。"},
+    {"row": 2, "column": 0, "row_span": 1, "column_span": 1, "text": "计费周期"},
+    {"row": 2, "column": 1, "row_span": 1, "column_span": 1, "text": "按订单的购买周期计费。"},
+    {"row": 2, "column": 2, "row_span": 1, "column_span": 1, "text": "资源用量按小时计费或按5分\n钟计费，生成费用账单。"},
+    {"row": 3, "column": 0, "row_span": 1, "column_span": 1, "text": "模型系列"},
+    {"row": 3, "column": 1, "row_span": 1, "column_span": 1, "text": "特定热门模型。\n目前支持的模型系列包括：\nGLM-5.1、Kimi-K2.6、\nDeep Seek-V4-Flash，您可以在\n这些模型间自由切换。"},
+    {"row": 3, "column": 2, "row_span": 1, "column_span": 1, "text": "全类型预置模型，详情请参考\n模型列表。\n覆盖面更广，支持文本生成、\n视频生成、图片生成、图像理\n解、文本向量化、重排序等多\n种类型。"}
+  ]
+}

@@ -1,7 +1,13 @@
+import { Fragment } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getAllModelSlugs, getModelDetail } from '../../../lib/data';
-import { formatCny, formatDelta, deltaColor, cacheDiscount, formatDiscount } from '../../../lib/compute';
+import { cacheDiscount, formatDiscount, isStandardTier } from '../../../lib/compute';
+import {
+  CHANNEL_TYPE_DESC,
+  CHANNEL_TYPE_LABEL,
+  type ChannelType,
+} from '../../../lib/types';
 
 export const metadata = { title: '模型详情 — ModelsMark' };
 
@@ -10,14 +16,68 @@ export function generateStaticParams() {
   return getAllModelSlugs().map((slug) => ({ slug }));
 }
 
+/** 数字块：整数右对齐 + 小数左对齐，小数点连成竖线 */
+function Num({
+  v,
+  dec = 2,
+  prefix,
+  suffix,
+}: {
+  v: number | null | undefined;
+  dec?: number;
+  prefix?: string;
+  suffix?: string;
+}) {
+  if (v == null || !Number.isFinite(v)) return <span className="flat">—</span>;
+  const s = v.toFixed(dec);
+  const dot = s.indexOf('.');
+  const i = dot < 0 ? s : s.slice(0, dot);
+  const d = dot < 0 ? null : s.slice(dot);
+  const body = d === null ? (
+    <span className="n n-int">
+      <span className="i">{i}</span>
+    </span>
+  ) : (
+    <span className="n">
+      <span className="i">{i}</span>
+      <span className="d">{d}</span>
+    </span>
+  );
+  return (
+    <>
+      {prefix ? <span className="p">{prefix}</span> : null}
+      {body}
+      {suffix ? <span className="s">{suffix}</span> : null}
+    </>
+  );
+}
+
+const BADGE: Record<ChannelType, string> = {
+  official: 'badge-official',
+  cloud: 'badge-cloud',
+  carrier: 'badge-carrier',
+  third: 'badge-third',
+};
+
 export default async function ModelPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const detail = getModelDetail(slug);
   if (!detail) notFound();
 
-  const { model, prices, scores, intel } = detail;
-  const payg = prices.filter((p) => p.billingMode === 'payg');
-  const plans = prices.filter((p) => p.billingMode === 'package');
+  const { model, paygPrices, packagePrices, scores, intelligence } = detail;
+
+  // 按渠道类型分组（4 类分隔带）
+  const groups: Array<{ type: ChannelType; rows: typeof paygPrices }> = (
+    ['official', 'cloud', 'carrier', 'third'] as ChannelType[]
+  )
+    .map((type) => ({
+      type,
+      rows: paygPrices.filter((p) => p.channel?.type === type),
+    }))
+    .filter((g) => g.rows.length > 0);
+
+  const withBlend = paygPrices.filter((p) => p.blendedCny != null);
+  const lowest = withBlend.length ? withBlend[0] : null;
 
   return (
     <>
@@ -43,192 +103,178 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
 
       <div className="metrics">
         <div className="metric">
-          <div className="metric-label">最低按量混合价</div>
+          <div className="metric-label">云厂商均价</div>
           <div className="metric-value">
-            {payg.length ? formatCny(Math.min(...payg.map((p) => p.blendedCny ?? Infinity))) : '—'}
+            <Num v={detail.cloudAvgCny} prefix="¥" />
           </div>
-          <div className="metric-note">3:1 输入输出，每百万 token</div>
+          <div className="metric-note">
+            {detail.cloudCount} 家云厂商均值 · 3:1 混合价
+          </div>
+        </div>
+        <div className="metric">
+          <div className="metric-label">官方刊例价</div>
+          <div className="metric-value">
+            <Num v={detail.officialBlendedCny} prefix="¥" />
+          </div>
+          <div className="metric-note">厂商第一方直销价，比价的唯一基准</div>
+        </div>
+        <div className="metric">
+          <div className="metric-label">最低混合价</div>
+          <div className="metric-value">
+            <Num v={detail.lowestBlendedCny} prefix="¥" />
+          </div>
+          <div className="metric-note">{detail.lowestChannelName ?? '—'}</div>
         </div>
         <div className="metric">
           <div className="metric-label">综合智能指数</div>
           <div className="metric-value">
-            {intel?.index ?? (
+            {intelligence?.index ?? (
               <span style={{ fontSize: 15, fontWeight: 400, color: 'var(--text-tertiary)' }}>
                 未收录
               </span>
             )}
           </div>
           <div className="metric-note">
-            {intel?.rank ? `全球第 ${intel.rank} 名` : '评测机构暂未覆盖'} · Artificial Analysis
+            {intelligence?.rank ? `全球第 ${intelligence.rank} 名` : '评测机构暂未覆盖'}
           </div>
-        </div>
-        <div className="metric">
-          <div className="metric-label">每任务成本</div>
-          <div className="metric-value">
-            {intel?.costPerTaskUsd ? `$${intel.costPerTaskUsd.toFixed(2)}` : '—'}
-          </div>
-          <div className="metric-note">完成一次智力指数任务的成本</div>
-        </div>
-        <div className="metric">
-          <div className="metric-label">可选渠道</div>
-          <div className="metric-value">{payg.length}</div>
-          <div className="metric-note">{plans.length} 个套餐方案</div>
         </div>
       </div>
 
-      <div className="card" style={{ marginBottom: 12 }}>
-        <div className="card-pad" style={{ paddingBottom: 12 }}>
-          <div className="card-title">各渠道价格</div>
-          <p className="card-sub">海外渠道已折算人民币；括号内为原始美元价</p>
-        </div>
-        <div className="table-scroll">
-          <table className="data">
-            <thead>
-              <tr>
-                <th>渠道</th>
-                <th className="right">输入</th>
-                <th className="right">缓存读取</th>
-                <th className="right">缓存写入</th>
-                <th className="right">输出</th>
-                <th className="right">缓存折扣</th>
-                <th className="right">3:1 混合价</th>
-                <th className="right">溢价率</th>
-                <th>说明</th>
-              </tr>
-            </thead>
-            <tbody>
-              {payg.map((p) => (
-                <tr key={`${p.channelId}-${p.tierLabel ?? 'std'}`}>
-                  <td>
-                    <span
-                      className="dot"
-                      style={{
-                        background:
-                          p.channel?.type === 'first_party'
-                            ? 'var(--accent)'
-                            : 'var(--domestic)',
-                        marginRight: 7,
-                      }}
-                    />
-                    {p.channel?.name}
-                    {p.tierLabel && (
-                      <span className="tag" style={{ marginLeft: 7 }}>
-                        {p.tierLabel}
-                      </span>
-                    )}
-                  </td>
-                  <td className="right num">{formatCny(p.inputCny)}</td>
-                  <td className="right num" style={{ color: 'var(--text-secondary)' }}>
-                    {formatCny(p.cacheReadCny)}
-                  </td>
-                  <td className="right num" style={{ color: 'var(--text-secondary)' }}>
-                    {formatCny(p.cacheWriteCny)}
-                  </td>
-                  <td className="right num">{formatCny(p.outputCny)}</td>
-                  <td className="right num">
-                    {(() => {
-                      const d = cacheDiscount(p);
-                      return d === null ? (
-                        <span style={{ color: 'var(--text-tertiary)' }}>—</span>
-                      ) : (
-                        <span style={{ color: '#3B6D11', fontWeight: 500 }}>
-                          ↓ {formatDiscount(d)}
-                        </span>
-                      );
-                    })()}
-                  </td>
-                  <td className="right num" style={{ fontWeight: 600 }}>
-                    {formatCny(p.blendedCny)}
-                  </td>
-                  <td className="right num">
-                    {p.premiumRate === null ? (
-                      <span style={{ color: 'var(--text-tertiary)' }}>官方</span>
-                    ) : (
-                      <span className={deltaColor(p.premiumRate)}>
-                        {formatDelta(p.premiumRate)}
-                      </span>
-                    )}
-                  </td>
-                  <td style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
-                    {p.currency === 'USD' && (
-                      <span className="num" style={{ color: 'var(--text-tertiary)' }}>
-                        ${p.inputNative}/{p.outputNative}{' '}
-                      </span>
-                    )}
-                    {p.promoNote ?? p.note ?? ''}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      {/* ── 各渠道报价（单张连续表 + 4 类分隔带）── */}
+      <div className="section-title">
+        各渠道报价 <span className="sub">按官方 / 云厂商 / 运营商 / 第三方分组，每行附来源</span>
       </div>
-
-      {plans.length > 0 && (
-        <div className="card" style={{ marginBottom: 12 }}>
-          <div className="card-pad" style={{ paddingBottom: 12 }}>
-            <div className="card-title">套餐方案</div>
-            <p className="card-sub">按量价与套餐价口径不同，分开展示</p>
-          </div>
-          <div className="table-scroll">
-            <table className="data">
-              <thead>
-                <tr>
-                  <th>渠道</th>
-                  <th>档位</th>
-                  <th className="right">额度</th>
-                  <th className="right">周期</th>
-                  <th className="right">价格</th>
-                  <th className="right">折合每百万 token</th>
-                  <th>条件</th>
-                </tr>
-              </thead>
-              <tbody>
-                {plans.map((p) => (
-                  <tr key={`${p.channelId}-${p.packageTierName}`}>
-                    <td>{p.channel?.name}</td>
-                    <td>{p.packageTierName ?? p.tierLabel}</td>
-                    <td className="right num">
-                      {p.packageTokens
-                        ? `${(p.packageTokens / 1000000).toFixed(0)} 万 token`
-                        : '—'}
-                    </td>
-                    <td className="right">{p.packagePeriod ?? '—'}</td>
-                    <td className="right num">
-                      {p.packagePriceCny ? `¥${p.packagePriceCny}` : '—'}
-                    </td>
-                    <td className="right num" style={{ color: 'var(--warn)', fontWeight: 600 }}>
-                      ≈ {formatCny(p.packageBlendedCny)}
-                    </td>
-                    <td style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
-                      {p.packageMerged && '输入输出合并抵扣 · '}
-                      {p.packageManualActivation && '需手动激活 · '}
-                      {p.note ?? ''}
+      <div className="table-scroll card" style={{ marginBottom: 12 }}>
+        <table className="data">
+          <thead>
+            <tr>
+              <th style={{ width: 190 }}>渠道</th>
+              <th className="right">输入</th>
+              <th className="right">缓存读</th>
+              <th className="right">输出</th>
+              <th className="right">3:1 混合价</th>
+              <th className="right">对比官方</th>
+              <th>来源</th>
+            </tr>
+          </thead>
+          <tbody>
+            {groups.map((g) => {
+              // 本组最低只取标准档：批量/低优/闲时等折扣档不参与，避免误导性低价
+              const stdRows = g.rows.filter((r) => isStandardTier(r));
+              const lowRow = (stdRows.length ? stdRows : g.rows)
+                .slice()
+                .sort((a, b) => (a.blendedCny ?? Infinity) - (b.blendedCny ?? Infinity))[0];
+              return (
+                <Fragment key={g.type}>
+                  <tr className="chan-band">
+                    <td colSpan={7}>
+                      <span className={`badge ${BADGE[g.type]}`}>{CHANNEL_TYPE_LABEL[g.type]}</span>
+                      <span style={{ fontWeight: 400, color: 'var(--text-tertiary)' }}>
+                        {CHANNEL_TYPE_DESC[g.type]}
+                      </span>
+                      <span style={{ float: 'right', fontWeight: 400, color: 'var(--text-tertiary)' }}>
+                        {g.rows.length} 家 · 标准档最低 {lowRow.channel?.name} ¥
+                        {lowRow.blendedCny?.toFixed(2)}/M
+                      </span>
                     </td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                  {g.rows.map((p, i) => (
+                    <tr key={`${g.type}-${p.channelId}-${p.tierLabel ?? 'std'}-${i}`}>
+                      <td style={{ fontWeight: 500 }}>
+                        {p.channel?.name}
+                        {p.tierLabel ? (
+                          <span className="tag" style={{ marginLeft: 7 }}>
+                            {p.tierLabel}
+                          </span>
+                        ) : null}
+                      </td>
+                      <td className="right num">
+                        <Num v={p.inputCny} />
+                      </td>
+                      <td className="right num" style={{ color: 'var(--text-secondary)' }}>
+                        <Num v={p.cacheReadCny} />
+                      </td>
+                      <td className="right num">
+                        <Num v={p.outputCny} />
+                      </td>
+                      <td className="right num" style={{ fontWeight: 600 }}>
+                        <Num v={p.blendedCny} prefix="¥" />
+                      </td>
+                      <td className="right num">
+                        {p.premiumRate === null ? (
+                          <span className="flat">—</span>
+                        ) : p.premiumRate === 0 ? (
+                          <span className="flat">基准</span>
+                        ) : p.premiumRate < 0 ? (
+                          <span className="down num">
+                            {Math.abs(Math.round(p.premiumRate * 100))}%
+                          </span>
+                        ) : (
+                          <span className="up num">+{Math.round(p.premiumRate * 100)}%</span>
+                        )}
+                      </td>
+                      <td>
+                        <a
+                          className="src-link"
+                          href={p.evidence.sourceUrl}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          title={p.evidence.quote.slice(0, 160)}
+                        >
+                          原文 ↗
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </Fragment>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* ── 套餐跳转卡 ── */}
+      {packagePrices.length > 0 ? (
+        <div className="card card-pad" style={{ marginBottom: 12 }}>
+          <div className="card-title">
+            该模型有 {packagePrices.length} 个套餐方案
+          </div>
+          <p className="card-sub">
+            套餐按量价口径不同（预付费额度 / 按次 / 积分制），折合单价统一为 ¥/M tokens
+            后才可与刊例价比较。完整对比见套餐页。
+          </p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 10 }}>
+            {packagePrices.slice(0, 4).map((p, i) => (
+              <span key={i} className="filter" style={{ cursor: 'default' }}>
+                {p.channel?.name} · {p.packageTierName ?? p.tierLabel ?? '套餐'}
+                {p.packageBlendedCny != null ? (
+                  <span className="num" style={{ marginLeft: 6, fontWeight: 600 }}>
+                    ¥{p.packageBlendedCny.toFixed(3)}/M
+                  </span>
+                ) : null}
+              </span>
+            ))}
+            <Link href="/plans" className="filter" style={{ fontWeight: 600 }}>
+              查看全部套餐对比 →
+            </Link>
           </div>
         </div>
-      )}
+      ) : null}
 
-      {scores.length > 0 && (
-        <div className="card" style={{ marginBottom: 12 }}>
-          <div className="card-pad" style={{ paddingBottom: 12 }}>
-            <div className="card-title">能力基准表现</div>
-            <p className="card-sub">
-              {scores.length} 项基准。推理档位{' '}
-              {Array.from(new Set(scores.map((s) => s.effort).filter(Boolean))).join(' / ') || '未标注'}
-            </p>
+      {/* ── 能力基准 ── */}
+      {scores.length > 0 ? (
+        <>
+          <div className="section-title">
+            能力基准 <span className="sub">每项标注评测机构与快照日期</span>
           </div>
-          <div className="table-scroll">
+          <div className="card" style={{ marginBottom: 12 }}>
             <table className="data">
               <thead>
                 <tr>
                   <th>基准</th>
                   <th className="right">分数</th>
                   <th className="right">量纲</th>
+                  <th className="right">缓存折扣</th>
                   <th>来源</th>
                   <th>口径标注</th>
                 </tr>
@@ -237,22 +283,30 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
                 {scores.map((s) => (
                   <tr key={s.benchmarkId}>
                     <td>
-                      <Link
-                        href={`/about#${s.benchmarkId}`}
-                        style={{ color: 'var(--accent)' }}
-                      >
+                      <Link href={`/about#${s.benchmarkId}`} style={{ color: 'var(--accent)' }}>
                         {s.benchmark?.name ?? s.benchmarkId}
                       </Link>
                     </td>
                     <td className="right num" style={{ fontWeight: 600 }}>
-                      {s.benchmark?.scale === 'Elo'
-                        ? Math.round(s.value)
-                        : s.value.toFixed(1)}
+                      {s.benchmark?.scale === 'Elo' ? Math.round(s.value) : s.value.toFixed(1)}
                     </td>
                     <td className="right" style={{ color: 'var(--text-secondary)' }}>
                       {s.benchmark?.scale}
                     </td>
-                    <td style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{s.source}</td>
+                    <td className="right num">
+                      {(() => {
+                        const d = cacheDiscount(lowest ?? ({} as never));
+                        return d === null ? (
+                          <span className="flat">—</span>
+                        ) : (
+                          <span style={{ color: 'var(--down)' }}>↓ {formatDiscount(d)}</span>
+                        );
+                      })()}
+                    </td>
+                    <td style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
+                      {s.source}
+                      {s.measuredAt ? ` · ${s.measuredAt}` : ''}
+                    </td>
                     <td style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
                       {s.includesFallback && '含 fallback · '}
                       {s.includesCyberguards && '含 cyberguards · '}
@@ -263,17 +317,12 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
               </tbody>
             </table>
           </div>
-        </div>
-      )}
+        </>
+      ) : null}
 
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {model.pricingUrl && (
-          <a
-            href={model.pricingUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="filter"
-          >
+          <a href={model.pricingUrl} target="_blank" rel="noreferrer" className="filter">
             官方定价页 ↗
           </a>
         )}
@@ -282,8 +331,11 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
             官方文档 ↗
           </a>
         )}
-        <Link href="/prices" className="filter">
-          返回价格榜
+        <Link href="/" className="filter">
+          返回首页
+        </Link>
+        <Link href="/plans" className="filter">
+          套餐对比
         </Link>
       </div>
     </>

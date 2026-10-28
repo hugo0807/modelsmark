@@ -1,0 +1,13 @@
+{
+  "page": 14,
+  "rows": 2,
+  "columns": 3,
+  "cells": [
+    {"row": 0, "column": 0, "row_span": 1, "column_span": 1, "text": "模型名称"},
+    {"row": 0, "column": 1, "row_span": 1, "column_span": 1, "text": "计费子项"},
+    {"row": 0, "column": 2, "row_span": 1, "column_span": 1, "text": "单价（元/百万Tokens）"},
+    {"row": 1, "column": 0, "row_span": 1, "column_span": 1, "text": "BGE-M3"},
+    {"row": 1, "column": 1, "row_span": 1, "column_span": 1, "text": "输入"},
+    {"row": 1, "column": 2, "row_span": 1, "column_span": 1, "text": "0.07"}
+  ]
+}
