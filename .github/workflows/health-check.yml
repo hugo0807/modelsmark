@@ -19,7 +19,8 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # 150s 部署等待 + 74 个模型页巡检 + 失败重试，15 分钟不够用
+    timeout-minutes: 25
 
     env:
       # 用于核对线上部署版本（可选，缺失时跳过该检查）
@@ -32,18 +33,42 @@ jobs:
         with:
           node-version: '22'
 
+      - name: 等待 Vercel 部署生效
+        # 本工作流与 deploy 由同一次 push 并行触发。直接开查会打到上一版线上站，
+        # 新加的模型页必然 404 —— 曾因此误报过一轮。这里先等部署窗口过去。
+        if: github.event_name == 'push'
+        run: |
+          echo "等待 150s，让 Vercel 完成本次部署…"
+          sleep 150
+
       - name: 检查生产站点各页面
         run: |
           set -u
           BASE="https://modelsmark-sigma.vercel.app"
           FAILED=0
 
+          # 带重试的抓取：3 次机会，间隔 20s。
+          # 部署窗口内边缘节点可能短暂返回旧内容或 404，单次抓取会把瞬时态判成故障。
+          probe() {
+            local url="$1" out="$2" i code size
+            for i in 1 2 3; do
+              code=$(curl -s -o "$out" -w "%{http_code}" --max-time 30 "$url" || echo "000")
+              size=$(wc -c < "$out" 2>/dev/null || echo 0)
+              if [ "$code" = "200" ] && [ "$size" -ge 5000 ]; then
+                echo "$code $size"
+                return 0
+              fi
+              [ "$i" -lt 3 ] && sleep 20
+            done
+            echo "$code $size"
+            return 1
+          }
+
           for path in "/" "/plans/" "/benchmarks/" "/about/" "/models/glm-5-3/"; do
-            CODE=$(curl -s -o /tmp/page.html -w "%{http_code}" --max-time 30 "${BASE}${path}" || echo "000")
-            SIZE=$(wc -c < /tmp/page.html 2>/dev/null || echo 0)
+            RESULT=$(probe "${BASE}${path}" /tmp/page.html) || true
+            CODE=$(echo "$RESULT" | awk '{print $1}')
+            SIZE=$(echo "$RESULT" | awk '{print $2}')
             TITLE=$(grep -o '<title>[^<]*</title>' /tmp/page.html 2>/dev/null | head -1 | sed 's/<[^>]*>//g')
-            # 404 页面的特征：内容里没有站点主标题
-            IS404=$(grep -c "404" /tmp/page.html 2>/dev/null || echo 0)
             echo "${path} -> HTTP ${CODE} | ${SIZE} bytes | ${TITLE}"
             if [ "${CODE}" != "200" ] || [ "${SIZE}" -lt 5000 ]; then
               echo "  ::error::${path} 响应异常（HTTP ${CODE}, ${SIZE} bytes）"
@@ -110,9 +135,26 @@ jobs:
           " 2>/dev/null || echo "")
           MODEL_COUNT=0
           MODEL_BAD=0
+          # 模型页数量多，用更短的重试窗口，避免最坏情况下拖到超时
+          probe_fast() {
+            local url="$1" out="$2" i code size
+            for i in 1 2; do
+              code=$(curl -s -o "$out" -w "%{http_code}" --max-time 20 "$url" || echo "000")
+              size=$(wc -c < "$out" 2>/dev/null || echo 0)
+              if [ "$code" = "200" ] && [ "$size" -ge 5000 ]; then
+                echo "$code $size"
+                return 0
+              fi
+              [ "$i" -lt 2 ] && sleep 10
+            done
+            echo "$code $size"
+            return 1
+          }
+
           for slug in ${MODEL_SLUGS}; do
-            CODE=$(curl -s -o /tmp/m.html -w "%{http_code}" --max-time 20 "${BASE}/models/${slug}/" || echo "000")
-            SIZE=$(wc -c < /tmp/m.html 2>/dev/null || echo 0)
+            RESULT=$(probe_fast "${BASE}/models/${slug}/" /tmp/m.html) || true
+            CODE=$(echo "$RESULT" | awk '{print $1}')
+            SIZE=$(echo "$RESULT" | awk '{print $2}')
             MODEL_COUNT=$((MODEL_COUNT + 1))
             if [ "${CODE}" != "200" ] || [ "${SIZE}" -lt 5000 ]; then
               echo "  ::error::模型页 ${slug} 异常（HTTP ${CODE}, ${SIZE} bytes）"
