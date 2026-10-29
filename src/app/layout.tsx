@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import '../styles/globals.css';
+import MobileNav from '../components/layout/MobileNav';
 import { loadDataset } from '../lib/data';
 
 export const metadata: Metadata = {
@@ -43,6 +44,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span>
                 {modelCount} 模型 · {channelCount} 渠道
               </span>
+              {/* ≤900px 时 .nav 会被隐藏，这里补上移动端入口，否则手机上没有导航 */}
+              <MobileNav items={NAV} />
             </div>
           </div>
         </header>

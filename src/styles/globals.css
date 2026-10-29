@@ -80,6 +80,8 @@ th.num {
   align-items: center;
   gap: 28px;
   height: 56px;
+  /* 移动端导航面板相对 header 定位 */
+  position: relative;
 }
 
 .logo {
@@ -912,4 +914,261 @@ a.filter:hover {
   font-family: var(--font-mono);
   pointer-events: none;
   user-select: none;
+}
+
+/* ───────────────────────────────────────────
+   口径说明（Glossary）—— 点击展开，替代 hover-only 浮窗
+   触屏与键盘都能打开，hover 只是增强
+   ─────────────────────────────────────────── */
+.gloss {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: 4px;
+}
+.gloss-q {
+  width: 15px;
+  height: 15px;
+  line-height: 13px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-subtle);
+  color: var(--text-tertiary);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+}
+.gloss-q:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.gloss-pop {
+  position: absolute;
+  z-index: 40;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%);
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.13);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+  text-align: left;
+  font-weight: 400;
+}
+.gloss-pop::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  margin-left: -5px;
+  width: 8px;
+  height: 8px;
+  background: var(--bg);
+  border-left: 1px solid var(--border-strong);
+  border-top: 1px solid var(--border-strong);
+  transform: rotate(45deg);
+}
+.gloss-title {
+  color: var(--text);
+  font-size: 12px;
+}
+.gloss-short {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+}
+.gloss-limit {
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+/* ───────────────────────────────────────────
+   可搜可筛可排的数据表（DataTable）
+   ─────────────────────────────────────────── */
+.dt {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dt-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.dt-search {
+  flex: 0 1 220px;
+  min-width: 140px;
+  padding: 6px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg);
+}
+.dt-search:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+.dt-filter {
+  padding: 5px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-family: var(--font);
+  cursor: pointer;
+}
+.dt-filter:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.dt-filter.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.dt-count {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+.dt-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.dt th.sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+.dt th.sortable:hover {
+  color: var(--accent);
+}
+.dt th.sorted {
+  color: var(--accent);
+}
+.dt-arrow {
+  margin-left: 4px;
+  font-size: 10px;
+  color: var(--text-tertiary);
+}
+.dt th.sorted .dt-arrow {
+  color: var(--accent);
+}
+.dt-link {
+  color: var(--text);
+  border-bottom: 1px solid var(--border-strong);
+}
+.dt-link:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.dt-more {
+  align-self: flex-start;
+  padding: 6px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-family: var(--font);
+  cursor: pointer;
+}
+.dt-more:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.dt-empty {
+  padding: 24px 0;
+  text-align: center;
+  color: var(--text-tertiary);
+  font-size: 13px;
+}
+
+/* ───────────────────────────────────────────
+   移动端导航（MobileNav）—— 补上 ≤900px 被隐藏的导航
+   ─────────────────────────────────────────── */
+.mnav {
+  display: none;
+}
+.mnav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 13px;
+  cursor: pointer;
+}
+.mnav-icon {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  width: 14px;
+  height: 12px;
+}
+.mnav-icon i {
+  display: block;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 1px;
+}
+.mnav-panel {
+  position: absolute;
+  z-index: 60;
+  right: 16px;
+  top: 52px;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.14);
+}
+.mnav-item {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.mnav-item:hover {
+  background: var(--bg-subtle);
+}
+.mnav-item.on {
+  color: var(--accent);
+  background: var(--accent-bg);
+}
+
+@media (max-width: 900px) {
+  .mnav {
+    display: block;
+  }
+  .gloss-pop {
+    width: min(78vw, 280px);
+  }
 }
