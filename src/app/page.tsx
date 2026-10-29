@@ -39,9 +39,6 @@ function Num({
 export default function HomePage() {
   const ds = loadDataset();
 
-  const payg = ds.prices.filter((p) => p.billingMode === 'payg');
-  const packages = ds.prices.filter((p) => p.billingMode === 'package');
-
   /*
    * 矩阵点：X = 全渠道最低混合价，Y = 智能指数
    *
@@ -67,52 +64,29 @@ export default function HomePage() {
     })
     .filter((x): x is NonNullable<typeof x> => x !== null);
 
-  // 速览表：按全渠道最低价升序
+  /*
+   * 速览表排序：先按「是否有智能指数」分组，再按全渠道最低价升序。
+   *
+   * 为什么要有智能指数的排前面：智能指数目前只覆盖 13 个模型
+   * （Artificial Analysis 榜单的收录部分），若纯按价格升序，
+   * 这些模型会散落在长表中，「智能指数」列几乎全是「—」，
+   * 表格看起来像是没有智能指数数据。
+   */
   const overview = ds.aggregates
     .filter((a) => a.lowestBlendedCny != null)
-    .sort((a, b) => (a.lowestBlendedCny ?? 0) - (b.lowestBlendedCny ?? 0));
+    .sort((a, b) => {
+      const ai = a.intelligence?.index ? 0 : 1;
+      const bi = b.intelligence?.index ? 0 : 1;
+      if (ai !== bi) return ai - bi;
+      return (a.lowestBlendedCny ?? 0) - (b.lowestBlendedCny ?? 0);
+    });
 
   const typeCount = (t: string) => ds.channels.filter((c) => c.type === t).length;
 
   return (
     <>
-      <section className="page-head">
-        <h1>同一个模型，各家多少钱</h1>
-        <p>
-          把模型厂商官方价、云厂商转售价、运营商价、第三方 Token Hub 价放在一起比。
-          所有价格均抓自各家官方定价页，每一条都能点回原文核验。
-        </p>
-      </section>
-
-      <section className="metrics">
-        <div className="metric">
-          <div className="metric-label">收录模型</div>
-          <div className="metric-value">{ds.aggregates.length}</div>
-          <div className="metric-note">
-            国内 {ds.models.filter((m) => m.origin === 'domestic').length} · 海外{' '}
-            {ds.models.filter((m) => m.origin === 'overseas').length}
-          </div>
-        </div>
-        <div className="metric">
-          <div className="metric-label">价格渠道</div>
-          <div className="metric-value">{new Set(ds.prices.map((p) => p.channelId)).size}</div>
-          <div className="metric-note">
-            官方 {typeCount('official')} · 云厂商 {typeCount('cloud')} · 运营商{' '}
-            {typeCount('carrier')} · 第三方 {typeCount('third')}
-          </div>
-        </div>
-        <div className="metric">
-          <div className="metric-label">价格记录</div>
-          <div className="metric-value">{payg.length}</div>
-          <div className="metric-note">另有 {packages.length} 条套餐价</div>
-        </div>
-        <div className="metric">
-          <div className="metric-label">快照</div>
-          <div className="metric-value">{ds.snapshotId}</div>
-          <div className="metric-note">
-            更新 {ds.updatedAt} · 汇率 {ds.usdCny.toFixed(3)}
-          </div>
-        </div>
+      <section className="page-head page-head-slim">
+        <h1>模型 API 价格与能力对比</h1>
       </section>
 
       {/* ── 性价比矩阵 ── */}
@@ -136,10 +110,66 @@ export default function HomePage() {
             <tr>
               <th>模型</th>
               <th>厂商</th>
-              <th className="right">全渠道最低</th>
-              <th className="right">官方价</th>
-              <th className="right">智能指数</th>
-              <th className="right">可选渠道</th>
+              <th className="right">
+                最低价
+                <span className="th-info">?</span>
+                <span className="th-hint">
+                  <b>全渠道最低混合价</b>
+                  <br />
+                  全部渠道里最便宜的那一条，按输入 : 输出 = 3 : 1 加权成「元 / 百万 tokens」。
+                  <span className="hint-limit">
+                    已排除批量推理、闲时折扣、长上下文溢价等不可复现档位。
+                  </span>
+                </span>
+              </th>
+              <th className="right">
+                最高价
+                <span className="th-info">?</span>
+                <span className="th-hint">
+                  <b>全渠道最高混合价</b>
+                  <br />
+                  同一个模型在最贵的那家渠道的价格。与最低价并排看，
+                  差值就是这个模型的「换渠道空间」。
+                  <span className="hint-limit">
+                    同样只取标准档（不含批量、闲时、长上下文溢价档）。
+                    只有一家渠道报价时，最低 = 最高。
+                  </span>
+                </span>
+              </th>
+              <th className="right">
+                价差
+                <span className="th-info">?</span>
+                <span className="th-hint">
+                  <b>渠道价差倍数</b>
+                  <br />
+                  最高价 ÷ 最低价。1.0× 表示各渠道同价，数字越大说明换个渠道采购省得越多。
+                  <span className="hint-limit">
+                    按标准档计算，剔除不可复现的折扣档。
+                  </span>
+                </span>
+              </th>
+              <th className="right">
+                智能指数
+                <span className="th-info">?</span>
+                <span className="th-hint">
+                  <b>综合智能指数</b>
+                  <br />
+                  第三方评测机构（Artificial Analysis）给出的能力刻度，用来和价格对照。
+                  <span className="hint-limit">
+                    仅覆盖评测机构已跑分并公布的模型，显示「—」表示该模型暂无公开可比评测数据，
+                    不代表能力差。
+                  </span>
+                </span>
+              </th>
+              <th className="right">
+                可选渠道
+                <span className="th-info">?</span>
+                <span className="th-hint">
+                  <b>可选渠道数</b>
+                  <br />
+                  提供该模型按量计费报价的渠道数量。数量越多，价格谈判空间通常越大。
+                </span>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -158,10 +188,15 @@ export default function HomePage() {
                 </td>
                 <td className="m-sub">{agg.model.vendor}</td>
                 <td className="right num" style={{ fontWeight: 600 }}>
-                  <Num v={agg.cloudAvgCny} prefix="¥" />
+                  {/* 表头是「全渠道最低」，这里必须取 lowestBlendedCny；
+                      用 cloudAvgCny 会让没有云厂商转售价的模型显示成「—」 */}
+                  <Num v={agg.lowestBlendedCny} prefix="¥" />
                 </td>
                 <td className="right num">
-                  <Num v={agg.officialBlendedCny} prefix="¥" />
+                  <Num v={agg.highestBlendedCny} prefix="¥" />
+                </td>
+                <td className="right num">
+                  {agg.priceSpread != null ? `${agg.priceSpread.toFixed(1)}×` : '—'}
                 </td>
                 <td className="right num">{agg.intelligence?.index ?? '—'}</td>
                 <td className="right num">{agg.paygPrices.length}</td>

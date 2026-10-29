@@ -110,9 +110,23 @@ export function loadDataset(): Dataset {
     raw.scores
   );
 
+  /*
+   * 数据新鲜度以「最新一条报价的实际抓取时间」为准。
+   *
+   * 为什么不用 snapshot.date：那是旧采集框架留下的快照编号日期，
+   * 会与真实抓取时间脱节（例如快照写 10-25，实际当天已重新核验过）。
+   * 用户判断数据可信度靠的是「这价格是什么时候从官网拿到的」。
+   */
+  const fetchedDates = prices
+    .map((p) => p.evidence?.fetchedAt)
+    .filter((d): d is string => !!d)
+    .map((d) => d.slice(0, 10))
+    .sort();
+  const latestFetched = fetchedDates.length ? fetchedDates[fetchedDates.length - 1] : null;
+
   cached = {
     snapshotId: raw.snapshot?.id ?? 'local',
-    updatedAt: raw.snapshot?.date ?? new Date().toISOString().slice(0, 10),
+    updatedAt: latestFetched ?? raw.snapshot?.date ?? new Date().toISOString().slice(0, 10),
     usdCny: raw.usdCny,
     models: raw.models,
     channels: raw.channels,

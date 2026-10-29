@@ -5,7 +5,8 @@
   "description": "全球模型 API 价格与能力基准实时对比平台",
   "scripts": {
     "dev": "next dev",
-    "build": "node scripts/build-compat.cjs",
+    "prebuild": "node scripts/clean-out.cjs",
+    "build": "node scripts/build-compat.cjs && node scripts/clean-out.cjs --purge",
     "build:raw": "next build",
     "start": "next start",
     "lint": "next lint",

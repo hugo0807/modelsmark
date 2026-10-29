@@ -3,8 +3,8 @@
     "modelId": "claude-opus-5-5",
     "index": 58,
     "rank": 1,
-    "costPerTaskUsd": 5.98,
-    "outputTokensPerSec": null,
+    "costPerTaskUsd": 10.04,
+    "outputTokensPerSec": 98,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
     "aaName": "Claude Opus 5.5 (max with fallback)"
@@ -12,9 +12,9 @@
   {
     "modelId": "gpt-6-astra",
     "index": 57,
-    "rank": 2,
-    "costPerTaskUsd": 3.26,
-    "outputTokensPerSec": null,
+    "rank": 3,
+    "costPerTaskUsd": 6.24,
+    "outputTokensPerSec": 66,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
     "aaName": "GPT-6 Astra (max)"
@@ -32,9 +32,9 @@
   {
     "modelId": "claude-sonnet-5-5",
     "index": 54,
-    "rank": 4,
-    "costPerTaskUsd": null,
-    "outputTokensPerSec": null,
+    "rank": 7,
+    "costPerTaskUsd": 10.02,
+    "outputTokensPerSec": 138,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
     "aaName": "Claude Sonnet 5.5 (max with fallback)"
@@ -42,29 +42,29 @@
   {
     "modelId": "gemini-4-argon",
     "index": 50,
-    "rank": 6,
-    "costPerTaskUsd": 1.99,
-    "outputTokensPerSec": null,
+    "rank": 12,
+    "costPerTaskUsd": 3.84,
+    "outputTokensPerSec": 82,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
     "aaName": "Gemini 4 Argon (high)"
   },
   {
     "modelId": "claude-fable-5-1",
-    "index": 49,
-    "rank": 8,
-    "costPerTaskUsd": null,
-    "outputTokensPerSec": null,
+    "index": 50,
+    "rank": 15,
+    "costPerTaskUsd": 10.89,
+    "outputTokensPerSec": 66,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
-    "aaName": "Claude Fable 5.1 (max with fallback)"
+    "aaName": "Claude Fable 5.1 (xhigh with fallback)"
   },
   {
     "modelId": "kimi-k3-1-pro",
     "index": 46,
-    "rank": 9,
-    "costPerTaskUsd": 2.11,
-    "outputTokensPerSec": 77.1,
+    "rank": 21,
+    "costPerTaskUsd": 3.68,
+    "outputTokensPerSec": 43,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
     "aaName": "Kimi K3.1 Pro"
@@ -72,9 +72,9 @@
   {
     "modelId": "qwen3-8-max-0902",
     "index": 34,
-    "rank": 13,
-    "costPerTaskUsd": null,
-    "outputTokensPerSec": 37.1,
+    "rank": 36,
+    "costPerTaskUsd": 10.02,
+    "outputTokensPerSec": 41,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
     "aaName": "Qwen3.8 Max (0902)"
@@ -82,9 +82,9 @@
   {
     "modelId": "deepseek-v4-1-flash",
     "index": 32,
-    "rank": 14,
-    "costPerTaskUsd": null,
-    "outputTokensPerSec": null,
+    "rank": 37,
+    "costPerTaskUsd": 0.6,
+    "outputTokensPerSec": 177,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
     "aaName": "DeepSeek V4.1 Flash 1017 (max)"
@@ -92,9 +92,9 @@
   {
     "modelId": "glm-5-3",
     "index": 32,
-    "rank": 15,
-    "costPerTaskUsd": null,
-    "outputTokensPerSec": null,
+    "rank": 38,
+    "costPerTaskUsd": 5.01,
+    "outputTokensPerSec": 76,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
     "aaName": "GLM-5.3 (max)"
@@ -102,22 +102,62 @@
   {
     "modelId": "mimo-v2-6-pro",
     "index": 30,
-    "rank": 17,
-    "costPerTaskUsd": null,
-    "outputTokensPerSec": null,
+    "rank": 44,
+    "costPerTaskUsd": 0.26,
+    "outputTokensPerSec": 58,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
     "aaName": "MiMo-V2.6-Pro"
   },
   {
+    "modelId": "minimax-m3-1-flash",
+    "index": 29,
+    "rank": 48,
+    "costPerTaskUsd": 0.49,
+    "outputTokensPerSec": 118,
+    "source": "Artificial Analysis",
+    "measuredAt": "2026-10-28",
+    "aaName": "MiniMax-M3.1-Flash"
+  },
+  {
+    "modelId": "step-5-preview",
+    "index": 29,
+    "rank": 49,
+    "costPerTaskUsd": 2.35,
+    "outputTokensPerSec": 182,
+    "source": "Artificial Analysis",
+    "measuredAt": "2026-10-28",
+    "aaName": "Step 5 Preview"
+  },
+  {
     "modelId": "gpt-6-luna",
     "index": 28,
-    "rank": 21,
-    "costPerTaskUsd": null,
-    "outputTokensPerSec": null,
+    "rank": 50,
+    "costPerTaskUsd": 0.15,
+    "outputTokensPerSec": 122,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
     "aaName": "GPT-6 Luna (max)"
+  },
+  {
+    "modelId": "mimo-v2-6-flash",
+    "index": 27,
+    "rank": 51,
+    "costPerTaskUsd": 0.13,
+    "outputTokensPerSec": 56,
+    "source": "Artificial Analysis",
+    "measuredAt": "2026-10-28",
+    "aaName": "MiMo-V2.6-Flash"
+  },
+  {
+    "modelId": "deepseek-v4-pro",
+    "index": 23,
+    "rank": 57,
+    "costPerTaskUsd": 1.77,
+    "outputTokensPerSec": 81,
+    "source": "Artificial Analysis",
+    "measuredAt": "2026-10-28",
+    "aaName": "DeepSeek V4 Pro 0813 (max)"
   },
   {
     "modelId": "qwen3-8-27b",
@@ -130,6 +170,17 @@
     "aaName": "Qwen3.8 27B (xhigh)"
   },
   {
+    "modelId": "minimax-m3",
+    "index": 19,
+    "rank": 62,
+    "costPerTaskUsd": 1.29,
+    "outputTokensPerSec": 107,
+    "source": "Artificial Analysis",
+    "measuredAt": "2026-10-28",
+    "note": "本次快照未覆盖该模型，指数待补",
+    "aaName": "MiniMax-M3"
+  },
+  {
     "modelId": "qwen3-7-max",
     "index": null,
     "rank": null,
@@ -137,7 +188,7 @@
     "outputTokensPerSec": null,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
-    "note": "本次快照未覆盖该模型，指数待补"
+    "note": "本次榜单快照未覆盖该模型，指数待补"
   },
   {
     "modelId": "qwen3-7-plus",
@@ -147,7 +198,7 @@
     "outputTokensPerSec": null,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
-    "note": "本次快照未覆盖该模型，指数待补"
+    "note": "本次榜单快照未覆盖该模型，指数待补"
   },
   {
     "modelId": "qwen3-7-flash",
@@ -157,7 +208,7 @@
     "outputTokensPerSec": null,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
-    "note": "本次快照未覆盖该模型，指数待补"
+    "note": "本次榜单快照未覆盖该模型，指数待补"
   },
   {
     "modelId": "qwen3-8-flash",
@@ -167,7 +218,7 @@
     "outputTokensPerSec": null,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
-    "note": "本次快照未覆盖该模型，指数待补"
+    "note": "本次榜单快照未覆盖该模型，指数待补"
   },
   {
     "modelId": "qwen3-8-max",
@@ -177,7 +228,7 @@
     "outputTokensPerSec": 37.1,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
-    "note": "本次快照未覆盖该模型，指数待补"
+    "note": "本次榜单快照未覆盖该模型，指数待补"
   },
   {
     "modelId": "kimi-k3",
@@ -187,7 +238,7 @@
     "outputTokensPerSec": 38.5,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
-    "note": "本次快照未覆盖该模型，指数待补"
+    "note": "本次榜单快照未覆盖该模型，指数待补"
   },
   {
     "modelId": "glm-5-3-flash",
@@ -197,17 +248,7 @@
     "outputTokensPerSec": null,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
-    "note": "本次快照未覆盖该模型，指数待补"
-  },
-  {
-    "modelId": "minimax-m3",
-    "index": null,
-    "rank": null,
-    "costPerTaskUsd": null,
-    "outputTokensPerSec": null,
-    "source": "Artificial Analysis",
-    "measuredAt": "2026-10-28",
-    "note": "本次快照未覆盖该模型，指数待补"
+    "note": "本次榜单快照未覆盖该模型，指数待补"
   },
   {
     "modelId": "hunyuan-hy3",
@@ -217,6 +258,6 @@
     "outputTokensPerSec": null,
     "source": "Artificial Analysis",
     "measuredAt": "2026-10-28",
-    "note": "本次快照未覆盖该模型，指数待补"
+    "note": "本次榜单快照未覆盖该模型，指数待补"
   }
 ]

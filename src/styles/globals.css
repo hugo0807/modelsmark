@@ -137,6 +137,18 @@ th.num {
   margin: 0 0 6px;
 }
 
+/*
+ * 精简版页头 —— 只有一行标题，没有说明文案、标签行、指标卡。
+ * 首页要的是「打开就能比价」，首屏塞说明和统计卡只会把表格挤下去。
+ */
+.page-head-slim {
+  padding: 28px 0 4px;
+}
+
+.page-head-slim h1 {
+  margin: 0;
+}
+
 .page-head p {
   margin: 0;
   color: var(--text-secondary);
@@ -194,6 +206,141 @@ th.num {
 
 .metric-note {
   font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+/* ── 指标卡的悬浮说明面板 ── */
+
+.metric {
+  position: relative;
+}
+
+.metric-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+  margin-left: 5px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-size: 9px;
+  line-height: 1;
+  color: var(--text-tertiary);
+  vertical-align: 1px;
+  cursor: help;
+}
+
+.metric-hint {
+  position: absolute;
+  top: calc(100% + 7px);
+  left: 0;
+  width: 268px;
+  z-index: 40;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.13);
+  padding: 11px 13px;
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  pointer-events: none;
+}
+
+.metric:hover .metric-hint {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.metric-hint b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.metric-hint .hint-title {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.metric-hint .hint-limit {
+  display: block;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
+  color: var(--text-tertiary);
+}
+
+/* ── 表头的口径浮窗 ── */
+
+table.data th {
+  position: relative;
+}
+
+.th-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+  margin-left: 4px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-size: 9px;
+  line-height: 1;
+  color: var(--text-tertiary);
+  vertical-align: 1px;
+  cursor: help;
+}
+
+.th-hint {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 244px;
+  z-index: 40;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.13);
+  padding: 10px 12px;
+  font-size: 11.5px;
+  line-height: 1.7;
+  font-weight: 400;
+  color: var(--text-secondary);
+  text-align: left;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+  pointer-events: none;
+}
+
+table.data th:hover .th-hint {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.th-hint b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.th-hint .hint-limit {
+  display: block;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px dashed var(--border);
   color: var(--text-tertiary);
 }
 
@@ -294,6 +441,26 @@ tr.plan-row td:first-child {
   background: #e1f5ee;
   border-color: transparent;
   color: #0f6e56;
+}
+
+/* 首屏能力标签行 */
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.tag-row .tag {
+  padding: 2px 8px;
+  font-size: 11.5px;
+  border-radius: 999px;
+}
+
+/* 弱化标签：数据核验时间等补充信息 */
+.tag-quiet {
+  border-style: dashed;
+  color: var(--text-tertiary);
 }
 
 .dot {

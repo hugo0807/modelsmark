@@ -9,6 +9,7 @@
  * 用法：npx tsx scripts/ingest.ts
  */
 import fs from 'node:fs';
+import { guessSlug } from './slug-rules';
 import path from 'node:path';
 import type { PriceRecord } from '../src/lib/types';
 import { extractTables, parseCompactPriceCell, parseTableRows, stripTags } from './parse-pricing-table';
@@ -41,124 +42,7 @@ const FETCHED_AT = '2026-10-27T16:30:00Z';
 // 模型 id 映射：页面上的模型名 → 全局 slug
 // ───────────────────────────────────────────
 
-/** 从渠道侧的模型名推断全局 slug */
-const SLUG_PATTERNS: Array<[RegExp, string]> = [
-  [/deepseek[\s-]*v4[\s-]*1[\s-]*flash/i, 'deepseek-v4-1-flash'],
-  [/deepseek[\s-]*v4[\s-]*pro/i, 'deepseek-v4-pro'],
-  [/deepseek[\s-]*v4[\s-]*flash/i, 'deepseek-v4-flash'],
-  [/deepseek[\s-]*v3(?!\.)/i, 'deepseek-v3'],
-  [/deepseek[\s-]*r1/i, 'deepseek-r1'],
-  [/glm[\s-]*5[\s-]*3[\s-]*flash[\s-]*x/i, 'glm-5-3-flashx'],
-  [/glm[\s-]*5[\s-]*3[\s-]*flash/i, 'glm-5-3-flash'],
-  [/glm[\s-]*5[\s-]*3/i, 'glm-5-3'],
-  [/glm[\s-]*5[\s-]*2/i, 'glm-5-2'],
-  [/glm[\s-]*5[\s-]*1/i, 'glm-5-1'],
-  [/glm[\s-]*5(?!\.)/i, 'glm-5'],
-  [/kimi[\s-]*k3[\s-]*1[\s-]*pro/i, 'kimi-k3-1-pro'],
-  [/kimi[\s-]*k3(?!\.)/i, 'kimi-k3'],
-  [/kimi[\s-]*k2[\s-]*7[\s-]*code/i, 'kimi-k2-7-code'],
-  [/kimi[\s-]*k2[\s-]*6/i, 'kimi-k2-6'],
-  [/kimi[\s-]*k2/i, 'kimi-k2'],
-  [/qwen3[\s-]*8[\s-]*max/i, 'qwen3-8-max'],
-  [/qwen3[\s-]*8[\s-]*flash/i, 'qwen3-8-flash'],
-  [/qwen3[\s-]*7[\s-]*max/i, 'qwen3-7-max'],
-  [/qwen3[\s-]*7[\s-]*plus/i, 'qwen3-7-plus'],
-  [/qwen3[\s-]*7[\s-]*flash/i, 'qwen3-7-flash'],
-  [/qwen3[\s-]*235b/i, 'qwen3-235b-a22b'],
-  [/qwen3[\s-]*32b/i, 'qwen3-32b'],
-  [/qwen3[\s-]*30b/i, 'qwen3-30b-a3b'],
-  [/mimo[\s-]*v2[\s-]*6[\s-]*pro/i, 'mimo-v2-6-pro'],
-  [/mimo[\s-]*v2[\s-]*6[\s-]*flash/i, 'mimo-v2-6-flash'],
-  [/mimo[\s-]*v2[\s-]*5/i, 'mimo-v2-5'],
-  [/minimax[\s-]*m3/i, 'minimax-m3'],
-  [/minimax[\s-]*m2/i, 'minimax-m2'],
-  [/hy4/i, 'hunyuan-hy4'],
-  [/hy3/i, 'hunyuan-hy3'],
-  [/ernie[\s-]*5[\s-]*1/i, 'ernie-5-1'],
-  [/ernie[\s-]*5(?!\.)/i, 'ernie-5-0'],
-  [/ernie[\s-]*4[\s-]*5/i, 'ernie-4-5-turbo'],
-  [/ernie[\s-]*x1[\s-]*1/i, 'ernie-x1-1-preview'],
-  [/doubao[\s-]*seed[\s-]*2[\s-]*1[\s-]*pro/i, 'doubao-seed-2-1-pro'],
-  [/doubao[\s-]*seed[\s-]*2[\s-]*1[\s-]*turbo/i, 'doubao-seed-2-1-turbo'],
-  [/doubao[\s-]*seed[\s-]*2[\s-]*1[\s-]*lite/i, 'doubao-seed-2-1-lite'],
-  [/doubao[\s-]*seed[\s-]*evolving/i, 'doubao-seed-evolving'],
-  [/step[\s-]*5[\s-]*preview/i, 'step-5-preview'],
-  // 腾讯云自有模型族
-  [/hunyuan[\s-]*a13b/i, 'hunyuan-a13b'],
-  [/hunyuan[\s-]*role/i, 'hunyuan-role-latest'],
-  [/hunyuan[\s-]*translation[\s-]*lite/i, 'hunyuan-translation-lite'],
-  [/hunyuan[\s-]*translation/i, 'hunyuan-translation'],
-  [/hy[\s-]*vision[\s-]*2[\s-]*0/i, 'hy-vision-2-0-instruct'],
-  [/hunyuan[\s-]*turbos[\s-]*vision[\s-]*video/i, 'hunyuan-turbos-vision-video'],
-  [/hunyuan[\s-]*turbos[\s-]*vision/i, 'hunyuan-turbos-vision'],
-  [/hunyuan[\s-]*t1[\s-]*vision/i, 'hunyuan-t1-vision'],
-  [/hunyuan[\s-]*embedding/i, 'hunyuan-embedding'],
-  [/hunyuan[\s-]*turbos/i, 'hunyuan-turbos'],
-  [/hunyuan[\s-]*lite/i, 'hunyuan-lite'],
-  [/hunyuan[\s-]*standard/i, 'hunyuan-standard'],
-  [/hunyuan[\s-]*image[\s-]*3/i, 'hunyuan-image-3'],
-  [/hunyuan[\s-]*video[\s-]*h3/i, 'hunyuan-video-h3'],
-  [/hy[\s-]*3d/i, 'hy-3d'],
-  [/kling[\s-]*video/i, 'kling-video-v3'],
-  [/vidu[\s-]*image/i, 'vidu-image-q2'],
-  [/yt[\s-]*vita/i, 'yt-vita'],
-  [/open[\s-]*pangu[\s-]*2[\s-]*0[\s-]*pro/i, 'openpangu-2-0-pro'],
-  [/open[\s-]*pangu[\s-]*2[\s-]*0[\s-]*flash/i, 'openpangu-2-0-flash'],
-  [/qwen3[\s-]*5[\s-]*27b/i, 'qwen3-5-27b'],
-  [/qwen3[\s-]*5[\s-]*9b/i, 'qwen3-5-9b'],
-  [/qwen3[\s-]*5[\s-]*4b/i, 'qwen3-5-4b'],
-  [/glm[\s-]*5[\s-]*2[\s-]*fast/i, 'glm-5-2-fast'],
-  [/minimax[\s-]*m2[\s-]*7/i, 'minimax-m2-7'],
-  [/minimax[\s-]*m2[\s-]*5/i, 'minimax-m2-5'],
-  [/kimi[\s-]*k3[\s-]*1[\s-]*pro[\s-]*highspeed/i, 'kimi-k3-1-pro-highspeed'],
-  [/hy4[\s-]*preview/i, 'hunyuan-hy4-preview'],
-  [/gpt[\s-]*6[\s-]*1/i, 'gpt-6-1'],
-  [/gpt[\s-]*6[\s-]*astra/i, 'gpt-6-astra'],
-  [/gpt[\s-]*6[\s-]*luna/i, 'gpt-6-luna'],
-  [/gpt[\s-]*6[\s-]*sol/i, 'gpt-6-sol'],
-  [/claude[\s-]*opus[\s-]*5/i, 'claude-opus-5-5'],
-  [/claude[\s-]*sonnet[\s-]*5/i, 'claude-sonnet-5-5'],
-  [/claude[\s-]*fable[\s-]*5/i, 'claude-fable-5-1'],
-  [/gemini[\s-]*3[\s-]*1[\s-]*pro/i, 'gemini-3-1-pro'],
-  [/gemini[\s-]*3[\s-]*8[\s-]*flash/i, 'gemini-3-8-flash'],
-  [/gemini[\s-]*4[\s-]*argon/i, 'gemini-4-argon'],
-  [/grok[\s-]*4[\s-]*7/i, 'grok-4-7'],
 
-  // ── 运营商渠道模型（移动云 / 华为云 / 天翼云）──
-  [/deepseek[\s-]*v4[\s-]*1[\s-]*flash/i, 'deepseek-v4-1-flash'],
-  [/deepseek[\s-]*v4[\s-]*flash[\s-]*0731/i, 'deepseek-v4-flash'],
-  [/deepseek[\s-]*r1[\s-]*distill[\s-]*llama[\s-]*70b/i, 'deepseek-r1-distill-llama-70b'],
-  [/deepseek[\s-]*r1[\s-]*distill[\s-]*llama[\s-]*8b/i, 'deepseek-r1-distill-llama-8b'],
-  [/deepseek[\s-]*r1[\s-]*distill[\s-]*qwen[\s-]*14b/i, 'deepseek-r1-distill-qwen-14b'],
-  [/deepseek[\s-]*r1[\s-]*distill[\s-]*qwen[\s-]*32b/i, 'deepseek-r1-distill-qwen-32b'],
-  [/deepseek[\s-]*v2[\s-]*lite/i, 'deepseek-v2-lite-chat'],
-  [/qwen3[\s.]*5[\s-]*27b/i, 'qwen3-5-27b'],
-  [/qwen3[\s.]*5[\s-]*9b/i, 'qwen3-5-9b'],
-  [/qwen3[\s.]*5[\s-]*4b/i, 'qwen3-5-4b'],
-  [/qwen2[\s.]*5[\s-]*72b/i, 'qwen2-5-72b-instruct'],
-  [/qwen2[\s.]*5[\s-]*32b/i, 'qwen2-5-32b-instruct'],
-  [/qwen2[\s.]*5[\s-]*14b/i, 'qwen2-5-14b-instruct'],
-  [/qwen2[\s.]*5[\s-]*7b/i, 'qwen2-5-7b-instruct'],
-  [/qwen2[\s.]*5[\s-]*vl[\s-]*72b/i, 'qwen2-5-vl-72b-instruct'],
-  [/qwen2[\s.]*5[\s-]*vl[\s-]*32b/i, 'qwen2-5-vl-32b-instruct'],
-  [/qwen2[\s.]*5[\s-]*vl[\s-]*7b/i, 'qwen2-5-vl-7b-instruct'],
-  [/qwq[\s-]*32b/i, 'qwq-32b'],
-  [/glm[\s-]*5[\s-]*3[\s-]*flash/i, 'glm-5-3-flash'],
-  [/minimax[\s-]*m2[\s-]*5/i, 'minimax-m2-5'],
-  [/kimi[\s-]*k2[\s-]*6/i, 'kimi-k2-6'],
-  [/bge[\s-]*reranker/i, 'bge-reranker-v2-m3'],
-  [/bge[\s-]*m3/i, 'bge-m3'],
-  [/cosyvoice/i, 'cosyvoice'],
-  [/sensevoice/i, 'sensevoice'],
-  [/open[\s-]*pangu/i, 'openpangu-2-0-pro'],
-];
-
-function guessSlug(rawName: string): string | null {
-  for (const [re, slug] of SLUG_PATTERNS) {
-    if (re.test(rawName)) return slug;
-  }
-  return null;
-}
 
 /**
  * 模型 id 规范化 —— 与 build-models.ts 保持一致。
@@ -304,6 +188,10 @@ const fromSiliconFlow = (): Collector => () => {
     if (!slug) continue;
     const periods = r.input?.periods || [];
     const offpeak = periods.some((p: string) => /空闲|off-?peak|0点/.test(p));
+    // 硅基流动的免费模型 SKU 为 free-text-model.online，官网标价 0。
+    // 这是真实数据（确实免费），但免费 ≠ 高性价比，且通常有调用限流，
+    // 因此单独标注为「免费模型」，不参与最低价与均价的计算。
+    const isFreeSku = /free/i.test(String(r.sku ?? ''));
     out.push({
       modelId: slug,
       channelId: 'siliconflow',
@@ -314,7 +202,7 @@ const fromSiliconFlow = (): Collector => () => {
       cacheWrite: null,
       output: num(r.output?.perM),
       tier: offpeak ? { kind: 'offpeak', window: periods.join('; '), note: '含空闲时段价' } : { kind: 'none' },
-      tierLabel: r.input?.scenario || null,
+      tierLabel: isFreeSku ? '免费模型' : r.input?.scenario || null,
       vendorModelId: r.name,
       promotional: false,
       promoNote: null,
@@ -478,6 +366,15 @@ const fromBaidu = (): Collector => () => {
   for (const rows of tables) {
     const head = (rows[0] || []).join(' ');
     if (!/模型名称/.test(head)) continue;
+
+    /*
+     * 跳过「按 TPM 预付费」表。
+     * 它的列是「子项 | 单位规格(10k/1k) | 原价 | 活动价（元/个/月）」，
+     * 与按量计费表的「子项 | 在线推理 | 批量推理 | 单位」结构完全不同。
+     * 混进来会把「1k」当成单价算出 ¥1000/百万 token 的假价。
+     * 预付费是包月资源包口径，与本站的按量比价不可比，整表跳过。
+     */
+    if (/单位规格|预付费价格|TPM/.test(head)) continue;
 
     let curModel = '';
     let curVersion = '';

@@ -32,6 +32,9 @@ export function isStandardTier(p: {
   tierLabel?: string | null;
 }): boolean {
   const kind = p.tier?.kind;
+  // 免费模型（官网标价 0）单独标注，不参与最低价与均价计算 ——
+  // 免费不等于高性价比，这类模型通常还有调用限流。
+  if (p.tierLabel && /免费/.test(p.tierLabel)) return false;
   // 高峰时段即刊例价本身，算标准档；其余条件档位（闲时/批量/长上下文）都不算
   if (kind === 'peak') return true;
   if (kind !== 'none') return false;
@@ -39,6 +42,13 @@ export function isStandardTier(p: {
   if (label && DISCOUNT_TIER.test(label)) return false;
   // 「>256K」这类上档是溢价档，不参与标准档均价
   if (label.includes('>')) return false;
+  /*
+   * 「32K-256K」「256K-1M」这类区间档是按上下文长度加价的溢价档，
+   * 刊例价是其中最左边的那个区间（通常写成 ≤32K / ≤128K）。
+   * 把溢价档当成标准档会让同一模型凭空多出 3～6 倍的价差 ——
+   * 那不是「换家买能省多少」，而是「长文本要加多少钱」。
+   */
+  if (/\d+\s*[KM]\s*[-–~至]\s*\d+\s*[KM]/i.test(label)) return false;
   return true;
 }
 
@@ -291,6 +301,17 @@ export function aggregateByModel(
       const stdRows = paygPrices.filter((p) => p.blendedCny != null && isStandardTier(p));
       const withBlend = stdRows.length ? stdRows : paygPrices.filter((p) => p.blendedCny != null);
       const lowest = withBlend.length ? withBlend[0] : null;
+      const highest = withBlend.length ? withBlend[withBlend.length - 1] : null;
+
+      /*
+       * 渠道价差倍数 —— 最高标准档 ÷ 最低标准档。
+       * 只有一家渠道报价时是 1.0×（不构成价差，但如实显示，
+       * 比显示「—」让人猜要好）。
+       */
+      const priceSpread =
+        lowest?.blendedCny != null && highest?.blendedCny != null && lowest.blendedCny > 0
+          ? round2(highest.blendedCny / lowest.blendedCny)
+          : null;
 
       return {
         model,
@@ -300,6 +321,8 @@ export function aggregateByModel(
         cloudAvgCny,
         cloudCount: cloudRows.length,
         lowestBlendedCny: lowest?.blendedCny ?? null,
+        highestBlendedCny: highest?.blendedCny ?? null,
+        priceSpread,
         lowestChannelName: lowest ? (channelMap.get(lowest.channelId)?.name ?? null) : null,
         intelligence: intelMap.get(model.id) ?? null,
         scores: scores.filter((s) => s.modelId === model.id),

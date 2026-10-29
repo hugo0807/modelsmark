@@ -54,3 +54,4 @@ netpage_text.txt
 data/ingest-report.json
 data/pending-models.json
 data/validate-report.json
+.out_bak/

@@ -287,6 +287,10 @@ export interface ModelAggregate {
   cloudCount: number;
   /** 全渠道最低混合价 */
   lowestBlendedCny: number | null;
+  /** 全渠道最高混合价（标准档口径） */
+  highestBlendedCny: number | null;
+  /** 渠道价差倍数 = 最高 ÷ 最低 */
+  priceSpread: number | null;
   /** 达成最低价的渠道名 */
   lowestChannelName: string | null;
   /** 智能指数 */

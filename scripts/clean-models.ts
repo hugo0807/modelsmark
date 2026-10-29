@@ -69,6 +69,15 @@ const ALIASES: Record<string, string> = {
   'hunyuan-a13b-instruct': 'hunyuan-a13b',
   'mimo-v2-5-pro': 'mimo-v2-5',
   'qwen2-5-72b-instruct-128k': 'qwen2-5-72b-instruct',
+  /*
+   * ERNIE 4.5 Turbo 有三个独立规格，价格完全不同（VL 版 3/9，
+   * 32K 版 0.8/3.2，128K 版另有定价），不能并成一个模型 ——
+   * 并了以后表里会出现「同款差 3.2 倍」这种假的渠道价差。
+   */
+  'ernie-4-5-turbo-32k': 'ernie-4-5-turbo-32k',
+  'ernie-4-5-turbo-128k-preview': 'ernie-4-5-turbo-128k-preview',
+  'ernie-4-5-turbo-vl-32k': 'ernie-4-5-turbo-vl-32k',
+  'ernie-4-5-turbo-vl': 'ernie-4-5-turbo-vl-32k',
 };
 
 /**
@@ -156,6 +165,36 @@ const KEEP_SINGLETON = new Set([
   'mimo-v2-5',
   'ernie-5-0',
 ]);
+
+/**
+ * 不属于「大模型 API 比价」范畴的模型 —— 一律不收录。
+ *
+ * OCR / 版面解析 / 向量 / 翻译 / 视频生成这类模型按「页 / 张 / 秒 / 字符」计费，
+ * 与按 token 计费的对话模型不可比；硬塞进表里，它们既没有官方混合价、
+ * 也没有智能指数，整行只剩横杠，把真正可比的模型淹没了。
+ *
+ * 注意：cucloud-token-plan 是套餐记录的载体 id（不是真模型），
+ * 价格记录要留着在「套餐」页展示，因此不在这里剔除，
+ * 靠「没有按量报价」自然不进速览表。
+ */
+const NON_CHAT_MODEL = [
+  'ocr',
+  'pp-structure',
+  'structure',
+  'embedding',
+  'translation',
+  'rerank',
+  'vision-video',
+  'video-h3',
+  'image-3',
+  'kling-video',
+  'vidu-image',
+  'tts',
+  'asr',
+  'hy-3d',
+  'yt-vita',
+];
+const isNonChat = (id: string) => NON_CHAT_MODEL.some((t) => id.includes(t));
 
 function main() {
   const prices = JSON.parse(
@@ -254,6 +293,10 @@ function main() {
 
   const keptModels: any[] = [];
   for (const m of models) {
+    if (isNonChat(m.id)) {
+      dropped.push(m.id);
+      continue;
+    }
     const n = channelCount.get(m.id)?.size ?? 0;
     if (n === 0) {
       // 没有按量价格的模型：只要挂着套餐记录或有跑分数据就保留

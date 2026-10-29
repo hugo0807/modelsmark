@@ -65,34 +65,31 @@
   },
   {
     "modelId": "qwen3-8-max-0902",
-    "channelId": "aliyun-bailian",
+    "vendorModelId": "qwen3.8-max-0902",
     "billingMode": "payg",
     "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
     "input": 12,
-    "cacheRead": 1.5,
+    "cacheRead": null,
     "cacheWrite": 15,
     "output": 36,
     "tier": {
       "kind": "none"
     },
     "tierLabel": null,
-    "vendorModelId": "qwen3.8-max-0902",
     "promotional": false,
     "promoNote": null,
-    "note": "华北2（北京）；qwen3.8-max 的 2026-09-02 快照版（别名 qwen3.8-max-2026-09-02），价格与 qwen3.8-max 一致；帮助中心无该模型独立详情页，缓存价取自百炼控制台模型详情页 bailian.console.aliyun.com/cn-beijing/model/market/detail/qwen3.8-max-0902（输入（缓存命中）1.5、显式缓存创建 15、显式缓存命中 1）；隐式缓存命中价为输入价 12.5%（非 20%，以百炼控制台为准）；定价表未标注「Batch 调用 半价」、《批量推理》支持模型清单也未列该快照版本，故未生成批量档记录",
+    "note": "官网原文以「元 / 每百万 Token」计价，未做换算。官网未公布该模型缓存命中单价（原文「cached_token 单价…具体价格请参见百炼控制台」），cacheRead 记为 null。显式缓存创建价＝输入价×125%。免费额度 100万Token。",
+    "channelId": "aliyun-bailian",
     "packageQuota": null,
     "packageQuotaUnit": "mixed",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
     "packageCalls": null,
     "packageIncludes": null,
     "evidence": {
       "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "华北2（北京）；qwen3.8-max 的 2026-09-02 快照版（别名 qwen3.8-max-2026-09-02），价格与 qwen3.8-max 一致；帮助中心无该模型独立详情页，缓存价取自百炼控制台模型详情页 bailian.console.aliyun.com/cn-beijing/model/market/detail/qwen3.8-max-0902（输入（缓存命中）1.5、显式缓存创建 15、显式缓存命中 1）；隐式缓存命中价为输入价 12.5%（非 20%，以百炼控制台为准）；定价表未标注「Batch 调用 半价」、《批量推理》支持模型清单也未列该快照版本，故未生成批量档记录",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "官网原文以「元 / 每百万 Token」计价，未做换算。官网未公布该模型缓存命中单价（原文「cached_token 单价…具体价格请参见百炼控制台」），cacheRead 记为 null。显式缓存创建价＝输入价×125%。免费额度 100万Token。",
       "pageUpdatedAt": null
     }
   },
@@ -1348,23 +1345,23 @@
     }
   },
   {
-    "modelId": "mimo-v2-6-pro",
-    "vendorModelId": "xiaomi/mimo-v2.6-pro-ultraspeed",
+    "modelId": "qwen3-6-35b-a3b",
+    "vendorModelId": "qwen3.6-35b-a3b",
     "billingMode": "payg",
     "currency": "CNY",
     "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
     "fetchedAt": "2026-10-27T15:05:23.040Z",
-    "input": 30,
+    "input": 1.8,
     "cacheRead": null,
-    "cacheWrite": 37.5,
-    "output": 60,
+    "cacheWrite": null,
+    "output": 10.8,
     "tier": {
       "kind": "none"
     },
-    "tierLabel": null,
+    "tierLabel": "≤256K",
     "promotional": false,
     "promoNote": null,
-    "note": "官网原文以「元 / 每百万 Token」计价，未做换算。官网未公布该模型缓存命中单价（原文「cached_token 单价…具体价格请参见百炼控制台」），cacheRead 记为 null。显式缓存创建价＝输入价×125%。",
+    "note": "阿里云百炼官网定价页（qwen3.6-35b-a3b，输入档位 0<Token≤256K）。上下文缓存折扣表另计，未并入本条。",
     "channelId": "aliyun-bailian",
     "packageQuota": null,
     "packageQuotaUnit": "mixed",
@@ -1373,7 +1370,580 @@
     "evidence": {
       "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
       "fetchedAt": "2026-10-27T15:05:23.040Z",
-      "quote": "官网原文以「元 / 每百万 Token」计价，未做换算。官网未公布该模型缓存命中单价（原文「cached_token 单价…具体价格请参见百炼控制台」），cacheRead 记为 null。显式缓存创建价＝输入价×125%。",
+      "quote": "阿里云百炼官网定价页（qwen3.6-35b-a3b，输入档位 0<Token≤256K）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "qwen3-6-27b",
+    "vendorModelId": "qwen3.6-27b",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 3,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 18,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "≤256K",
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（qwen3.6-27b，输入档位 0<Token≤256K）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（qwen3.6-27b，输入档位 0<Token≤256K）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "qwen3-5-397b-a17b",
+    "vendorModelId": "qwen3.5-397b-a17b",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 1.2,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 7.2,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "≤128K",
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（qwen3.5-397b-a17b，输入档位 0<Token≤128K）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（qwen3.5-397b-a17b，输入档位 0<Token≤128K）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "qwen3-5-122b-a10b",
+    "vendorModelId": "qwen3.5-122b-a10b",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 0.8,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 6.4,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "≤128K",
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（qwen3.5-122b-a10b，输入档位 0<Token≤128K）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（qwen3.5-122b-a10b，输入档位 0<Token≤128K）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "qwen3-5-27b",
+    "vendorModelId": "qwen3.5-27b",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 0.6,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 4.8,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "≤128K",
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（qwen3.5-27b，输入档位 0<Token≤128K）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（qwen3.5-27b，输入档位 0<Token≤128K）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "qwen3-5-35b-a3b",
+    "vendorModelId": "qwen3.5-35b-a3b",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 0.4,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 3.2,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "≤128K",
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（qwen3.5-35b-a3b，输入档位 0<Token≤128K）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（qwen3.5-35b-a3b，输入档位 0<Token≤128K）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "deepseek-v3",
+    "vendorModelId": "siliconflow/deepseek-v3.2",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 2,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 3,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（siliconflow/deepseek-v3.2）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（siliconflow/deepseek-v3.2）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "deepseek-v3",
+    "vendorModelId": "siliconflow/deepseek-v3.1-terminus",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 4,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 12,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（siliconflow/deepseek-v3.1-terminus）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（siliconflow/deepseek-v3.1-terminus）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "deepseek-r1-0528",
+    "vendorModelId": "siliconflow/deepseek-r1-0528",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 4,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 16,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（siliconflow/deepseek-r1-0528）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（siliconflow/deepseek-r1-0528）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "kimi-k2",
+    "vendorModelId": "kimi-k2.7-code",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 6.5,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 27,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（kimi-k2.7-code）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（kimi-k2.7-code）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "kimi-k2",
+    "vendorModelId": "kimi-k2.5",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 4,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 21,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（kimi-k2.5）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（kimi-k2.5）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "glm-5-2",
+    "channelId": "aliyun-bailian",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 8,
+    "cacheRead": 2,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "vendorModelId": "glm-5.2",
+    "promotional": false,
+    "promoNote": null,
+    "note": "华北2（北京）；不区分阶梯；非思考和思考模式同价；隐式缓存命中 2 元/百万token（官方《上下文缓存》说明该模型在新加坡及美国（弗吉尼亚）的美国部署范围为 20%，其他地域为 25%，华北2（北京）为 25%）；该模型不支持显式缓存（仅 GLM-5.1 支持），cacheWrite 填 null",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "华北2（北京）；不区分阶梯；非思考和思考模式同价；隐式缓存命中 2 元/百万token（官方《上下文缓存》说明该模型在新加坡及美国（弗吉尼亚）的美国部署范围为 20%，其他地域为 25%，华北2（北京）为 25%）；该模型不支持显式缓存（仅 GLM-5.1 支持），cacheWrite 填 null",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "glm-5-1",
+    "vendorModelId": "glm-5.1",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 6,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 24,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "≤32K",
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（glm-5.1，输入档位 0<Token≤32K）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（glm-5.1，输入档位 0<Token≤32K）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "glm-5",
+    "vendorModelId": "glm-5",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 4,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 18,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "≤32K",
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（glm-5，输入档位 0<Token≤32K）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（glm-5，输入档位 0<Token≤32K）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "glm-5-3-flashx",
+    "vendorModelId": "ZHIPU/GLM-5.3-FlashX",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 2,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 7,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（ZHIPU/GLM-5.3-FlashX）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（ZHIPU/GLM-5.3-FlashX）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "glm-5-1",
+    "vendorModelId": "ZHIPU/GLM-5.1",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 8,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（ZHIPU/GLM-5.1）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（ZHIPU/GLM-5.1）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "glm-5",
+    "vendorModelId": "ZHIPU/GLM-5",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 6,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 22,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（ZHIPU/GLM-5）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（ZHIPU/GLM-5）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "minimax-m2",
+    "vendorModelId": "MiniMax-M2.5",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 2.1,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 8.4,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（MiniMax-M2.5）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（MiniMax-M2.5）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "mimo-v2-5",
+    "vendorModelId": "xiaomi/mimo-v2.5-pro",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 7,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 21,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（xiaomi/mimo-v2.5-pro）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（xiaomi/mimo-v2.5-pro）。上下文缓存折扣表另计，未并入本条。",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "step-5-preview",
+    "vendorModelId": "stepfun/step-5-preview",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "fetchedAt": "2026-10-27T15:05:23.040Z",
+    "input": 7,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 20,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "阿里云百炼官网定价页（stepfun/step-5-preview）。上下文缓存折扣表另计，未并入本条。",
+    "channelId": "aliyun-bailian",
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "quote": "阿里云百炼官网定价页（stepfun/step-5-preview）。上下文缓存折扣表另计，未并入本条。",
       "pageUpdatedAt": null
     }
   },
@@ -3487,7 +4057,7 @@
     }
   },
   {
-    "modelId": "kimi-k3-1-pro-highspeed",
+    "modelId": "kimi-k3-1-pro",
     "channelId": "moonshot",
     "billingMode": "payg",
     "currency": "CNY",
@@ -4609,7 +5179,7 @@
     }
   },
   {
-    "modelId": "minimax-m3",
+    "modelId": "minimax-m3-1-flash",
     "channelId": "minimax",
     "billingMode": "payg",
     "currency": "CNY",
@@ -5137,40 +5707,7 @@
     }
   },
   {
-    "modelId": "glm-5-2",
-    "channelId": "aliyun-bailian",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 8,
-    "cacheRead": 2,
-    "cacheWrite": null,
-    "output": 28,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "glm-5.2",
-    "promotional": false,
-    "promoNote": null,
-    "note": "华北2（北京）；不区分阶梯；非思考和思考模式同价；隐式缓存命中 2 元/百万token（官方《上下文缓存》说明该模型在新加坡及美国（弗吉尼亚）的美国部署范围为 20%，其他地域为 25%，华北2（北京）为 25%）；该模型不支持显式缓存（仅 GLM-5.1 支持），cacheWrite 填 null",
-    "packageQuota": null,
-    "packageQuotaUnit": "mixed",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "华北2（北京）；不区分阶梯；非思考和思考模式同价；隐式缓存命中 2 元/百万token（官方《上下文缓存》说明该模型在新加坡及美国（弗吉尼亚）的美国部署范围为 20%，其他地域为 25%，华北2（北京）为 25%）；该模型不支持显式缓存（仅 GLM-5.1 支持），cacheWrite 填 null",
-      "pageUpdatedAt": null
-    }
-  },
-  {
-    "modelId": "minimax-m3",
+    "modelId": "minimax-m3-1-flash",
     "channelId": "aliyun-bailian",
     "billingMode": "payg",
     "currency": "CNY",
@@ -8305,6 +8842,107 @@
     }
   },
   {
+    "modelId": "deepseek-v4-1-flash",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 2,
+    "cacheRead": 0.04,
+    "cacheWrite": null,
+    "output": 8,
+    "tier": {
+      "kind": "offpeak",
+      "window": "费用发生时段: 0点～2点/8点～24点",
+      "note": "含空闲时段价"
+    },
+    "tierLabel": "兜底价",
+    "vendorModelId": "deepseek-ai/DeepSeek-V4.1-Flash",
+    "promotional": false,
+    "promoNote": null,
+    "note": "兜底价 · 费用发生时段: 0点～2点/8点～24点",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"deepseek-ai/DeepSeek-V4.1-Flash\",\"input\":{\"perK\":0.002,\"perM\":2,\"unit\":\"K tokens\",\"periods\":[\"费用发生时段: 0点～2点/8点～24点\"],\"scenario\":\"兜底价\"},\"output\":{\"perK\":0.008,\"perM\":8,\"unit\":\"K tokens\",\"periods\":[\"费用发生时段: 0点～2点/8点～24点\"],\"scenario\":\"兜底价\"},\"cacheRead\":{\"perK\":0.00004,\"perM\":0.04,\"unit\":\"K tokens\",\"periods\":[\"费用发生时段: 0点～2点/8点～24点\"],\"scenario\":\"兜底价\"}}",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "glm-5-3-flash",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 0.8,
+    "cacheRead": 0.23,
+    "cacheWrite": null,
+    "output": 2.8,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "兜底价",
+    "vendorModelId": "zai-org/GLM-5.3-Flash",
+    "promotional": false,
+    "promoNote": null,
+    "note": "兜底价",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"zai-org/GLM-5.3-Flash\",\"input\":{\"perK\":0.0008,\"perM\":0.8,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"output\":{\"perK\":0.0028,\"perM\":2.8,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"cacheRead\":{\"perK\":0.00023,\"perM\":0.23,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"}}",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "glm-5-3",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 8,
+    "cacheRead": 2,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "兜底价",
+    "vendorModelId": "zai-org/GLM-5.3",
+    "promotional": false,
+    "promoNote": null,
+    "note": "兜底价",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"zai-org/GLM-5.3\",\"input\":{\"perK\":0.008,\"perM\":8,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"output\":{\"perK\":0.028,\"perM\":28,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"cacheRead\":{\"perK\":0.002,\"perM\":2,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"}}",
+      "pageUpdatedAt": null
+    }
+  },
+  {
     "modelId": "deepseek-v4-flash",
     "channelId": "siliconflow",
     "billingMode": "payg",
@@ -8340,7 +8978,40 @@
     }
   },
   {
-    "modelId": "kimi-k2",
+    "modelId": "glm-5-2",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 8,
+    "cacheRead": 2,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "兜底价",
+    "vendorModelId": "zai-org/GLM-5.2",
+    "promotional": false,
+    "promoNote": null,
+    "note": "兜底价",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"zai-org/GLM-5.2\",\"input\":{\"perK\":0.008,\"perM\":8,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"output\":{\"perK\":0.028,\"perM\":28,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"cacheRead\":{\"perK\":0.002,\"perM\":2,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"}}",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "kimi-k2-7-code",
     "channelId": "siliconflow",
     "billingMode": "payg",
     "currency": "CNY",
@@ -8402,6 +9073,270 @@
       "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
       "fetchedAt": "2026-10-27T16:30:00Z",
       "quote": "{\"name\":\"deepseek-ai/DeepSeek-V4-Pro\",\"input\":{\"perK\":0.012,\"perM\":12,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"刊例价\"},\"output\":{\"perK\":0.024,\"perM\":24,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"刊例价\"},\"cacheRead\":{\"perK\":0.001,\"perM\":1,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"刊例价\"}}",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "kimi-k2-6",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 6.5,
+    "cacheRead": 1.1,
+    "cacheWrite": null,
+    "output": 27,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "兜底价",
+    "vendorModelId": "Pro/moonshotai/Kimi-K2.6",
+    "promotional": false,
+    "promoNote": null,
+    "note": "兜底价",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"Pro/moonshotai/Kimi-K2.6\",\"input\":{\"perK\":0.0065,\"perM\":6.5,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"output\":{\"perK\":0.027,\"perM\":27,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"cacheRead\":{\"perK\":0.0011,\"perM\":1.1,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"}}",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "glm-5-1",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 8,
+    "cacheRead": 2,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "兜底价",
+    "vendorModelId": "Pro/zai-org/GLM-5.1",
+    "promotional": false,
+    "promoNote": null,
+    "note": "兜底价 · input-tokens-range: 输入 [32k, +∞); input-tokens-range: 输入 [0, 32k)",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"Pro/zai-org/GLM-5.1\",\"input\":{\"perK\":0.008,\"perM\":8,\"unit\":\"K tokens\",\"periods\":[\"input-tokens-range: 输入 [32k, +∞)\",\"input-tokens-range: 输入 [0, 32k)\"],\"scenario\":\"兜底价\"},\"output\":{\"perK\":0.028,\"perM\":28,\"unit\":\"K tokens\",\"periods\":[\"input-tokens-range: 输入 [0, 32k)\",\"input-tokens-range: 输入 [32k, +∞)\"],\"scenario\":\"兜底价\"},\"cacheRead\":{\"perK\":0.002,\"perM\":2,\"unit\":\"K tokens\",\"periods\":[\"input-t",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "deepseek-v3",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 4,
+    "cacheRead": 0.4,
+    "cacheWrite": null,
+    "output": 6,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "活动价",
+    "vendorModelId": "deepseek-ai/DeepSeek-V3.2",
+    "promotional": false,
+    "promoNote": null,
+    "note": "活动价",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"deepseek-ai/DeepSeek-V3.2\",\"input\":{\"perK\":0.004,\"perM\":4,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"活动价\"},\"output\":{\"perK\":0.006,\"perM\":6,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"活动价\"},\"cacheRead\":{\"perK\":0.0004,\"perM\":0.4,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"活动价\"}}",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "deepseek-v3",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 4,
+    "cacheRead": 0.4,
+    "cacheWrite": null,
+    "output": 12,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "兜底价",
+    "vendorModelId": "deepseek-ai/DeepSeek-V3.1-Terminus",
+    "promotional": false,
+    "promoNote": null,
+    "note": "兜底价",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"deepseek-ai/DeepSeek-V3.1-Terminus\",\"input\":{\"perK\":0.004,\"perM\":4,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"output\":{\"perK\":0.012,\"perM\":12,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"cacheRead\":{\"perK\":0.0004,\"perM\":0.4,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"}}",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "qwen3-6-35b-a3b",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 1.8,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 10.8,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "兜底价",
+    "vendorModelId": "Qwen/Qwen3.6-35B-A3B",
+    "promotional": false,
+    "promoNote": null,
+    "note": "兜底价",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"Qwen/Qwen3.6-35B-A3B\",\"input\":{\"perK\":0.0018,\"perM\":1.8,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"output\":{\"perK\":0.0108,\"perM\":10.8,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"cacheRead\":null}",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "qwen3-6-27b",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 3,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 18,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "兜底价",
+    "vendorModelId": "Qwen/Qwen3.6-27B",
+    "promotional": false,
+    "promoNote": null,
+    "note": "兜底价",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"Qwen/Qwen3.6-27B\",\"input\":{\"perK\":0.003,\"perM\":3,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"output\":{\"perK\":0.018,\"perM\":18,\"unit\":\"K tokens\",\"periods\":[\"\"],\"scenario\":\"兜底价\"},\"cacheRead\":null}",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "qwen3-5-122b-a10b",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 2,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 16,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "兜底价",
+    "vendorModelId": "Qwen/Qwen3.5-122B-A10B",
+    "promotional": false,
+    "promoNote": null,
+    "note": "兜底价 · input-tokens-range: 输入 [0, 128k); input-tokens-range: 输入 [128k, +∞)",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"Qwen/Qwen3.5-122B-A10B\",\"input\":{\"perK\":0.002,\"perM\":2,\"unit\":\"K tokens\",\"periods\":[\"input-tokens-range: 输入 [0, 128k)\",\"input-tokens-range: 输入 [128k, +∞)\"],\"scenario\":\"兜底价\"},\"output\":{\"perK\":0.016,\"perM\":16,\"unit\":\"K tokens\",\"periods\":[\"input-tokens-range: 输入 [0, 128k)\",\"input-tokens-range: 输入 [128k, +∞)\"],\"scenario\":\"兜底价\"},\"cacheRead\":null}",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "qwen3-5-35b-a3b",
+    "channelId": "siliconflow",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 1.6,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 12.8,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "兜底价",
+    "vendorModelId": "Qwen/Qwen3.5-35B-A3B",
+    "promotional": false,
+    "promoNote": null,
+    "note": "兜底价 · input-tokens-range: 输入 [0, 128k); input-tokens-range: 输入 [128k, +∞)",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://siliconflow.cn/zh-cn/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"name\":\"Qwen/Qwen3.5-35B-A3B\",\"input\":{\"perK\":0.0016,\"perM\":1.6,\"unit\":\"K tokens\",\"periods\":[\"input-tokens-range: 输入 [0, 128k)\",\"input-tokens-range: 输入 [128k, +∞)\"],\"scenario\":\"兜底价\"},\"output\":{\"perK\":0.0128,\"perM\":12.8,\"unit\":\"K tokens\",\"periods\":[\"input-tokens-range: 输入 [0, 128k)\",\"input-tokens-range: 输入 [128k, +∞)\"],\"scenario\":\"兜底价\"},\"cacheRead\":null}",
       "pageUpdatedAt": null
     }
   },
@@ -8483,7 +9418,7 @@
     "tier": {
       "kind": "none"
     },
-    "tierLabel": "刊例价",
+    "tierLabel": "免费模型",
     "vendorModelId": "Qwen/Qwen3.5-4B",
     "promotional": false,
     "promoNote": null,
@@ -8637,7 +9572,7 @@
     }
   },
   {
-    "modelId": "deepseek-r1",
+    "modelId": "deepseek-r1-0528",
     "channelId": "siliconflow",
     "billingMode": "payg",
     "currency": "CNY",
@@ -8648,7 +9583,7 @@
     "tier": {
       "kind": "none"
     },
-    "tierLabel": "刊例价",
+    "tierLabel": "免费模型",
     "vendorModelId": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
     "promotional": false,
     "promoNote": null,
@@ -8813,7 +9748,7 @@
     "tier": {
       "kind": "none"
     },
-    "tierLabel": "刊例价",
+    "tierLabel": "免费模型",
     "vendorModelId": "Qwen/Qwen2.5-7B-Instruct",
     "promotional": false,
     "promoNote": null,
@@ -9210,6 +10145,76 @@
     }
   },
   {
+    "modelId": "deepseek-v4-1-flash",
+    "channelId": "qiniu",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 2,
+    "cacheRead": 0.04,
+    "cacheWrite": null,
+    "output": 8,
+    "tier": {
+      "kind": "peak",
+      "window": "高峰时段",
+      "note": "七牛云峰谷双档计价"
+    },
+    "tierLabel": "高峰",
+    "vendorModelId": "deepseek/deepseek-v4.1-flash",
+    "promotional": false,
+    "promoNote": null,
+    "note": "七牛云官方 API 直采，峰谷双档计价",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://www.qiniu.com/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"input_range\": [0, 99999999], \"output_range\": [0, 99999999], \"in_type\": \"\", \"out_type\": \"\", \"output_peak\": {\"name\": \"输出（高峰）\", \"price\": 0.008, \"unit_size\": 1000, \"unit\": \"token\"}, \"output_offpeak\": {\"name\": \"输出（空闲）\", \"price\": 0.004, \"unit_size\": 1000, \"unit\": \"token\"}, \"cache_peak\": {\"name\": \"缓存输入（高峰）\", \"price\": 4e-05, \"unit_size\": 1000, \"unit\": \"token\"}, \"cache_offpeak\": {\"name\": \"缓存输入（空闲）\", \"pri",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "deepseek-v4-1-flash",
+    "channelId": "qiniu",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 2,
+    "cacheRead": 0.04,
+    "cacheWrite": null,
+    "output": 8,
+    "tier": {
+      "kind": "offpeak",
+      "window": "空闲时段",
+      "note": "七牛云峰谷双档计价"
+    },
+    "tierLabel": "空闲",
+    "vendorModelId": "deepseek/deepseek-v4.1-flash",
+    "promotional": false,
+    "promoNote": null,
+    "note": "七牛云官方 API 直采，峰谷双档计价",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://www.qiniu.com/pricing",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "{\"input_range\": [0, 99999999], \"output_range\": [0, 99999999], \"in_type\": \"\", \"out_type\": \"\", \"output_peak\": {\"name\": \"输出（高峰）\", \"price\": 0.008, \"unit_size\": 1000, \"unit\": \"token\"}, \"output_offpeak\": {\"name\": \"输出（空闲）\", \"price\": 0.004, \"unit_size\": 1000, \"unit\": \"token\"}, \"cache_peak\": {\"name\": \"缓存输入（高峰）\", \"price\": 4e-05, \"unit_size\": 1000, \"unit\": \"token\"}, \"cache_offpeak\": {\"name\": \"缓存输入（空闲）\", \"pri",
+      "pageUpdatedAt": null
+    }
+  },
+  {
     "modelId": "hunyuan-a13b",
     "channelId": "tencent-tokenhub",
     "billingMode": "payg",
@@ -9276,72 +10281,6 @@
     }
   },
   {
-    "modelId": "hunyuan-translation",
-    "channelId": "tencent-tokenhub",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 1.2,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": 3.6,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "Hunyuan-translation",
-    "promotional": false,
-    "promoNote": null,
-    "note": "腾讯云 TokenHub 刊例价（每百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.tencent.com/document/product/1823/97731",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "Hunyuan-translation | 输入：1.2元 输出：3.6元",
-      "pageUpdatedAt": null
-    }
-  },
-  {
-    "modelId": "hunyuan-translation-lite",
-    "channelId": "tencent-tokenhub",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 1,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": 3,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "Hunyuan-translation-lite",
-    "promotional": false,
-    "promoNote": null,
-    "note": "腾讯云 TokenHub 刊例价（每百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.tencent.com/document/product/1823/97731",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "Hunyuan-translation-lite | 输入：1元 输出：3元",
-      "pageUpdatedAt": null
-    }
-  },
-  {
     "modelId": "hunyuan-turbos-vision",
     "channelId": "tencent-tokenhub",
     "billingMode": "payg",
@@ -9404,72 +10343,6 @@
       "sourceUrl": "https://cloud.tencent.com/document/product/1823/97731",
       "fetchedAt": "2026-10-27T16:30:00Z",
       "quote": "Hunyuan-t1-vision | 输入：3元 输出：9元",
-      "pageUpdatedAt": null
-    }
-  },
-  {
-    "modelId": "hunyuan-turbos-vision-video",
-    "channelId": "tencent-tokenhub",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 3,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": 9,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "Hunyuan-turbos-vision-video",
-    "promotional": false,
-    "promoNote": null,
-    "note": "腾讯云 TokenHub 刊例价（每百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.tencent.com/document/product/1823/97731",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "Hunyuan-turbos-vision-video | 输入：3元 输出：9元",
-      "pageUpdatedAt": null
-    }
-  },
-  {
-    "modelId": "hunyuan-embedding",
-    "channelId": "tencent-tokenhub",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 0.7,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": 0.7,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "Hunyuan-embedding",
-    "promotional": false,
-    "promoNote": null,
-    "note": "腾讯云 TokenHub 刊例价（每百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.tencent.com/document/product/1823/97731",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "Hunyuan-embedding | 输入：0.7元 输出：0.7元",
       "pageUpdatedAt": null
     }
   },
@@ -9602,6 +10475,72 @@
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
       "quote": "0.0008 0.00032 | 命中缓存 0.0002 元/千tokens | 输出 0.0032 元/千tokens",
+      "pageUpdatedAt": "2026-10-18"
+    }
+  },
+  {
+    "modelId": "ernie-4-5-turbo",
+    "channelId": "baidu-qianfan",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": null,
+    "cacheRead": 0.2,
+    "cacheWrite": null,
+    "output": 3.2,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "vendorModelId": "推理服务",
+    "promotional": false,
+    "promoNote": null,
+    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "命中缓存 0.0002 元/千tokens | 输出 0.0032 元/千tokens",
+      "pageUpdatedAt": "2026-10-18"
+    }
+  },
+  {
+    "modelId": "ernie-4-5-turbo-vl-32k",
+    "channelId": "baidu-qianfan",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 3,
+    "cacheRead": 0.75,
+    "cacheWrite": null,
+    "output": 9,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "vendorModelId": "ERNIE-4.5-Turbo-VL ERNIE-4.5-Turbo-VL-32K",
+    "promotional": false,
+    "promoNote": null,
+    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "输入 0.003 元/千tokens | 命中缓存 0.00075 元/千tokens | 输出 0.009 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -9837,72 +10776,6 @@
     }
   },
   {
-    "modelId": "ernie-4-5-turbo-32k",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": null,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": 1000,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "ERNIE-4.5-Turbo-32K",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "10k 346 | 输出 1k 96.8",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
-    "modelId": "ernie-4-5-turbo-vl-32k",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": null,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": 1000,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "ERNIE-4.5-Turbo-VL-32K",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "10k 1296 | 输出 1k 272.2",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
     "modelId": "internvl3-38b",
     "channelId": "baidu-qianfan",
     "billingMode": "payg",
@@ -10035,7 +10908,7 @@
     }
   },
   {
-    "modelId": "glm-5-2-fast",
+    "modelId": "glm-5-2",
     "channelId": "baidu-qianfan",
     "billingMode": "payg",
     "currency": "CNY",
@@ -10167,7 +11040,7 @@
     }
   },
   {
-    "modelId": "kimi-k2",
+    "modelId": "kimi-k2-6",
     "channelId": "baidu-qianfan",
     "billingMode": "payg",
     "currency": "CNY",
@@ -10332,138 +11205,6 @@
     }
   },
   {
-    "modelId": "paddleocr-vl-0-9b",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 180,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": null,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "PaddleOCR-VL-0.9B",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.18 0.09",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
-    "modelId": "pp-structurev3",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 180,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": null,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "PP-StructureV3",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.18 0.09",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
-    "modelId": "deepseek-ocr",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 0.3,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": 1.2,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "DeepSeek-OCR",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.0003 | 输出 0.0012",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
-    "modelId": "qianfan-ocr",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 0.45,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": 1.8,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "Qianfan-OCR",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.00045 | 输出 0.0018",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
     "modelId": "qwen3-5-27b",
     "channelId": "mobile-cloud",
     "billingMode": "payg",
@@ -10563,6 +11304,138 @@
     }
   },
   {
+    "modelId": "glm-5-1",
+    "channelId": "mobile-cloud",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 8,
+    "cacheRead": 2,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "vendorModelId": "GLM-5.1",
+    "promotional": false,
+    "promoNote": null,
+    "note": "移动云 MoMA 平台按量计费",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://ecloud.10086.cn/op-help-center/doc/article/91592",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "GLM-5.1 | 输入长度(0,32K] 输入tokens | 6元/百万tokens | 6000点/百万tokens | GLM-5.1 || 输入长度(0,32K] 输出tokens | 24元/百万tokens | 24000点/百万tokens || 输入长度(0,32K] 缓存命中 | 1.3元/百万tokens | 1300点/百万tokens || 输入长度(32K,200K] 输入tokens | 8元/百万tokens | 8000点/百万tokens || 输入长度(32K,200K] 输出tokens | 28元/百万tokens | 28000点/百万tokens || 输入长度(32K,200K] 缓存命中 | 2元/百万tokens | 2000点/百万tokens",
+      "pageUpdatedAt": "2026/09/23"
+    }
+  },
+  {
+    "modelId": "glm-5-2",
+    "channelId": "mobile-cloud",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 8,
+    "cacheRead": 2,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "vendorModelId": "GLM-5.2",
+    "promotional": false,
+    "promoNote": null,
+    "note": "移动云 MoMA 平台按量计费",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://ecloud.10086.cn/op-help-center/doc/article/91592",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "GLM-5.2 | 输入tokens | 8元/百万tokens | 8000点/百万tokens | GLM-5.2 || 缓存命中 | 2元/百万tokens | 2000点/百万tokens || 输出tokens | 28元/百万tokens | 28000点/百万tokens",
+      "pageUpdatedAt": "2026/09/23"
+    }
+  },
+  {
+    "modelId": "glm-5-3",
+    "channelId": "mobile-cloud",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 8,
+    "cacheRead": 2,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "vendorModelId": "GLM-5.3",
+    "promotional": false,
+    "promoNote": null,
+    "note": "移动云 MoMA 平台按量计费",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://ecloud.10086.cn/op-help-center/doc/article/91592",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "GLM-5.3 | 输入tokens | 8元/百万tokens | 8000点/百万tokens | GLM-5.3 || 缓存命中 | 2元/百万tokens | 2000点/百万tokens || 输出tokens | 28元/百万tokens | 28000点/百万tokens",
+      "pageUpdatedAt": "2026/09/23"
+    }
+  },
+  {
+    "modelId": "glm-5-3-flash",
+    "channelId": "mobile-cloud",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 0.8,
+    "cacheRead": 0.23,
+    "cacheWrite": null,
+    "output": 2.8,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "vendorModelId": "GLM-5.3-Flash",
+    "promotional": false,
+    "promoNote": null,
+    "note": "移动云 MoMA 平台按量计费",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://ecloud.10086.cn/op-help-center/doc/article/91592",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "GLM-5.3-Flash | 输入tokens | 0.8元/百万tokens | 800点/百万tokens | GLM-5.3-Flash || 缓存命中 | 0.23元/百万tokens | 230点/百万tokens || 输出tokens | 2.8元/百万tokens | 2800点/百万tokens",
+      "pageUpdatedAt": "2026/09/23"
+    }
+  },
+  {
     "modelId": "deepseek-v4-flash",
     "channelId": "mobile-cloud",
     "billingMode": "payg",
@@ -10592,6 +11465,39 @@
       "sourceUrl": "https://ecloud.10086.cn/op-help-center/doc/article/91592",
       "fetchedAt": "2026-10-27T16:30:00Z",
       "quote": "DeepSeek-V4-Flash | 输入tokens | 1元/百万tokens | 1000 点/百万tokens | DeepSeek-V4-Flash || 输出tokens | 2元/百万tokens | 2000点/百万tokens || DeepSeek-V4-Flash-0731 | 输入 tokens | 3元/百万tokens | 3000点/百万tokens | DeepSeek-V4-Flash-0731 || 输出 tokens | 9元/百万tokens | 9000点/百万tokens || 缓存命中 | 0.1元/百万tokens | 100点/百万tokens",
+      "pageUpdatedAt": "2026/09/23"
+    }
+  },
+  {
+    "modelId": "deepseek-v4-1-flash",
+    "channelId": "mobile-cloud",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 2,
+    "cacheRead": 0.04,
+    "cacheWrite": null,
+    "output": 8,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "vendorModelId": "DeepSeek-V4.1-Flash",
+    "promotional": false,
+    "promoNote": null,
+    "note": "移动云 MoMA 平台按量计费",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://ecloud.10086.cn/op-help-center/doc/article/91592",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "DeepSeek-V4.1-Flash | 输入 tokens | 2元/百万tokens | 2000点/百万tokens | DeepSeek-V4.1-Flash || 输出 tokens | 8元/百万tokens | 8000点/百万tokens || 缓存命中 | 0.04元/百万tokens | 40点/百万tokens",
       "pageUpdatedAt": "2026/09/23"
     }
   },
@@ -10959,7 +11865,7 @@
     }
   },
   {
-    "modelId": "openpangu-2-0-pro",
+    "modelId": "openpangu-2-0-flash",
     "channelId": "huawei-modelarts",
     "billingMode": "payg",
     "currency": "CNY",
@@ -10992,7 +11898,271 @@
     }
   },
   {
-    "modelId": "kimi-k2",
+    "modelId": "glm-5-3",
+    "channelId": "huawei-modelarts",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 8,
+    "cacheRead": 2,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "-",
+    "vendorModelId": "GLM-5.3",
+    "promotional": false,
+    "promoNote": null,
+    "note": "华为云 MaaS 官方计费说明文档（文档版本 01 / 2026-10-23）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://support.huaweicloud.com/price-maas/MaaS%E6%A8%A1%E5%9E%8B%E5%8D%B3%E6%9C%8D%E5%8A%A1%20%E8%AE%A1%E8%B4%B9%E8%AF%B4%E6%98%8E-pdf.pdf",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "GLM-5.3 | 否 | - | - | 2 | 8 | 28",
+      "pageUpdatedAt": "2026-10-23"
+    }
+  },
+  {
+    "modelId": "glm-5-2",
+    "channelId": "huawei-modelarts",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 9.6,
+    "cacheRead": 2.4,
+    "cacheWrite": null,
+    "output": 33.6,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "-",
+    "vendorModelId": "GLM-5.2- Arkts\u0002 Spark",
+    "promotional": false,
+    "promoNote": null,
+    "note": "华为云 MaaS 官方计费说明文档（文档版本 01 / 2026-10-23）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://support.huaweicloud.com/price-maas/MaaS%E6%A8%A1%E5%9E%8B%E5%8D%B3%E6%9C%8D%E5%8A%A1%20%E8%AE%A1%E8%B4%B9%E8%AF%B4%E6%98%8E-pdf.pdf",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "GLM-5.2- Arkts\u0002 Spark | 否 | - | - | 2.4 | 9.6 | 33.6",
+      "pageUpdatedAt": "2026-10-23"
+    }
+  },
+  {
+    "modelId": "glm-5-2",
+    "channelId": "huawei-modelarts",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 8,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "-",
+    "vendorModelId": "GLM-5.2",
+    "promotional": false,
+    "promoNote": null,
+    "note": "华为云 MaaS 官方计费说明文档（文档版本 01 / 2026-10-23）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://support.huaweicloud.com/price-maas/MaaS%E6%A8%A1%E5%9E%8B%E5%8D%B3%E6%9C%8D%E5%8A%A1%20%E8%AE%A1%E8%B4%B9%E8%AF%B4%E6%98%8E-pdf.pdf",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "GLM-5.2 | 是 | - | 时段 1 | - | 8 | 28",
+      "pageUpdatedAt": "2026-10-23"
+    }
+  },
+  {
+    "modelId": "glm-5-2",
+    "channelId": "huawei-modelarts",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 5.6,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 19.6,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "- 忙闲时段2",
+    "vendorModelId": "GLM-5.2",
+    "promotional": false,
+    "promoNote": null,
+    "note": "华为云 MaaS 官方计费说明文档（文档版本 01 / 2026-10-23）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://support.huaweicloud.com/price-maas/MaaS%E6%A8%A1%E5%9E%8B%E5%8D%B3%E6%9C%8D%E5%8A%A1%20%E8%AE%A1%E8%B4%B9%E8%AF%B4%E6%98%8E-pdf.pdf",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": " |  |  | 时段 2 |  | 5.6 | 19.6",
+      "pageUpdatedAt": "2026-10-23"
+    }
+  },
+  {
+    "modelId": "glm-5-1",
+    "channelId": "huawei-modelarts",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 6,
+    "cacheRead": 1.3,
+    "cacheWrite": null,
+    "output": 24,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "0≤Token<32K",
+    "vendorModelId": "GLM-5.1",
+    "promotional": false,
+    "promoNote": null,
+    "note": "华为云 MaaS 官方计费说明文档（文档版本 01 / 2026-10-23）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://support.huaweicloud.com/price-maas/MaaS%E6%A8%A1%E5%9E%8B%E5%8D%B3%E6%9C%8D%E5%8A%A1%20%E8%AE%A1%E8%B4%B9%E8%AF%B4%E6%98%8E-pdf.pdf",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "GLM-5.1 | 是 | 0≤Token<32 K | 时段 1 | 1.3 | 6 | 24",
+      "pageUpdatedAt": "2026-10-23"
+    }
+  },
+  {
+    "modelId": "glm-5-1",
+    "channelId": "huawei-modelarts",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 4.2,
+    "cacheRead": 0.91,
+    "cacheWrite": null,
+    "output": 16.8,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "0≤Token<32K 忙闲时段2",
+    "vendorModelId": "GLM-5.1",
+    "promotional": false,
+    "promoNote": null,
+    "note": "华为云 MaaS 官方计费说明文档（文档版本 01 / 2026-10-23）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://support.huaweicloud.com/price-maas/MaaS%E6%A8%A1%E5%9E%8B%E5%8D%B3%E6%9C%8D%E5%8A%A1%20%E8%AE%A1%E8%B4%B9%E8%AF%B4%E6%98%8E-pdf.pdf",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": " |  |  | 时段 2 | 0.91 | 4.2 | 16.8",
+      "pageUpdatedAt": "2026-10-23"
+    }
+  },
+  {
+    "modelId": "glm-5-1",
+    "channelId": "huawei-modelarts",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 8,
+    "cacheRead": 2,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "Token≥32K",
+    "vendorModelId": "GLM-5.1",
+    "promotional": false,
+    "promoNote": null,
+    "note": "华为云 MaaS 官方计费说明文档（文档版本 01 / 2026-10-23）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://support.huaweicloud.com/price-maas/MaaS%E6%A8%A1%E5%9E%8B%E5%8D%B3%E6%9C%8D%E5%8A%A1%20%E8%AE%A1%E8%B4%B9%E8%AF%B4%E6%98%8E-pdf.pdf",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": " |  | Token≥32K | 时段 1 | 2 | 8 | 28",
+      "pageUpdatedAt": "2026-10-23"
+    }
+  },
+  {
+    "modelId": "glm-5-1",
+    "channelId": "huawei-modelarts",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 5.6,
+    "cacheRead": 1.4,
+    "cacheWrite": null,
+    "output": 19.6,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "Token≥32K 忙闲时段2",
+    "vendorModelId": "GLM-5.1",
+    "promotional": false,
+    "promoNote": null,
+    "note": "华为云 MaaS 官方计费说明文档（文档版本 01 / 2026-10-23）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://support.huaweicloud.com/price-maas/MaaS%E6%A8%A1%E5%9E%8B%E5%8D%B3%E6%9C%8D%E5%8A%A1%20%E8%AE%A1%E8%B4%B9%E8%AF%B4%E6%98%8E-pdf.pdf",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": " |  |  | 时段 2 | 1.4 | 5.6 | 19.6",
+      "pageUpdatedAt": "2026-10-23"
+    }
+  },
+  {
+    "modelId": "kimi-k2-6",
     "channelId": "huawei-modelarts",
     "billingMode": "payg",
     "currency": "CNY",
@@ -11025,7 +12195,7 @@
     }
   },
   {
-    "modelId": "kimi-k2",
+    "modelId": "kimi-k2-6",
     "channelId": "huawei-modelarts",
     "billingMode": "payg",
     "currency": "CNY",

@@ -56,8 +56,8 @@
     "docsUrl": null
   },
   {
-    "id": "deepseek-ocr",
-    "name": "DeepSeek-OCR",
+    "id": "deepseek-r1",
+    "name": "DeepSeek R1",
     "vendor": "深度求索",
     "origin": "domestic",
     "openWeights": false,
@@ -70,8 +70,8 @@
     "docsUrl": null
   },
   {
-    "id": "deepseek-r1",
-    "name": "DeepSeek R1",
+    "id": "deepseek-r1-0528",
+    "name": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
     "vendor": "深度求索",
     "origin": "domestic",
     "openWeights": false,
@@ -80,7 +80,7 @@
     "releasedAt": null,
     "params": null,
     "activeParams": null,
-    "pricingUrl": "https://siliconflow.cn/zh-cn/pricing",
+    "pricingUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
     "docsUrl": null
   },
   {
@@ -99,7 +99,7 @@
   },
   {
     "id": "deepseek-v4-1-flash",
-    "name": "DeepSeek V4.1 Flash",
+    "name": "DeepSeek V4.1-Flash-1017",
     "vendor": "深度求索",
     "origin": "domestic",
     "openWeights": true,
@@ -196,6 +196,20 @@
     "docsUrl": null
   },
   {
+    "id": "ernie-4-5-turbo",
+    "name": "ERNIE-4.5-Turbo-VL ERNIE-4.5-Turbo-VL-32K",
+    "vendor": "百度",
+    "origin": "domestic",
+    "openWeights": false,
+    "contextWindow": null,
+    "maxOutput": null,
+    "releasedAt": null,
+    "params": null,
+    "activeParams": null,
+    "pricingUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+    "docsUrl": null
+  },
+  {
     "id": "ernie-4-5-turbo-128k-preview",
     "name": "ERNIE-4.5-Turbo-128K-Preview",
     "vendor": "百度",
@@ -225,7 +239,7 @@
   },
   {
     "id": "ernie-4-5-turbo-vl-32k",
-    "name": "ERNIE-4.5-Turbo-VL-32K",
+    "name": "ERNIE-4.5-Turbo-VL ERNIE-4.5-Turbo-VL-32K",
     "vendor": "百度",
     "origin": "domestic",
     "openWeights": false,
@@ -319,20 +333,6 @@
     "params": null,
     "activeParams": null,
     "pricingUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
-    "docsUrl": null
-  },
-  {
-    "id": "glm-5-2-fast",
-    "name": "GLM-5.2-Fast",
-    "vendor": "智谱 AI",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
     "docsUrl": null
   },
   {
@@ -434,20 +434,6 @@
     "docsUrl": null
   },
   {
-    "id": "hunyuan-embedding",
-    "name": "Hunyuan-embedding",
-    "vendor": "腾讯",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.tencent.com/document/product/1823/97731",
-    "docsUrl": null
-  },
-  {
     "id": "hunyuan-hy3",
     "name": "混元 Hy3",
     "vendor": "腾讯",
@@ -490,50 +476,8 @@
     "docsUrl": null
   },
   {
-    "id": "hunyuan-translation",
-    "name": "Hunyuan-translation",
-    "vendor": "腾讯",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.tencent.com/document/product/1823/97731",
-    "docsUrl": null
-  },
-  {
-    "id": "hunyuan-translation-lite",
-    "name": "Hunyuan-translation-lite",
-    "vendor": "腾讯",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.tencent.com/document/product/1823/97731",
-    "docsUrl": null
-  },
-  {
     "id": "hunyuan-turbos-vision",
     "name": "Hunyuan-turbos-vision",
-    "vendor": "腾讯",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.tencent.com/document/product/1823/97731",
-    "docsUrl": null
-  },
-  {
-    "id": "hunyuan-turbos-vision-video",
-    "name": "Hunyuan-turbos-vision-video",
     "vendor": "腾讯",
     "origin": "domestic",
     "openWeights": false,
@@ -574,6 +518,34 @@
     "docsUrl": null
   },
   {
+    "id": "kimi-k2-6",
+    "name": "Kimi-K2.6",
+    "vendor": "月之暗面",
+    "origin": "domestic",
+    "openWeights": false,
+    "contextWindow": null,
+    "maxOutput": null,
+    "releasedAt": null,
+    "params": null,
+    "activeParams": null,
+    "pricingUrl": "https://siliconflow.cn/zh-cn/pricing",
+    "docsUrl": null
+  },
+  {
+    "id": "kimi-k2-7-code",
+    "name": "moonshotai/Kimi-K2.7-Code",
+    "vendor": "月之暗面",
+    "origin": "domestic",
+    "openWeights": false,
+    "contextWindow": null,
+    "maxOutput": null,
+    "releasedAt": null,
+    "params": null,
+    "activeParams": null,
+    "pricingUrl": "https://siliconflow.cn/zh-cn/pricing",
+    "docsUrl": null
+  },
+  {
     "id": "kimi-k3",
     "name": "Kimi K3",
     "vendor": "月之暗面",
@@ -600,20 +572,6 @@
     "activeParams": "104B",
     "pricingUrl": "https://platform.moonshot.cn/docs/pricing/chat",
     "docsUrl": "https://platform.moonshot.cn/docs"
-  },
-  {
-    "id": "kimi-k3-1-pro-highspeed",
-    "name": "Kimi K3.1 Pro（高速版）",
-    "vendor": "月之暗面",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://platform.kimi.com/docs/pricing/chat",
-    "docsUrl": null
   },
   {
     "id": "mimo-v2-5",
@@ -686,8 +644,22 @@
     "docsUrl": "https://platform.minimaxi.com/document"
   },
   {
-    "id": "openpangu-2-0-pro",
-    "name": "open Pangu -2.0-Pro",
+    "id": "minimax-m3-1-flash",
+    "name": "MiniMax-M3.1-Flash",
+    "vendor": "MiniMax",
+    "origin": "domestic",
+    "openWeights": false,
+    "contextWindow": null,
+    "maxOutput": null,
+    "releasedAt": null,
+    "params": null,
+    "activeParams": null,
+    "pricingUrl": "https://platform.minimax.cn/docs/pricing/overview",
+    "docsUrl": null
+  },
+  {
+    "id": "openpangu-2-0-flash",
+    "name": "open Pangu -2.0-Flash",
     "vendor": "华为",
     "origin": "domestic",
     "openWeights": false,
@@ -700,9 +672,9 @@
     "docsUrl": null
   },
   {
-    "id": "paddleocr-vl-0-9b",
-    "name": "PaddleOCR-VL-0.9B",
-    "vendor": "百度",
+    "id": "openpangu-2-0-pro",
+    "name": "open Pangu -2.0-Pro",
+    "vendor": "华为",
     "origin": "domestic",
     "openWeights": false,
     "contextWindow": null,
@@ -710,35 +682,7 @@
     "releasedAt": null,
     "params": null,
     "activeParams": null,
-    "pricingUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-    "docsUrl": null
-  },
-  {
-    "id": "pp-structurev3",
-    "name": "PP-StructureV3",
-    "vendor": "百度",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-    "docsUrl": null
-  },
-  {
-    "id": "qianfan-ocr",
-    "name": "Qianfan-OCR",
-    "vendor": "百度",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+    "pricingUrl": "https://support.huaweicloud.com/price-maas/MaaS%E6%A8%A1%E5%9E%8B%E5%8D%B3%E6%9C%8D%E5%8A%A1%20%E8%AE%A1%E8%B4%B9%E8%AF%B4%E6%98%8E-pdf.pdf",
     "docsUrl": null
   },
   {
@@ -924,6 +868,34 @@
     "docsUrl": null
   },
   {
+    "id": "qwen3-6-27b",
+    "name": "Qwen/Qwen3.6-27B",
+    "vendor": "阿里巴巴",
+    "origin": "domestic",
+    "openWeights": false,
+    "contextWindow": null,
+    "maxOutput": null,
+    "releasedAt": null,
+    "params": null,
+    "activeParams": null,
+    "pricingUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "docsUrl": null
+  },
+  {
+    "id": "qwen3-6-35b-a3b",
+    "name": "Qwen/Qwen3.6-35B-A3B",
+    "vendor": "阿里巴巴",
+    "origin": "domestic",
+    "openWeights": false,
+    "contextWindow": null,
+    "maxOutput": null,
+    "releasedAt": null,
+    "params": null,
+    "activeParams": null,
+    "pricingUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+    "docsUrl": null
+  },
+  {
     "id": "qwen3-7-flash",
     "name": "Qwen3.7-Flash",
     "vendor": "阿里巴巴",
@@ -1033,6 +1005,20 @@
     "params": null,
     "activeParams": null,
     "pricingUrl": "https://ecloud.10086.cn/op-help-center/doc/article/91592",
+    "docsUrl": null
+  },
+  {
+    "id": "step-5-preview",
+    "name": "Step 5 Preview",
+    "vendor": "阶跃星辰",
+    "origin": "domestic",
+    "openWeights": false,
+    "contextWindow": null,
+    "maxOutput": null,
+    "releasedAt": null,
+    "params": null,
+    "activeParams": null,
+    "pricingUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
     "docsUrl": null
   }
 ]

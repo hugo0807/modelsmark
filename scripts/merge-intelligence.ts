@@ -1,24 +1,37 @@
 /**
- * 把 .probe/aa_intelligence.json（Artificial Analysis 抓取结果）合并进
- * data/seeds/intelligence.json。
+ * 把 Artificial Analysis 的榜单快照合并进 data/seeds/intelligence.json。
  *
- * 铁律：只使用 AA 页面上实际读到的 index 值。映射不到项目模型 id 的直接跳过，
+ * 数据源优先级：
+ *   1. data/snapshots/aa_leaderboard.json  —— /leaderboards/models 全量榜单（272 行）
+ *   2. data/snapshots/aa_intelligence.json —— /models 图表榜（仅 28 行，兜底）
+ *
+ * 为什么改用榜单：/models 图表默认只渲染 28 条，导致 75 个模型里只有 13 个
+ * 有智能指数，页面上整列是横杠。榜单一次性给出全量，覆盖直接翻三倍。
+ *
+ * 铁律：只使用 AA 页面上实际读到的数值。映射不到项目模型 id 的直接跳过，
  * 绝不反推、绝不用近似值。
  */
 import fs from 'fs';
 import path from 'path';
+import { guessSlug } from './slug-rules';
 
 const ROOT = process.cwd();
 
-interface AARec {
+interface LeaderRow {
   name: string;
-  index: number;
-  rank: number;
+  creator: string;
+  context: string;
+  license: string;
+  index: number | null;
+  costPerTaskUsd: number | null;
+  inputUsd: number | null;
+  outputUsd: number | null;
+  outputTokensPerSec: number | null;
 }
 
 interface Intelligence {
   modelId: string;
-  index: number;
+  index: number | null;
   rank: number | null;
   costPerTaskUsd: number | null;
   outputTokensPerSec: number | null;
@@ -28,43 +41,68 @@ interface Intelligence {
   note?: string;
 }
 
-/** AA 模型名 → 项目模型 id。左边是 AA 页面上的原文。 */
+/**
+ * AA 模型名 → 项目模型 id 的人工兜底。
+ *
+ * guessSlug 处理绝大多数写法，剩下的是「同一型号有多个推理档位」
+ * 或「带日期版本」的情况 —— 这类必须人工确认，否则会把
+ * Qwen3.8 Max (0902) 的分数记到 Qwen3.8 Max 头上。
+ */
 const AA_TO_SLUG: Record<string, string> = {
-  'Claude Opus 5.5 (max with fallback)': 'claude-opus-5-5',
-  'Claude Sonnet 5.5 (max with fallback)': 'claude-sonnet-5-5',
-  'Claude Haiku 5.5 (max with fallback)': 'claude-haiku-5-5',
-  'Claude Fable 5.1 (max with fallback)': 'claude-fable-5-1',
-  'GPT-6 Astra (max)': 'gpt-6-astra',
-  'GPT-6.1 Sol (max)': 'gpt-6-1-sol',
-  'GPT-6.1 Terra (max)': 'gpt-6-1-terra',
-  'GPT-6 Luna (max)': 'gpt-6-luna',
-  'Gemini 4 Argon (high)': 'gemini-4-argon',
-  'Gemini 3.8 Flash (high)': 'gemini-3-8-flash',
-  'Grok 4.7 (xhigh)': 'grok-4-7',
-  'Kimi K3.1 Pro': 'kimi-k3-1-pro',
-  'Muse Wonder (max)': 'muse-wonder',
-  'Muse Wonder Full (max)': 'muse-wonder-full',
-  'Muse Spark Open (xhigh)': 'muse-spark-open',
-  'DeepSeek V4.1 Flash 1017 (max)': 'deepseek-v4-1-flash',
-  'GLM-5.3 (max)': 'glm-5-3',
-  'MiMo-V2.6-Pro': 'mimo-v2-6-pro',
-  'Ling 3.1 Flash 1019': 'ling-3-1-flash-1019',
-  'MiniMax-M3.1-Flash': 'minimax-m3-1-flash',
-  'Step 5 Preview': 'step-5-preview',
-  'Mistral Large 4 Preview': 'mistral-large-4-preview',
   'Qwen3.8 Max (0902)': 'qwen3-8-max-0902',
-  'Qwen3.8 27B (xhigh)': 'qwen3-8-27b',
-  'K2 Horizon 375B A23B': 'k2-horizon-375b-a23b',
-  'Beam 1.0': 'reflection-beam',
-  'Nemotron 3.5 Super VL': 'nemotron-3-5-super-vl',
-  'Inkling (xhigh)': 'inkling',
+  'DeepSeek V4.1 Flash 1017 (max)': 'deepseek-v4-1-flash',
+  'DeepSeek V4 Pro 0813 (max)': 'deepseek-v4-pro',
+  'MiniMax-M3.1-Flash': 'minimax-m3-1-flash',
 };
 
-function main() {
-  // AA 抓取结果随仓库入库（CI 的定时任务不会现场抓 AA）
+/** 榜单里带推理档位后缀的名字，去掉后缀再试一次 slug 规则 */
+const STRIP_SUFFIX =
+  /\s*\((?:max|xhigh|high|medium|low|minimal|non-reasoning|thinking|with fallback|default fallback|[^)]*)\)\s*$/i;
+
+function loadLeaderboard(): { rows: LeaderRow[]; measuredAt: string; sourceUrl: string } {
+  const lbPath = path.join(ROOT, 'data/snapshots', 'aa_leaderboard.json');
+  if (fs.existsSync(lbPath)) {
+    const lb = JSON.parse(fs.readFileSync(lbPath, 'utf8'));
+    return {
+      rows: lb.rows as LeaderRow[],
+      measuredAt: lb.fetchedAt ?? new Date().toISOString().slice(0, 10),
+      sourceUrl: lb.sourceUrl ?? 'https://artificialanalysis.ai/leaderboards/models',
+    };
+  }
+
+  // 兜底：旧的 /models 图表快照（只有 28 条，且没有成本/速度字段）
   const aaPath = path.join(ROOT, 'data/snapshots', 'aa_intelligence.json');
-  const aa = JSON.parse(fs.readFileSync(aaPath, 'utf8')) as AARec[];
-  console.log('AA 抓取:', aa.length, '条');
+  const aa = JSON.parse(fs.readFileSync(aaPath, 'utf8')) as {
+    name: string;
+    index: number;
+    rank: number;
+  }[];
+  return {
+    rows: aa.map((r) => ({
+      name: r.name,
+      creator: '',
+      context: '',
+      license: '',
+      index: r.index,
+      costPerTaskUsd: null,
+      inputUsd: null,
+      outputUsd: null,
+      outputTokensPerSec: null,
+    })),
+    measuredAt: '2026-10-28',
+    sourceUrl: 'https://artificialanalysis.ai/models',
+  };
+}
+
+function slugFor(name: string): string | null {
+  const manual = AA_TO_SLUG[name];
+  if (manual) return manual;
+  return guessSlug(name) ?? guessSlug(name.replace(STRIP_SUFFIX, '').trim()) ?? null;
+}
+
+function main() {
+  const { rows, measuredAt } = loadLeaderboard();
+  console.log('AA 榜单:', rows.length, '条');
 
   const modelsPath = path.join(ROOT, 'data/seeds/models.json');
   const models = JSON.parse(fs.readFileSync(modelsPath, 'utf8')) as { id: string; name: string }[];
@@ -74,66 +112,68 @@ function main() {
   const prev = JSON.parse(fs.readFileSync(intelPath, 'utf8')) as Intelligence[];
   const byId = new Map(prev.map((r) => [r.modelId, r]));
 
-  const MEASURED_AT = '2026-10-28';
+  /*
+   * 排名：按榜单全量行降序编号（与 AA 榜单顺序一致）。
+   * 只算有指数的行 —— 没有指数的行不占名次。
+   */
+  const ranked = rows
+    .filter((r) => r.index != null)
+    .sort((a, b) => (b.index ?? 0) - (a.index ?? 0));
+  const rankOf = new Map<LeaderRow, number>();
+  ranked.forEach((r, i) => rankOf.set(r, i + 1));
+
+  /*
+   * 同一型号在榜单里有多个推理档位（max / high / low…），分数不同。
+   * AA 自己的图表用的是该型号的最高档，这里保持一致：每个型号只取指数最高的那一行。
+   */
+  const best = new Map<string, { row: LeaderRow; rank: number }>();
+  for (const r of rows) {
+    if (r.index == null) continue;
+    const slug = slugFor(r.name);
+    if (!slug || !modelIds.has(slug)) continue;
+    const cur = best.get(slug);
+    if (!cur || r.index > (cur.row.index ?? 0)) {
+      best.set(slug, { row: r, rank: rankOf.get(r) ?? null });
+    }
+  }
+
   let added = 0;
   let updated = 0;
-  const unmatched: string[] = [];
-
-  for (const r of aa) {
-    const slug = AA_TO_SLUG[r.name];
-    if (!slug) {
-      unmatched.push(r.name);
-      continue;
-    }
-    if (!modelIds.has(slug)) {
-      // 模型表里还没有这个模型 —— 记下来，稍后由 build-models 补
-      unmatched.push(`${r.name} → ${slug}（模型表无此 id）`);
-      continue;
-    }
+  for (const [slug, { row, rank }] of best) {
     const old = byId.get(slug);
+    const next: Intelligence = {
+      modelId: slug,
+      index: row.index,
+      rank,
+      costPerTaskUsd: row.costPerTaskUsd,
+      outputTokensPerSec: row.outputTokensPerSec,
+      source: 'Artificial Analysis',
+      measuredAt,
+      aaName: row.name,
+    };
     if (old) {
-      old.index = r.index;
-      old.rank = r.rank;
-      old.source = 'Artificial Analysis';
-      old.measuredAt = MEASURED_AT;
-      old.aaName = r.name;
+      byId.set(slug, { ...old, ...next });
       updated++;
     } else {
-      byId.set(slug, {
-        modelId: slug,
-        index: r.index,
-        rank: r.rank,
-        costPerTaskUsd: null,
-        outputTokensPerSec: null,
-        source: 'Artificial Analysis',
-        measuredAt: MEASURED_AT,
-        aaName: r.name,
-      });
+      byId.set(slug, next);
       added++;
     }
   }
 
   /*
    * 清理不可靠的历史数据：
-   * 旧文件里有 9 条 index 为小数（45.42 / 42.7 / 41.8 / 25.3）或 null 的记录，
-   * 同样标注来源是 Artificial Analysis —— 但 AA 的智能指数是整数，
-   * 这些值显然不是从 AA 读到的（可能是早期人工填写或其他口径）。
-   * 其中 qwen3-8-max 的 45.42 与本次抓到的真实值 34 直接冲突。
-   *
-   * 原则：只保留本次从 AA 实际抓到的记录。旧记录若本次未覆盖到，
-   * 一律清空 index（保留条目但标注「未收录」），而不是留着一个来源不明的数字。
+   * 本次榜单没覆盖到的旧记录一律清空 index，而不是留着来源不明的数字。
+   * （旧文件里有过 45.42 / 42.7 这类小数指数 —— AA 的智能指数是整数，
+   *   那些值不是从 AA 读到的。）
    */
-  const fetchedSlugs = new Set(
-    aa.map((r) => AA_TO_SLUG[r.name]).filter((x): x is string => Boolean(x))
-  );
   for (const rec of byId.values()) {
-    if (fetchedSlugs.has(rec.modelId)) continue;
+    if (best.has(rec.modelId)) continue;
     if (!rec.aaName) {
       rec.index = null;
       rec.rank = null;
       rec.source = 'Artificial Analysis';
-      rec.measuredAt = MEASURED_AT;
-      rec.note = '本次快照未覆盖该模型，指数待补';
+      rec.measuredAt = measuredAt;
+      rec.note = '本次榜单快照未覆盖该模型，指数待补';
     }
   }
 
@@ -144,11 +184,22 @@ function main() {
     return (a.rank ?? 999) - (b.rank ?? 999);
   });
   fs.writeFileSync(intelPath, JSON.stringify(out, null, 2), 'utf8');
-  console.log(`更新 ${updated} 条，新增 ${added} 条，合计 ${out.length} 条`);
 
+  const withIndex = out.filter((r) => r.index != null).length;
+  console.log(
+    `更新 ${updated} 条，新增 ${added} 条，合计 ${out.length} 条（其中有指数 ${withIndex} 条）`
+  );
+
+  const unmatched = rows.filter((r) => {
+    if (r.index == null) return false;
+    const s = slugFor(r.name);
+    return !s || !modelIds.has(s);
+  });
   if (unmatched.length) {
-    console.log('\n未匹配（未写入）：');
-    for (const u of unmatched) console.log('  ', u);
+    console.log('\n榜单中本站未收录的模型:', unmatched.length, '个（不写入）');
+    for (const u of unmatched.slice(0, 25)) {
+      console.log(`  ${u.name} → ${slugFor(u.name) ?? '(无法识别)'}`);
+    }
   }
 }
 

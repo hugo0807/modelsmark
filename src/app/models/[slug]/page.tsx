@@ -59,6 +59,43 @@ const BADGE: Record<ChannelType, string> = {
   third: 'badge-third',
 };
 
+/**
+ * 关键维度卡：标题右侧的「?」悬停后展开口径说明。
+ *
+ * 这四个数字对不熟悉比价口径的人来说是不可解读的 ——
+ * 「云厂商均价 13.00」到底是贵还是便宜？「官方价」为什么是空的？
+ * 所以每个维度都必须能点出它的定义、算法与适用边界。
+ */
+function MetricCard({
+  label,
+  value,
+  note,
+  hint,
+}: {
+  label: string;
+  value: React.ReactNode;
+  note: React.ReactNode;
+  hint: { title: string; body: React.ReactNode; limit?: string };
+}) {
+  return (
+    <div className="metric">
+      <div className="metric-label">
+        {label}
+        <span className="metric-info" aria-hidden>
+          ?
+        </span>
+      </div>
+      <div className="metric-value">{value}</div>
+      <div className="metric-note">{note}</div>
+      <div className="metric-hint">
+        <span className="hint-title">{hint.title}</span>
+        {hint.body}
+        {hint.limit ? <span className="hint-limit">{hint.limit}</span> : null}
+      </div>
+    </div>
+  );
+}
+
 export default async function ModelPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const detail = getModelDetail(slug);
@@ -102,42 +139,86 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
       </section>
 
       <div className="metrics">
-        <div className="metric">
-          <div className="metric-label">云厂商均价</div>
-          <div className="metric-value">
-            <Num v={detail.cloudAvgCny} prefix="¥" />
-          </div>
-          <div className="metric-note">
-            {detail.cloudCount} 家云厂商均值 · 3:1 混合价
-          </div>
-        </div>
-        <div className="metric">
-          <div className="metric-label">官方刊例价</div>
-          <div className="metric-value">
-            <Num v={detail.officialBlendedCny} prefix="¥" />
-          </div>
-          <div className="metric-note">厂商第一方直销价，比价的唯一基准</div>
-        </div>
-        <div className="metric">
-          <div className="metric-label">最低混合价</div>
-          <div className="metric-value">
-            <Num v={detail.lowestBlendedCny} prefix="¥" />
-          </div>
-          <div className="metric-note">{detail.lowestChannelName ?? '—'}</div>
-        </div>
-        <div className="metric">
-          <div className="metric-label">综合智能指数</div>
-          <div className="metric-value">
-            {intelligence?.index ?? (
+        <MetricCard
+          label="最低混合价"
+          value={<Num v={detail.lowestBlendedCny} prefix="¥" />}
+          note={
+            detail.lowestChannelName ? (
+              <>
+                {detail.lowestChannelName} · 实际能拿到的最低价
+              </>
+            ) : (
+              '暂无可比报价'
+            )
+          }
+          hint={{
+            title: '最低混合价',
+            body: (
+              <>
+                全渠道里<b>最低</b>的那条报价，按 <b>输入 : 输出 = 3 : 1</b> 加权换算成
+                「元 / 百万 tokens」。相比均价，它回答的是「同样用量在哪家买最省」。
+              </>
+            ),
+            limit:
+              '已排除批量推理、闲时折扣、长上下文溢价等不可复现的档位；免费模型与限流特惠价不参与计算。',
+          }}
+        />
+        <MetricCard
+          label="官方刊例价"
+          value={<Num v={detail.officialBlendedCny} prefix="¥" />}
+          note="厂商第一方直销价，比价的唯一基准"
+          hint={{
+            title: '官方刊例价',
+            body: (
+              <>
+                模型厂商<b>自己</b>在官网卖的价格（如 OpenAI、Anthropic、智谱的直营渠道）。
+                其他所有渠道相对它的溢价或折扣，才是有意义的比较。
+              </>
+            ),
+            limit:
+              '只有厂商第一方上架的模型才有此值。第三方模型或云厂商独家上架的版本没有官方价，这一栏留空属于正常情况。',
+          }}
+        />
+        <MetricCard
+          label="云厂商均价"
+          value={<Num v={detail.cloudAvgCny} prefix="¥" />}
+          note={`${detail.cloudCount} 家云厂商均值 · 3:1 混合价`}
+          hint={{
+            title: '云厂商均价',
+            body: (
+              <>
+                各大云平台代售该模型的价格<b>算术平均</b>（阿里百炼、火山方舟、腾讯混元等）。
+                反映的是「正规渠道」买这款模型的普遍价位。
+              </>
+            ),
+            limit:
+              '同一模型不同云厂商的价差可能超过 10 倍，平均值会掩盖这种差异 —— 想省钱应直接看「最低混合价」。',
+          }}
+        />
+        <MetricCard
+          label="综合智能指数"
+          value={
+            intelligence?.index ?? (
               <span style={{ fontSize: 15, fontWeight: 400, color: 'var(--text-tertiary)' }}>
                 未收录
               </span>
-            )}
-          </div>
-          <div className="metric-note">
-            {intelligence?.rank ? `全球第 ${intelligence.rank} 名` : '评测机构暂未覆盖'}
-          </div>
-        </div>
+            )
+          }
+          note={
+            intelligence?.rank ? `全球第 ${intelligence.rank} 名` : '评测机构暂未覆盖'
+          }
+          hint={{
+            title: '综合智能指数',
+            body: (
+              <>
+                第三方评测机构给出的<b>能力刻度</b>（Artificial Analysis 综合智能分）。
+                有了它，价格才能和能力强弱放到一起比 —— 即「每一分能力要花多少钱」。
+              </>
+            ),
+            limit:
+              '只覆盖评测机构已收录的模型。未收录不代表能力差，只是缺少可比的公开数据。',
+          }}
+        />
       </div>
 
       {/* ── 各渠道报价（单张连续表 + 4 类分隔带）── */}
