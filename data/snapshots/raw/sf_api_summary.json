@@ -1,0 +1,2745 @@
+[
+  {
+    "name": "deepseek-ai/DeepSeek-V4.1-Flash",
+    "sku": "deepseek-ai/deepseek-v4.1-flash.online",
+    "input": {
+      "perK": 0.002,
+      "perM": 2,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 0点～2点/8点～24点"
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.008,
+      "perM": 8,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 0点～2点/8点～24点"
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.00004,
+      "perM": 0.04,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 0点～2点/8点～24点"
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": {
+      "perK": 0.001,
+      "perM": 1,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 2点～8点"
+      ],
+      "scenario": "兜底价"
+    },
+    "outputOff": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 2点～8点"
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheOff": {
+      "perK": 0.00002,
+      "perM": 0.02,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 2点～8点"
+      ],
+      "scenario": "兜底价"
+    },
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "zai-org/GLM-5.3-Flash",
+    "sku": "zai-org/glm-5.3-flash.online",
+    "input": {
+      "perK": 0.0008,
+      "perM": 0.8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0028,
+      "perM": 2.8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.00023,
+      "perM": 0.23,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "tencent/Hy4-preview",
+    "sku": "tencent/hy4-preview.online",
+    "input": {
+      "perK": 0.006,
+      "perM": 6,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.018,
+      "perM": 18,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.0003,
+      "perM": 0.3,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "zai-org/GLM-5.3",
+    "sku": "zai-org/glm-5.3.online",
+    "input": {
+      "perK": 0.008,
+      "perM": 8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.028,
+      "perM": 28,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.002,
+      "perM": 2,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "deepseek-ai/DeepSeek-V4-Flash",
+    "sku": "deepseek-ai/deepseek-v4-flash-0731.online",
+    "input": {
+      "perK": 0.003,
+      "perM": 3,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 0点～2点/8点～24点"
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.009,
+      "perM": 9,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 0点～2点/8点～24点"
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.0003,
+      "perM": 0.3,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 0点～2点/8点～24点"
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": {
+      "perK": 0.0015,
+      "perM": 1.5,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 2点～8点"
+      ],
+      "scenario": "兜底价"
+    },
+    "outputOff": {
+      "perK": 0.0045,
+      "perM": 4.5,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 2点～8点"
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheOff": {
+      "perK": 0.00015,
+      "perM": 0.15,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 2点～8点"
+      ],
+      "scenario": "兜底价"
+    },
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "meituan-longcat/LongCat-2.0",
+    "sku": "meituan-longcat/longcat-2.0.online",
+    "input": {
+      "perK": 0.005,
+      "perM": 5,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.02,
+      "perM": 20,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.0001,
+      "perM": 0.1,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "zai-org/GLM-5.2",
+    "sku": "zai-org/glm-5.2.online",
+    "input": {
+      "perK": 0.008,
+      "perM": 8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.028,
+      "perM": 28,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.002,
+      "perM": 2,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "moonshotai/Kimi-K2.7-Code",
+    "sku": "moonshotai/kimi-k2.7-code.online",
+    "input": {
+      "perK": 0.0065,
+      "perM": 6.5,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.027,
+      "perM": 27,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.0013,
+      "perM": 1.3,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "deepseek-ai/DeepSeek-V4-Pro",
+    "sku": "deepseek-ai/deepseek-v4-pro.online",
+    "input": {
+      "perK": 0.012,
+      "perM": 12,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": {
+      "perK": 0.024,
+      "perM": 24,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "cacheRead": {
+      "perK": 0.001,
+      "perM": 1,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3.8-27B",
+    "sku": "qwen/qwen3.8-27b.online",
+    "input": {
+      "perK": 0.003,
+      "perM": 3,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.012,
+      "perM": 12,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Pro/moonshotai/Kimi-K2.6",
+    "sku": "pro/moonshotai/kimi-k2.6.online",
+    "input": {
+      "perK": 0.0065,
+      "perM": 6.5,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.027,
+      "perM": 27,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.0011,
+      "perM": 1.1,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Pro/zai-org/GLM-5.1",
+    "sku": "pro/zai-org/glm-5.1.online",
+    "input": {
+      "perK": 0.008,
+      "perM": 8,
+      "unit": "K tokens",
+      "periods": [
+        "input-tokens-range: 输入 [32k, +∞)",
+        "input-tokens-range: 输入 [0, 32k)"
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.028,
+      "perM": 28,
+      "unit": "K tokens",
+      "periods": [
+        "input-tokens-range: 输入 [0, 32k)",
+        "input-tokens-range: 输入 [32k, +∞)"
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.002,
+      "perM": 2,
+      "unit": "K tokens",
+      "periods": [
+        "input-tokens-range: 输入 [0, 32k)",
+        "input-tokens-range: 输入 [32k, +∞)"
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "XingChenAGI/Xing4.0-29B",
+    "sku": "free-text-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Tongyi-MAI/Z-Image-Turbo",
+    "sku": "tongyi-mai/z-image-turbo.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "image-cnt|flat|兜底价"
+    ]
+  },
+  {
+    "name": "Tongyi-MAI/Z-Image",
+    "sku": "tongyi-mai/z-image.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "image-cnt|flat|兜底价"
+    ]
+  },
+  {
+    "name": "deepseek-ai/DeepSeek-V3.2",
+    "sku": "deepseek-ai/deepseek-v3.2.online",
+    "input": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "活动价"
+    },
+    "output": {
+      "perK": 0.006,
+      "perM": 6,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "活动价"
+    },
+    "cacheRead": {
+      "perK": 0.0004,
+      "perM": 0.4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "活动价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "活动价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Pro/deepseek-ai/DeepSeek-V3.2",
+    "sku": "pro/deepseek-ai/deepseek-v3.2.online",
+    "input": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "活动价"
+    },
+    "output": {
+      "perK": 0.006,
+      "perM": 6,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "活动价"
+    },
+    "cacheRead": {
+      "perK": 0.0004,
+      "perM": 0.4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "活动价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "活动价"
+    ],
+    "other": []
+  },
+  {
+    "name": "deepseek-ai/DeepSeek-V3.1-Terminus",
+    "sku": "deepseek-ai/deepseek-v3.1-terminus.online",
+    "input": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.012,
+      "perM": 12,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.0004,
+      "perM": 0.4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Pro/deepseek-ai/DeepSeek-V3.1-Terminus",
+    "sku": "pro/deepseek-ai/deepseek-v3.1-terminus.online",
+    "input": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.012,
+      "perM": 12,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.0004,
+      "perM": 0.4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3.6-35B-A3B",
+    "sku": "qwen/qwen3.6-35b-a3b.online",
+    "input": {
+      "perK": 0.0018,
+      "perM": 1.8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0108,
+      "perM": 10.8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3.6-27B",
+    "sku": "qwen/qwen3.6-27b.online",
+    "input": {
+      "perK": 0.003,
+      "perM": 3,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.018,
+      "perM": 18,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3.5-122B-A10B",
+    "sku": "qwen/qwen3.5-122b-a10b.online",
+    "input": {
+      "perK": 0.002,
+      "perM": 2,
+      "unit": "K tokens",
+      "periods": [
+        "input-tokens-range: 输入 [0, 128k)",
+        "input-tokens-range: 输入 [128k, +∞)"
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.016,
+      "perM": 16,
+      "unit": "K tokens",
+      "periods": [
+        "input-tokens-range: 输入 [0, 128k)",
+        "input-tokens-range: 输入 [128k, +∞)"
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3.5-35B-A3B",
+    "sku": "qwen/qwen3.5-35b-a3b.online",
+    "input": {
+      "perK": 0.0016,
+      "perM": 1.6,
+      "unit": "K tokens",
+      "periods": [
+        "input-tokens-range: 输入 [0, 128k)",
+        "input-tokens-range: 输入 [128k, +∞)"
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0128,
+      "perM": 12.8,
+      "unit": "K tokens",
+      "periods": [
+        "input-tokens-range: 输入 [0, 128k)",
+        "input-tokens-range: 输入 [128k, +∞)"
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3.5-27B",
+    "sku": "qwen/qwen3.5-27b.online",
+    "input": {
+      "perK": 0.0018,
+      "perM": 1.8,
+      "unit": "K tokens",
+      "periods": [
+        "input-tokens-range: 输入 [0, 128k)",
+        "input-tokens-range: 输入 [128k, +∞)"
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0144,
+      "perM": 14.4,
+      "unit": "K tokens",
+      "periods": [
+        "input-tokens-range: 输入 [0, 128k)",
+        "input-tokens-range: 输入 [128k, +∞)"
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3.5-9B",
+    "sku": "qwen/qwen3.5-9b.online",
+    "input": {
+      "perK": 0.0015,
+      "perM": 1.5,
+      "unit": "K tokens",
+      "periods": [
+        "input-tokens-range: 输入 [0, 128k)",
+        "input-tokens-range: 输入 [128k, +∞)"
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.012,
+      "perM": 12,
+      "unit": "K tokens",
+      "periods": [
+        "input-tokens-range: 输入 [0, 128k)",
+        "input-tokens-range: 输入 [128k, +∞)"
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3.5-4B",
+    "sku": "free-text-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-VL-Embedding-8B",
+    "sku": "qwen/qwen3-vl-embedding-8b.online",
+    "input": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": [
+      "input-image-tokens|flat|兜底价"
+    ]
+  },
+  {
+    "name": "Qwen/Qwen3-VL-Reranker-8B",
+    "sku": "qwen/qwen3-vl-reranker-8b.online",
+    "input": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": [
+      "input-image-tokens|flat|兜底价"
+    ]
+  },
+  {
+    "name": "PaddlePaddle/PaddleOCR-VL-1.5",
+    "sku": "free-text-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "deepseek-ai/DeepSeek-R1",
+    "sku": "deepseek-ai/deepseek-r1.online",
+    "input": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.016,
+      "perM": 16,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.0004,
+      "perM": 0.4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Pro/deepseek-ai/DeepSeek-R1",
+    "sku": "pro/deepseek-ai/deepseek-r1.online",
+    "input": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.016,
+      "perM": 16,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.0004,
+      "perM": 0.4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "deepseek-ai/DeepSeek-V3",
+    "sku": "deepseek-ai/deepseek-v3.online",
+    "input": {
+      "perK": 0.002,
+      "perM": 2,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.008,
+      "perM": 8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.0002,
+      "perM": 0.2,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Pro/deepseek-ai/DeepSeek-V3",
+    "sku": "pro/deepseek-ai/deepseek-v3.online",
+    "input": {
+      "perK": 0.002,
+      "perM": 2,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.008,
+      "perM": 8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": {
+      "perK": 0.0002,
+      "perM": 0.2,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "stepfun-ai/Step-3.5-Flash",
+    "sku": "stepfun-ai/step-3.5-flash.online",
+    "input": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0021,
+      "perM": 2.1,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-VL-32B-Instruct",
+    "sku": "qwen/qwen3-vl-32b-instruct.online",
+    "input": {
+      "perK": 0.001,
+      "perM": 1,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-VL-32B-Thinking",
+    "sku": "qwen/qwen3-vl-32b-thinking.online",
+    "input": {
+      "perK": 0.001,
+      "perM": 1,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.01,
+      "perM": 10,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-VL-8B-Instruct",
+    "sku": "qwen/qwen3-vl-8b-instruct.online",
+    "input": {
+      "perK": 0.0005,
+      "perM": 0.5,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.002,
+      "perM": 2,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-VL-8B-Thinking",
+    "sku": "qwen/qwen3-vl-8b-thinking.online",
+    "input": {
+      "perK": 0.0005,
+      "perM": 0.5,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.005,
+      "perM": 5,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-VL-30B-A3B-Instruct",
+    "sku": "qwen/qwen3-vl-30b-a3b-instruct.online",
+    "input": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0028,
+      "perM": 2.8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-VL-30B-A3B-Thinking",
+    "sku": "qwen/qwen3-vl-30b-a3b-thinking.online",
+    "input": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0028,
+      "perM": 2.8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-Omni-30B-A3B-Instruct",
+    "sku": "qwen/qwen3-omni-30b-a3b-instruct.online",
+    "input": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0028,
+      "perM": 2.8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-Omni-30B-A3B-Thinking",
+    "sku": "qwen/qwen3-omni-30b-a3b-thinking.online",
+    "input": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0028,
+      "perM": 2.8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-Omni-30B-A3B-Captioner",
+    "sku": "qwen/qwen3-omni-30b-a3b-captioner.online",
+    "input": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0028,
+      "perM": 2.8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "deepseek-ai/DeepSeek-OCR",
+    "sku": "free-text-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "inclusionAI/Ling-flash-2.0",
+    "sku": "inclusionai/ling-flash-2.0.online",
+    "input": {
+      "perK": 0.001,
+      "perM": 1,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "inclusionAI/Ling-mini-2.0",
+    "sku": "inclusionai/ling-mini-2.0.online",
+    "input": {
+      "perK": 0.0005,
+      "perM": 0.5,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.002,
+      "perM": 2,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen-Image-Edit-2509",
+    "sku": "qwen/qwen-image-edit-2509.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "image-cnt|flat|兜底价"
+    ]
+  },
+  {
+    "name": "Qwen/Qwen-Image-Edit",
+    "sku": "qwen/qwen-image-edit.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "image-cnt|flat|兜底价"
+    ]
+  },
+  {
+    "name": "Qwen/Qwen-Image",
+    "sku": "qwen/qwen-image.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "image-cnt|flat|兜底价"
+    ]
+  },
+  {
+    "name": "XingChenAGI/XingChenASR-V3.2-Ultra",
+    "sku": "free-asr-model.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "utf8-bytes|flat|刊例价"
+    ]
+  },
+  {
+    "name": "XingChenAGI/XingChenGSR-V1.0",
+    "sku": "free-asr-model.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "utf8-bytes|flat|刊例价"
+    ]
+  },
+  {
+    "name": "XingChenAGI/XingChenASR-Diarize-V3.0",
+    "sku": "free-asr-model.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "utf8-bytes|flat|刊例价"
+    ]
+  },
+  {
+    "name": "Qwen/Qwen3-ASR-1.7B",
+    "sku": "qwen/qwen3-asr-1.7b.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "input-audio-seconds|flat|兜底价"
+    ]
+  },
+  {
+    "name": "tencent/Hunyuan-MT-7B",
+    "sku": "free-text-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "ByteDance-Seed/Seed-OSS-36B-Instruct",
+    "sku": "bytedance-seed/seed-oss-36b-instruct.online",
+    "input": {
+      "perK": 0.0015,
+      "perM": 1.5,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Wan-AI/Wan2.2-I2V-A14B",
+    "sku": "wan-ai/wan2.2-i2v-a14b.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "video-cnt|flat|兜底价"
+    ]
+  },
+  {
+    "name": "Wan-AI/Wan2.2-T2V-A14B",
+    "sku": "wan-ai/wan2.2-t2v-a14b.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "video-cnt|flat|兜底价"
+    ]
+  },
+  {
+    "name": "zai-org/GLM-4.5V",
+    "sku": "zai-org/glm-4.5v.online",
+    "input": {
+      "perK": 0.001,
+      "perM": 1,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.006,
+      "perM": 6,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "zai-org/GLM-4.5-Air",
+    "sku": "zai-org/glm-4.5-air.online",
+    "input": {
+      "perK": 0.001,
+      "perM": 1,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.006,
+      "perM": 6,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "XingChenAGI/XingChenASR-V3.2",
+    "sku": "free-asr-model.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "utf8-bytes|flat|刊例价"
+    ]
+  },
+  {
+    "name": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "sku": "qwen/qwen3-coder-30b-a3b-instruct.online",
+    "input": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0028,
+      "perM": 2.8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+    "sku": "qwen/qwen3-30b-a3b-instruct-2507.online",
+    "input": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0028,
+      "perM": 2.8,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "tencent/Hunyuan-A13B-Instruct",
+    "sku": "tencent/hunyuan-a13b-instruct.online",
+    "input": {
+      "perK": 0.001,
+      "perM": 1,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 9点～18点"
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 9点～18点"
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": {
+      "perK": 0.0008,
+      "perM": 0.8,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 0点～9点/18点～24点"
+      ],
+      "scenario": "兜底价"
+    },
+    "outputOff": {
+      "perK": 0.0032,
+      "perM": 3.2,
+      "unit": "K tokens",
+      "periods": [
+        "费用发生时段: 0点～9点/18点～24点"
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+    "sku": "free-text-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-32B",
+    "sku": "qwen/qwen3-32b.online",
+    "input": {
+      "perK": 0.001,
+      "perM": 1,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.004,
+      "perM": 4,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-14B",
+    "sku": "qwen/qwen3-14b.online",
+    "input": {
+      "perK": 0.0005,
+      "perM": 0.5,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.002,
+      "perM": 2,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-8B",
+    "sku": "free-text-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-Reranker-8B",
+    "sku": "qwen/qwen3-reranker-8b.online",
+    "input": {
+      "perK": 0.00028,
+      "perM": 0.27999999999999997,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-Embedding-8B",
+    "sku": "qwen/qwen3-embedding-8b.online",
+    "input": {
+      "perK": 0.00028,
+      "perM": 0.27999999999999997,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-Reranker-4B",
+    "sku": "qwen/qwen3-reranker-4b.online",
+    "input": {
+      "perK": 0.00014,
+      "perM": 0.13999999999999999,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-Embedding-4B",
+    "sku": "qwen/qwen3-embedding-4b.online",
+    "input": {
+      "perK": 0.00014,
+      "perM": 0.13999999999999999,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-Reranker-0.6B",
+    "sku": "qwen/qwen3-reranker-0.6b.online",
+    "input": {
+      "perK": 0.00007,
+      "perM": 0.06999999999999999,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen3-Embedding-0.6B",
+    "sku": "qwen/qwen3-embedding-0.6b.online",
+    "input": {
+      "perK": 0.00007,
+      "perM": 0.06999999999999999,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "THUDM/GLM-4-32B-0414",
+    "sku": "thudm/glm-4-32b-0414.online",
+    "input": {
+      "perK": 0.00189,
+      "perM": 1.89,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.00189,
+      "perM": 1.89,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "THUDM/GLM-Z1-9B-0414",
+    "sku": "free-text-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "THUDM/GLM-4-9B-0414",
+    "sku": "free-text-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "fnlp/MOSS-TTSD-v0.5",
+    "sku": "fnlp/moss-ttsd-v0.5.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "utf8-bytes|flat|兜底价"
+    ]
+  },
+  {
+    "name": "FunAudioLLM/CosyVoice2-0.5B",
+    "sku": "funaudiollm/cosyvoice2-0.5b.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "utf8-bytes|flat|兜底价"
+    ]
+  },
+  {
+    "name": "FunAudioLLM/SenseVoiceSmall",
+    "sku": "free-asr-model.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "utf8-bytes|flat|刊例价"
+    ]
+  },
+  {
+    "name": "BAAI/bge-m3",
+    "sku": "free-embedding/reranker-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "BAAI/bge-reranker-v2-m3",
+    "sku": "free-embedding/reranker-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Kwai-Kolors/Kolors",
+    "sku": "free-image-model.online",
+    "input": null,
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [],
+    "other": [
+      "image-cnt|flat|刊例价"
+    ]
+  },
+  {
+    "name": "Qwen/Qwen2.5-72B-Instruct-128K",
+    "sku": "qwen/qwen2.5-72b-instruct-128k.online",
+    "input": {
+      "perK": 0.00413,
+      "perM": 4.13,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.00413,
+      "perM": 4.13,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen2.5-72B-Instruct",
+    "sku": "qwen/qwen2.5-72b-instruct.online",
+    "input": {
+      "perK": 0.00413,
+      "perM": 4.13,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.00413,
+      "perM": 4.13,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen2.5-32B-Instruct",
+    "sku": "qwen/qwen2.5-32b-instruct.online",
+    "input": {
+      "perK": 0.00126,
+      "perM": 1.26,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.00126,
+      "perM": 1.26,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen2.5-14B-Instruct",
+    "sku": "qwen/qwen2.5-14b-instruct.online",
+    "input": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0007,
+      "perM": 0.7,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Qwen/Qwen2.5-7B-Instruct",
+    "sku": "free-text-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "BAAI/bge-large-en-v1.5",
+    "sku": "free-embedding/reranker-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "BAAI/bge-large-zh-v1.5",
+    "sku": "free-embedding/reranker-model.online",
+    "input": {
+      "perK": 0,
+      "perM": 0,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "刊例价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "刊例价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Pro/BAAI/bge-m3",
+    "sku": "pro/baai/bge-m3.online",
+    "input": {
+      "perK": 0.00007,
+      "perM": 0.06999999999999999,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Pro/Qwen/Qwen2.5-7B-Instruct",
+    "sku": "pro/qwen/qwen2.5-7b-instruct.online",
+    "input": {
+      "perK": 0.00035,
+      "perM": 0.35,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.00035,
+      "perM": 0.35,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "Pro/BAAI/bge-reranker-v2-m3",
+    "sku": "pro/baai/bge-reranker-v2-m3.online",
+    "input": {
+      "perK": 0.00007,
+      "perM": 0.06999999999999999,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": null,
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "LoRA/Qwen/Qwen2.5-32B-Instruct",
+    "sku": "lora/qwen/qwen2.5-32b-instruct.online",
+    "input": {
+      "perK": 0.00189,
+      "perM": 1.89,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.00189,
+      "perM": 1.89,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "LoRA/Qwen/Qwen2.5-14B-Instruct",
+    "sku": "lora/qwen/qwen2.5-14b-instruct.online",
+    "input": {
+      "perK": 0.00105,
+      "perM": 1.05,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.00105,
+      "perM": 1.05,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "LoRA/Qwen/Qwen2.5-72B-Instruct",
+    "sku": "lora/qwen/qwen2.5-72b-instruct.online",
+    "input": {
+      "perK": 0.0062,
+      "perM": 6.2,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.0062,
+      "perM": 6.2,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  },
+  {
+    "name": "LoRA/Qwen/Qwen2.5-7B-Instruct",
+    "sku": "lora/qwen/qwen2.5-7b-instruct.online",
+    "input": {
+      "perK": 0.00053,
+      "perM": 0.53,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "output": {
+      "perK": 0.00053,
+      "perM": 0.53,
+      "unit": "K tokens",
+      "periods": [
+        ""
+      ],
+      "scenario": "兜底价"
+    },
+    "cacheRead": null,
+    "inputOff": null,
+    "outputOff": null,
+    "cacheOff": null,
+    "scenariosIn": [
+      "兜底价"
+    ],
+    "other": []
+  }
+]

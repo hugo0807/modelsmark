@@ -1,0 +1,143 @@
+{
+  "channelId": "anthropic",
+  "channelName": "Anthropic 官方",
+  "fetchedAt": "2026-10-27T14:47:00.000Z",
+  "sourceUrl": "https://platform.claude.com/docs/en/about-claude/pricing",
+  "evidence": "=== 抓取入口 ===\n请求 https://docs.anthropic.com/en/docs/about-claude/pricing → 301/302 重定向到 https://platform.claude.com/docs/en/about-claude/pricing（HTTP 200，标题 \"Pricing - Claude Platform Docs\"）。另抓 https://claude.com/pricing（HTTP 200，标题 \"Plans & pricing | Claude by Anthropic\"）经核对只有 Free/Pro/Max/Team/Enterprise 订阅套餐表，无 per-token API 价格。\n\n=== 模型定价表原文（表头：模型 / 基础 token（名称 | 输入 | 输出） / 提示缓存（5 分钟缓存写入 | 1 小时缓存写入 | 命中与刷新））===\nClaude Fable 5.1 For demanding reasoning and long-horizon agentic work | US$10 / MTok | US$50 / MTok | US$12.50 / MTok | US$20 / MTok | US$0.25 / MTok\nClaude Opus 5.5 For long-running agentic coding and knowledge work | US$4 / MTok | US$20 / MTok | US$5 / MTok | US$8 / MTok | US$0.20 / MTok\nClaude Sonnet 5.5 The best combination of speed and intelligence | US$2 / MTok | US$10 / MTok | US$2.50 / MTok | US$4 / MTok | US$0.10 / MTok\nClaude Haiku 5.5 For high-volume, latency-sensitive tasks such as classification, extraction, and routing | US$0.10 / MTok 适用于不超过 100,000 个 token 的提示词 | US$0.50 / MTok | US$0.125 / MTok | US$0.20 / MTok | US$0.01 / MTok\nUS$0.50 / MTok 提示词超过 100,000 个 token 时 | US$2.50 / MTok | US$0.625 / MTok | US$1 / MTok | US$0.05 / MTok\nClaude Mythos 5.1 | US$10 / MTok | US$50 / MTok | US$12.50 / MTok | US$20 / MTok | US$0.25 / MTok\nClaude Fable 5 | US$10 / MTok | US$50 / MTok | US$12.50 / MTok | US$20 / MTok | US$1 / MTok\nClaude Mythos 5 | US$10 / MTok | US$50 / MTok | US$12.50 / MTok | US$20 / MTok | US$1 / MTok\nClaude Opus 5 | US$5 / MTok | US$25 / MTok | US$6.25 / MTok | US$10 / MTok | US$0.50 / MTok\nClaude Opus 4.8 | US$5 / MTok | US$25 / MTok | US$6.25 / MTok | US$10 / MTok | US$0.50 / MTok\nClaude Opus 4.7 | US$5 / MTok | US$25 / MTok | US$6.25 / MTok | US$10 / MTok | US$0.50 / MTok\nClaude Opus 4.6 | US$5 / MTok | US$25 / MTok | US$6.25 / MTok | US$10 / MTok | US$0.50 / MTok\nClaude Opus 4.5 | US$5 / MTok | US$25 / MTok | US$6.25 / MTok | US$10 / MTok | US$0.50 / MTok\nClaude Opus 4.1 | US$15 / MTok | US$75 / MTok | US$18.75 / MTok | US$30 / MTok | US$1.50 / MTok\nClaude Opus 4 | US$15 / MTok | US$75 / MTok | US$18.75 / MTok | US$30 / MTok | US$1.50 / MTok\nClaude Sonnet 5 | US$2 / MTok | US$10 / MTok | US$2.50 / MTok | US$4 / MTok | US$0.20 / MTok\nClaude Sonnet 4.6 | US$3 / MTok | US$15 / MTok | US$3.75 / MTok | US$6 / MTok | US$0.30 / MTok\nClaude Sonnet 4.5 | US$3 / MTok | US$15 / MTok | US$3.75 / MTok | US$6 / MTok | US$0.30 / MTok\nClaude Sonnet 4 | US$3 / MTok | US$15 / MTok | US$3.75 / MTok | US$6 / MTok | US$0.30 / MTok\nClaude Haiku 4.5 | US$1 / MTok | US$5 / MTok | US$1.25 / MTok | US$2 / MTok | US$0.10 / MTok\nClaude Haiku 3.5 | US$0.80 / MTok | US$4 / MTok | US$1 / MTok | US$1.60 / MTok | US$0.08 / MTok\n\n=== 提示缓存倍率原文 ===\n5-minute cache write | 1.25x base input price | Cache valid for 5 minutes\n1-hour cache write | 2x base input price | Cache valid for 1 hour\nCache read (hit) | 0.1x base input price (0.025x on Claude Fable 5.1 and Claude Mythos 5.1; 0.05x on Claude Opus 5.5 and Claude Sonnet 5.5) | Same duration as the preceding write\n\nCache write tokens are charged when content is first stored. Cache read tokens are charged when a subsequent request retrieves the cached content. A cache hit costs 10% of the standard input price, which means caching pays off after one cache read for the 5-minute duration (1.25x write), or after two cache reads for the 1-hour duration (2x write). On Claude Fable 5.1 and Claude Mythos 5.1, a cache hit costs 2.5% of the standard input price ($0.25 USD per million tokens). On Claude Opus 5.5 and Claude Sonnet 5.5, a cache hit costs 5% of the standard input price ($0.20 USD per million tokens on Claude Opus 5.5, $0.10 USD on Claude Sonnet 5.5).\n\n=== 长上下文定价原文 ===\nClaude 4.6 and later models (except Claude Haiku 5.5) and Claude Mythos Preview include the full 1M token context window at standard pricing. (A 900k-token request is billed at the same per-token rate as a 9k-token request.) Prompt caching and batch processing discounts apply at standard rates across the full context window.\n\nClaude Haiku 5.5 is priced by prompt length: a request whose prompt is over 100,000 tokens pays higher prices. A request's prompt length counts all of its input tokens, including cache reads and cache writes. Each request is priced on its own: a request over the threshold pays the higher prices even when part of its prompt is a cache hit, and earlier requests keep the prices they were billed at. The model pricing and batch processing pricing sections list both sets of prices.\n\n=== Fast mode 定价原文 ===\nFast mode provides significantly faster output for Claude Opus 5.5, Claude Opus 5, and Claude Opus 4.8 at premium pricing. Fast mode for Claude Opus 5 and Claude Opus 4.8 is in research preview. Fast mode pricing applies across the full context window, including requests over 200k input tokens.\nModel | Input | Output\nClaude Opus 5.5 | $8 USD / MTok | $40 USD / MTok\nClaude Opus 5 / Claude Opus 4.8 | $10 USD / MTok | $50 USD / MTok\n\n=== 批处理定价原文 ===\nThe Batch API allows asynchronous processing of large volumes of requests with a 50 percent discount on both input and output tokens.\n\n=== 数据驻留倍率原文 ===\nFor Claude 4.6 and later models, specifying US-only inference through the inference_geo parameter incurs a 1.1x multiplier on all token pricing categories, including input tokens, output tokens, cache writes, and cache reads. ... Global routing (the default) uses standard pricing.",
+  "status": "ok",
+  "error": null,
+  "prices": [
+    {
+      "modelId": "claude-opus-5-5",
+      "vendorModelId": "Claude Opus 5.5",
+      "billingMode": "payg",
+      "currency": "USD",
+      "input": 4.0,
+      "cacheRead": 0.2,
+      "cacheWrite": 5.0,
+      "output": 20.0,
+      "tier": { "kind": "none" },
+      "tierLabel": null,
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网按每 MTok（每百万 token）标价。cacheWrite 取 5 分钟缓存写入价 US$5.00（官网另有 1 小时缓存写入 US$8.00，倍率为基础输入价 2x）。cacheRead US$0.20 为命中价 = 基础输入价的 5%（该模型命中倍率为 0.05x，与默认 0.1x 不同）。官网明确 Claude 4.6 及以后模型（Haiku 5.5 除外）完整 1M 上下文按标准价计费，无长上下文溢价档。Fast 模式为输入 $8 / 输出 $40 每 MTok；Batch API 输入输出五折；inference_geo=us 数据驻留为全档 1.1x。"
+    },
+    {
+      "modelId": "claude-sonnet-5-5",
+      "vendorModelId": "Claude Sonnet 5.5",
+      "billingMode": "payg",
+      "currency": "USD",
+      "input": 2.0,
+      "cacheRead": 0.1,
+      "cacheWrite": 2.5,
+      "output": 10.0,
+      "tier": { "kind": "none" },
+      "tierLabel": null,
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网按每 MTok（每百万 token）标价。cacheWrite 取 5 分钟缓存写入价 US$2.50（官网另有 1 小时缓存写入 US$4.00，倍率为基础输入价 2x）。cacheRead US$0.10 为命中价 = 基础输入价的 5%（该模型命中倍率为 0.05x，与默认 0.1x 不同）。官网明确 Claude 4.6 及以后模型（Haiku 5.5 除外）完整 1M 上下文按标准价计费，无长上下文溢价档。Batch API 输入输出五折；inference_geo=us 数据驻留为全档 1.1x。官网 Fast mode 仅覆盖 Opus 5.5 / Opus 5 / Opus 4.8，本模型无 Fast 档。"
+    },
+    {
+      "modelId": "claude-fable-5-1",
+      "vendorModelId": "Claude Fable 5.1",
+      "billingMode": "payg",
+      "currency": "USD",
+      "input": 10.0,
+      "cacheRead": 0.25,
+      "cacheWrite": 12.5,
+      "output": 50.0,
+      "tier": { "kind": "none" },
+      "tierLabel": null,
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网按每 MTok（每百万 token）标价。cacheWrite 取 5 分钟缓存写入价 US$12.50（官网另有 1 小时缓存写入 US$20.00，倍率为基础输入价 2x）。cacheRead US$0.25 为命中价 = 基础输入价的 2.5%（Fable 5.1 / Mythos 5.1 命中倍率 0.025x，低于默认 0.1x）。官网明确 Claude 4.6 及以后模型（Haiku 5.5 除外）完整 1M 上下文按标准价计费，无长上下文溢价档。Batch API 输入输出五折；inference_geo=us 数据驻留为全档 1.1x。官网 Fast mode 未覆盖本模型。"
+    }
+  ],
+  "newModels": [
+    {
+      "name": "Claude Haiku 5.5",
+      "vendorId": "Claude Haiku 5.5",
+      "observation": "官网 Standard：提示词 ≤100,000 token 时 输入 US$0.10 / 输出 US$0.50 / 5 分钟缓存写入 US$0.125 / 1 小时缓存写入 US$0.20 / 命中 US$0.01 每 MTok；提示词 >100,000 token 时 输入 US$0.50 / 输出 US$2.50 / 5 分钟缓存写入 US$0.625 / 1 小时缓存写入 US$1 / 命中 US$0.05 每 MTok。这是官网唯一按提示长度分档的模型（Anthropic 其余 4.6+ 模型均 1M 上下文标准价）。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Mythos 5.1",
+      "vendorId": "Claude Mythos 5.1",
+      "observation": "官网 Standard：输入 US$10 / 输出 US$50 / 5 分钟缓存写入 US$12.50 / 1 小时缓存写入 US$20 / 命中 US$0.25 每 MTok。命中倍率 0.025x（同 Fable 5.1）。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Fable 5",
+      "vendorId": "Claude Fable 5",
+      "observation": "官网 Standard：输入 US$10 / 输出 US$50 / 5 分钟缓存写入 US$12.50 / 1 小时缓存写入 US$20 / 命中 US$1 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Mythos 5",
+      "vendorId": "Claude Mythos 5",
+      "observation": "官网 Standard：输入 US$10 / 输出 US$50 / 5 分钟缓存写入 US$12.50 / 1 小时缓存写入 US$20 / 命中 US$1 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Opus 5",
+      "vendorId": "Claude Opus 5",
+      "observation": "官网 Standard：输入 US$5 / 输出 US$25 / 5 分钟缓存写入 US$6.25 / 1 小时缓存写入 US$10 / 命中 US$0.50 每 MTok。Fast 模式（研究预览）输入 $10 / 输出 $50 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Opus 4.8",
+      "vendorId": "Claude Opus 4.8",
+      "observation": "官网 Standard：输入 US$5 / 输出 US$25 / 5 分钟缓存写入 US$6.25 / 1 小时缓存写入 US$10 / 命中 US$0.50 每 MTok。Fast 模式（研究预览）输入 $10 / 输出 $50 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Opus 4.7",
+      "vendorId": "Claude Opus 4.7",
+      "observation": "官网 Standard：输入 US$5 / 输出 US$25 / 5 分钟缓存写入 US$6.25 / 1 小时缓存写入 US$10 / 命中 US$0.50 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Opus 4.6",
+      "vendorId": "Claude Opus 4.6",
+      "observation": "官网 Standard：输入 US$5 / 输出 US$25 / 5 分钟缓存写入 US$6.25 / 1 小时缓存写入 US$10 / 命中 US$0.50 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Opus 4.5",
+      "vendorId": "Claude Opus 4.5",
+      "observation": "官网 Standard：输入 US$5 / 输出 US$25 / 5 分钟缓存写入 US$6.25 / 1 小时缓存写入 US$10 / 命中 US$0.50 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Opus 4.1",
+      "vendorId": "Claude Opus 4.1",
+      "observation": "官网 Standard：输入 US$15 / 输出 US$75 / 5 分钟缓存写入 US$18.75 / 1 小时缓存写入 US$30 / 命中 US$1.50 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Opus 4",
+      "vendorId": "Claude Opus 4",
+      "observation": "官网 Standard：输入 US$15 / 输出 US$75 / 5 分钟缓存写入 US$18.75 / 1 小时缓存写入 US$30 / 命中 US$1.50 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Sonnet 5",
+      "vendorId": "Claude Sonnet 5",
+      "observation": "官网 Standard：输入 US$2 / 输出 US$10 / 5 分钟缓存写入 US$2.50 / 1 小时缓存写入 US$4 / 命中 US$0.20 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Sonnet 4.6",
+      "vendorId": "Claude Sonnet 4.6",
+      "observation": "官网 Standard：输入 US$3 / 输出 US$15 / 5 分钟缓存写入 US$3.75 / 1 小时缓存写入 US$6 / 命中 US$0.30 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Sonnet 4.5",
+      "vendorId": "Claude Sonnet 4.5",
+      "observation": "官网 Standard：输入 US$3 / 输出 US$15 / 5 分钟缓存写入 US$3.75 / 1 小时缓存写入 US$6 / 命中 US$0.30 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Sonnet 4",
+      "vendorId": "Claude Sonnet 4",
+      "observation": "官网 Standard：输入 US$3 / 输出 US$15 / 5 分钟缓存写入 US$3.75 / 1 小时缓存写入 US$6 / 命中 US$0.30 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Haiku 4.5",
+      "vendorId": "Claude Haiku 4.5",
+      "observation": "官网 Standard：输入 US$1 / 输出 US$5 / 5 分钟缓存写入 US$1.25 / 1 小时缓存写入 US$2 / 命中 US$0.10 每 MTok。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "Claude Haiku 3.5",
+      "vendorId": "Claude Haiku 3.5",
+      "observation": "官网 Standard：输入 US$0.80 / 输出 US$4 / 5 分钟缓存写入 US$1 / 1 小时缓存写入 US$1.60 / 命中 US$0.08 每 MTok。项目 models.json 无此 slug。"
+    }
+  ]
+}

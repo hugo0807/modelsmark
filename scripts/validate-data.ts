@@ -15,6 +15,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import type { PriceRecord, Model, Channel } from '../src/lib/types';
 
 const ROOT = process.cwd();
@@ -145,6 +146,93 @@ for (const p of prices) {
     );
   }
   officialBlend.set(p.modelId, blend);
+}
+
+// ── 9. 数据量守门 ──
+/*
+ * 防止「部分采集器失败 → 残缺数据被提交上线」。
+ *
+ * 背景：CI 的定时任务跑的是全新 clone，只要有一个采集器拿不到输入源
+ * （页面改版、反爬、文件没入库），该渠道就会静默变成 0 条。
+ * 曾实测过：18 个采集器里 12 个失败，387 条数据被覆盖成 66 条，
+ * 而 validate 因为「没有错误项」而放行 —— 残缺数据直接上线。
+ *
+ * 基线取「git 里已发布的版本」（HEAD:data/prices.json）：
+ *   · CI 跑完后提交新数据，基线随之自动前移，无需维护额外文件
+ *   · 本地开发时基线就是上一次提交的数据，语义一致
+ * 判定：
+ *   · 记录数跌幅 > 30%  → 错误，中止发布
+ *   · 有渠道整条消失      → 错误，中止发布
+ *   · 小幅下跌（5~30%）  → 警告，允许发布（可能确有模型下架）
+ */
+function readBaseline(): { rows: PriceRecord[]; source: string } | null {
+  // 优先用 git 里已发布的版本
+  try {
+    const out = execFileSync('git', ['show', 'HEAD:data/prices.json'], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      maxBuffer: 64 * 1024 * 1024,
+      stdio: ['ignore', 'pipe', 'ignore'],
+    });
+    const rows = JSON.parse(out) as PriceRecord[];
+    if (Array.isArray(rows) && rows.length) return { rows, source: 'git HEAD:data/prices.json' };
+  } catch {
+    /* 无 git / 非仓库 / 该文件尚未提交 —— 走下面的兜底 */
+  }
+  // 兜底：本地历史文件
+  const prevPath = path.join(DATA, 'prices.prev.json');
+  if (fs.existsSync(prevPath)) {
+    const rows = readJson<PriceRecord[]>(prevPath);
+    if (Array.isArray(rows) && rows.length) return { rows, source: 'data/prices.prev.json' };
+  }
+  return null;
+}
+
+const baseline = readBaseline();
+if (!baseline) {
+  warn('无历史数据可比', '既没有 git 里的历史版本也没有 prices.prev.json，跳过数据量守门');
+} else {
+  const prev = baseline.rows;
+  const prevChannels = new Map<string, number>();
+  for (const p of prev) {
+    prevChannels.set(p.channelId, (prevChannels.get(p.channelId) ?? 0) + 1);
+  }
+  const nowChannels = new Map<string, number>();
+  for (const p of prices) {
+    nowChannels.set(p.channelId, (nowChannels.get(p.channelId) ?? 0) + 1);
+  }
+
+  const dropRatio = prev.length ? (prev.length - prices.length) / prev.length : 0;
+  if (dropRatio > 0.3) {
+    err(
+      '数据量断崖下跌',
+      `本次 ${prices.length} 条，较已发布版本（${baseline.source}）的 ${prev.length} 条下跌 ` +
+        `${(dropRatio * 100).toFixed(1)}%，超过 30% 阈值 —— ` +
+        `大概率是采集器失败而非模型下架，已中止发布`,
+      `prev=${prev.length} now=${prices.length}`
+    );
+  } else if (dropRatio > 0.05) {
+    warn(
+      '数据量小幅下跌',
+      `本次 ${prices.length} 条，较已发布版本 ${prev.length} 条下跌 ${(dropRatio * 100).toFixed(1)}%`,
+      `prev=${prev.length} now=${prices.length}`
+    );
+  }
+
+  const lost: string[] = [];
+  for (const [cid, n] of prevChannels) {
+    const now = nowChannels.get(cid) ?? 0;
+    if (now === 0) lost.push(`${cid}(${n}→0)`);
+  }
+  if (lost.length) {
+    err(
+      '渠道数据整条消失',
+      `以下渠道在本次抓取中变成 0 条：${lost.join('、')} —— ` +
+        `多半是采集器失败或页面改版，不是渠道下线`,
+      lost.join(' ')
+    );
+  }
+  console.log(`数据量守门基线: ${baseline.source}（${prev.length} 条 / ${prevChannels.size} 渠道）`);
 }
 
 // ── 统计 ──

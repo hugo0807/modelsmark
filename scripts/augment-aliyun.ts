@@ -25,7 +25,14 @@ import * as path from 'path';
 import { guessSlug } from './slug-rules';
 
 const ROOT = process.cwd();
-const RAW_PATH = path.join(ROOT, 'data/raw/aliyun-bailian.json');
+/**
+ * 阿里云 raw 的落盘位置。
+ *
+ * 必须落在 data/snapshots/raw/（入库路径）而不是 data/raw/（gitignore）：
+ * CI 的定时任务跑的是全新 clone，data/raw/ 是空的，
+ * 补齐结果若写进 data/raw/ 会在提交时被丢掉，下一次跑又从零开始。
+ */
+const RAW_PATH = path.join(ROOT, 'data/snapshots/raw/aliyun-bailian.json');
 const SNAP_PATH = path.join(ROOT, 'data/snapshots/aliyun-pricing.json');
 const DRY = process.argv.includes('--dry');
 

@@ -33,7 +33,32 @@ function snapPath(name: string): string {
   if (fs.existsSync(inRepo)) return inRepo;
   return path.join(PROBE_LOCAL, name);
 }
+
+/**
+ * 采集器输入源（已解析成结构化数据的中间产物）。
+ *
+ * 这些文件是「采集结果」而非「页面快照」——它们由采集脚本解析页面后生成，
+ * 历史上散落在 data/raw/ 与仓库上一级目录里，从未入库，
+ * 导致 CI 的全新 clone 上 12 个采集器全部失败：
+ * 387 条数据会被覆盖成 66 条再提交上线。
+ *
+ * 现在统一入库到 data/snapshots/raw/，查找顺序：
+ *   1. data/snapshots/raw/  —— 入库快照（CI 与新 clone 依赖它）
+ *   2. data/raw/            —— 本地最新产物（便于刷新）
+ *   3. 仓库上一级目录        —— 早期开发时的临时存放位置
+ */
+const RAW_SNAPSHOTS = path.join(SNAPSHOTS, 'raw');
+const RAW_LOCAL = path.join(ROOT, 'data/raw');
 const WORK = path.join(ROOT, '..');
+
+/** 取采集器输入源路径 */
+function rawPath(name: string): string {
+  const inRepo = path.join(RAW_SNAPSHOTS, name);
+  if (fs.existsSync(inRepo)) return inRepo;
+  const local = path.join(RAW_LOCAL, name);
+  if (fs.existsSync(local)) return local;
+  return path.join(WORK, name);
+}
 
 /** 抓取时间：所有本次抓取统一用该时间戳 */
 const FETCHED_AT = '2026-10-27T16:30:00Z';
@@ -96,7 +121,7 @@ type Collector = () => PriceRecord[];
 
 /** 阿里云百炼 / 火山方舟等：data/raw 已有结构化数据 */
 const fromRaw = (file: string, channelId: string): Collector => () => {
-  const d = readJson<any>(path.join(ROOT, 'data/raw', file), null);
+  const d = readJson<any>(rawPath(file), null);
   if (!d) throw new Error(`缺少 raw 文件: ${file}`);
   const fetchedAt = d.fetchedAt || FETCHED_AT;
   return (d.prices || []).map((p: any) => {
@@ -125,7 +150,7 @@ const fromRaw = (file: string, channelId: string): Collector => () => {
 
 /** 根目录 final*.json：已解析好的真实记录 */
 const fromFinal = (file: string): Collector => () => {
-  const d = readJson<any>(path.join(WORK, file), null);
+  const d = readJson<any>(rawPath(file), null);
   if (!d) throw new Error(`缺少 final 文件: ${file}`);
   const out: PriceRecord[] = [];
   for (const r of d.records) {
@@ -180,7 +205,7 @@ function normalizeFinalId(mid: string): string | null {
 
 /** 硅基流动：根目录 sf_api_summary.json（官方 API） */
 const fromSiliconFlow = (): Collector => () => {
-  const d = readJson<any[]>(path.join(WORK, 'sf_api_summary.json'), []);
+  const d = readJson<any[]>(rawPath('sf_api_summary.json'), []);
   if (!d.length) throw new Error('缺少 sf_api_summary.json');
   const out: PriceRecord[] = [];
   for (const r of d) {
@@ -229,7 +254,7 @@ const fromSiliconFlow = (): Collector => () => {
 
 /** 七牛云：根目录 qn_all.txt（官方 API） */
 const fromQiniu = (): Collector => () => {
-  const raw = fs.readFileSync(path.join(WORK, 'qn_all.txt'), 'utf8');
+  const raw = fs.readFileSync(rawPath('qn_all.txt'), 'utf8');
   const out: PriceRecord[] = [];
   const blocks = raw.split('='.repeat(70));
   for (const blk of blocks) {

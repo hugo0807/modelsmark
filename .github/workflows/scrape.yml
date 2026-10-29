@@ -41,6 +41,19 @@ jobs:
       - name: 安装浏览器
         run: npx playwright install --with-deps chromium
 
+      - name: 抓取 Artificial Analysis 全量榜单
+        # 智能指数来自 AA 的 /leaderboards/models（272 行全量榜单）。
+        # /models 页的图表只渲染 28 条，抓那个会丢掉 80% 的评测数据。
+        # 失败时不中止 —— 用仓库里已入库的快照兜底，总比没有强。
+        continue-on-error: true
+        run: npx tsx scripts/fetch-aa-leaderboard.ts
+
+      - name: 补齐阿里云百炼缺失型号
+        # 从官网定价页快照补 GLM-5.3-FlashX / Kimi-K2.5 等主流型号，
+        # 避免它们「在别的渠道有价、唯独阿里云没有」。
+        continue-on-error: true
+        run: npx tsx scripts/augment-aliyun.ts
+
       - name: 执行抓取
         id: scrape
         run: |
@@ -51,6 +64,8 @@ jobs:
           fi
 
       - name: 校验数据
+        # 含「数据量守门」：记录数跌幅超 30% 或有渠道整条消失 → 退出码 1，
+        # 防止部分采集器失败时把残缺数据提交上线。
         run: npm run validate
 
       - name: 数据校验失败时中止

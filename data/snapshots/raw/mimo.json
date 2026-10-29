@@ -1,0 +1,466 @@
+{
+  "channelId": "mimo",
+  "channelName": "小米 MiMo 官方",
+  "fetchedAt": "2026-10-27T15:35:00.000Z",
+  "sourceUrl": "https://mimo.mi.com/docs/price/pay-as-you-go",
+  "evidence": "=== 抓取入口 ===\n请求 https://mimo.mi.com/docs/price/pay-as-you-go （HTTP 200，标题「API 定价 - Xiaomi MiMo 开放平台」），页面右上「更新时间 2026 年 10 月 21 日」。另有 https://mimo.mi.com/pricing （产品首页，渲染后 0 张表，非定价表所在页）。\n\n=== 计费说明原文（页面「计费说明」区块）===\n计费单位：国内：元 / 百万 tokens ；海外：美元 / 百万 tokens\n缓存命中：当请求的前缀内容命中 Prompt Cache 时，按命中缓存价格计费\n缓存写入： 限时免费\nASR 系列模型按照输入音频时长计费：时长统计精确到秒，最终折算成小时计费\n联网搜索按调用次数独立计费，不含在 Token 价格中\n\n=== 模型国内定价（CNY）语言模型表原文 ===\n推理类型\t模型名称\t输入（命中缓存）\t输入（未命中缓存）\t输出\n实时推理\tmimo-v2.6-pro\t¥0.025\t¥3.00\t¥6.00\nmimo-v2.6-flash\t¥0.02\t¥1.00\t¥2.00\nmimo-v2.6-pro-ultraspeed\t¥0.25\t¥30.00\t¥60.00\n批量推理\tmimo-v2.6-pro\t¥0.0125\t¥1.50\t¥3.00\nmimo-v2.6-flash\t¥0.01\t¥0.50\t¥1.00\n不支持批量推理：mimo-v2.6-pro-ultraspeed\n\n=== 模型国内定价 ASR 系列表原文 ===\n模型名称\t输入音频时长\nmimo-v2.5-asr\t¥0.5 /小时\n\n=== 模型国内定价 TTS 系列原文 ===\n限时免费：mimo-v2.5-tts、mimo-v2.5-tts-voiceclone、mimo-v2.5-tts-voicedesign\n\n=== 模型海外定价（USD，与国内表严格分列，本文件不混入 CNY 记录）语言模型表原文 ===\n推理类型\t模型名称\t输入（命中缓存）\t输入（未命中缓存）\t输出\n实时推理\tmimo-v2.6-pro\t$0.0036\t$0.435\t$0.87\nmimo-v2.6-flash\t$0.0028\t$0.14\t$0.28\nmimo-v2.6-pro-ultraspeed\t$0.036\t$4.35\t$8.7\n批量推理\tmimo-v2.6-pro\t$0.0018\t$0.2175\t$0.435\nmimo-v2.6-flash\t$0.0014\t$0.07\t$0.14\n不支持批量推理：mimo-v2.6-pro-ultraspeed\n\n=== 模型海外定价 ASR 系列表原文 ===\n模型名称\t输入音频时长\nmimo-v2.5-asr\t$0.074 /小时\n\n=== 联网服务插件定价表原文（按调用次数独立计费，不含在 Token 价格中）===\n服务项\t价格\t说明\n国内联网服务\t¥16 /1000 次\t包含网页搜索和网页解析，用于国内区域联网搜索相关内容\n海外联网服务\t$5 /1000 次\t包含网页搜索和网页解析，用于海外区域联网搜索相关内容\n\n=== Token Plan 页面原文（https://mimo.mi.com/docs/price/token-plan ，HTTP 200）===\nToken Plan 是面向 AI 编程场景推出的专属订阅方案，您可使用高性价比的订阅资源包，在各类主流 AI 开发工具中调用 MiMo 旗舰大模型。平台目前支持个人版和团队版两种类型。\n\n个人版 · 月度套餐\n\tLite\tStandard\tPro\tMax\n定价\t$6/月，¥39/月\t$16/月，¥99/月\t$50/月，¥329/月\t$100/月，¥659/月\n每月固定额度\t41 亿 Credits\t110 亿 Credits\t380 亿 Credits\t820 亿 Credits\n\n个人版 · 年度套餐\n\tLite\tStandard\tPro\tMax\n定价\t$63.36/年，¥408/年\t$168.96/年，¥1044/年\t$528.00/年，¥3468/年\t$1056.00/年，¥6948/年\n每年固定额度\t492 亿 Credits\t1320 亿 Credits\t4560 亿 Credits\t9840 亿 Credits\n\n团队版 · 月度套餐\n\tStandard\tPro\tMax\n定价\t$16/席/月，¥99/席/月\t$50/席/月，¥329/席/月\t$100/席/月，¥659/席/月\n每月固定额度\t110 亿 Credits\t380 亿 Credits\t820 亿 Credits\n\n团队版 · 年度套餐\n\tStandard\tPro\tMax\n定价\t$168.96/席/年，¥1,044/席/年\t$528/席/年，¥3,468/席/年\t$1,056/席/年，¥6,948/席/年\n每席每月固定额度\t110 亿 Credits\t380 亿 Credits\t820 亿 Credits\n\n额度消耗规则：个人版与团队版 TokenPlan 的额度消耗规则相同\n语言模型按 Token 数扣除 Credits 额度；ASR 模型按输入音频时长扣除 Credits 额度（时长统计精确到秒，折算为小时计费）；TTS 系列模型限时免费，不消耗套餐 Credits。\n语言模型\n模型\t输入（命中缓存）Token\t输入（未命中缓存）Token\t输出 Token\nmimo-v2.6-pro\t2.5 Credits\t300 Credits\t600 Credits\nmimo-v2.6-flash\t2 Credits\t100 Credits\t200 Credits\nASR 模型：mimo-v2.5-asr  30M Credits / 输入音频时长(h)\n例如，您订购了 Lite 套餐（4.1B Credits），可单独或混合调用 MiMo-V2.6 系列模型，当您使用了 10M mimo-v2.6-pro 的输入（未命中缓存）token 后，相当于消耗了 3000 M Credits，仍可享受 1100M mimo-v2.5-flash 的 Credits 额度。\n额度耗尽：当套餐的每月总额度耗尽，系统将停止服务，不会继续消耗您的赠金或账户余额。\n折扣优惠：首购优惠：个人版首次购买享 88 折，每个账号仅享受 1 次；团队版不参与该优惠。\n连续包年：个人版和团队版相比连续包月享 88 折优惠，首购优惠不参与包年；\n夜间优惠速率：非高峰期（北京时间 0:00-8:00，即 UTC 16:00-24:00） 0.8x 消耗系数。\n\n=== Credits 折算校验（表格 Credits 费率与按量人民币价严格成比例，可交叉验证口径）===\n表头「输入（未命中缓存）Token / 输出 Token」单位为每 1M tokens 消耗的 Credits（M Credits）：mimo-v2.6-pro 未命中输入 300、输出 600、命中缓存 2.5；mimo-v2.6-flash 未命中输入 100、输出 200、命中缓存 2。\n校验：pro 300M Credits/1M tokens ↔ ¥3.00/1M tokens；600 ↔ ¥6.00；2.5 ↔ ¥0.025；flash 100 ↔ ¥1.00；200 ↔ ¥2.00；2 ↔ ¥0.02。即 1M Credits ≈ ¥1.00，Credits 额度与人民币按量价 1:1 对应。官网换算示例「10M mimo-v2.6-pro 的输入（未命中缓存）token → 3000 M Credits」亦与 300 M Credits/1M tokens 自洽（10 × 300 = 3000）。\n\n=== 已下线模型（官网横幅与价格页均明示）===\nXiaomi MiMo-V2.5-Pro、MiMo-V2.5 已于 2026.10.21 10:00（UTC+8）正式下线，原模型名称已失效，请及时核对并完成 V2.6 系列的切换。\n\n=== 说明 ===\n1) 本渠道只采国内（CNY）定价记录；官网海外表（USD）为独立区域定价，与国内表严格分列，为避免两套价格混用，海外值保留在本 evidence 中不写入 prices 记录。\n2) 官网未给出缓存写入单价（仅注明「缓存写入：限时免费」），cacheWrite 一律记 null。\n3) Token Plan 额度单位为 Credits（通用额度，输入/输出/缓存命中均按 Credits 扣除），并非直接的 token 数额；本文件 package 记录的 packageTokens 为按官网 Credits 费率表折算的等效 token 数（折算公式见各条 note），原始 Credits 额度一并记入 note。",
+  "status": "ok",
+  "error": null,
+  "prices": [
+    {
+      "modelId": "mimo-v2-6-pro",
+      "vendorModelId": "mimo-v2.6-pro",
+      "billingMode": "payg",
+      "currency": "CNY",
+      "input": 3,
+      "cacheRead": 0.025,
+      "cacheWrite": null,
+      "output": 6,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "实时推理",
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网「模型国内定价 → 语言模型」实时推理行，单位原文「元 / 百万 tokens」，已是每 100 万 token 口径，无需换算。input 取「输入（未命中缓存）」= ¥3.00；cacheRead 取「输入（命中缓存）」= ¥0.025；output 取「输出」= ¥6.00。官网仅注明「缓存写入：限时免费」未给单价，cacheWrite 记 null。批量推理另立一条记录。海外表同模型实时推理为 $0.435 / $0.0036 / $0.87（美元/百万 tokens），与国内表分列，未混入本条。"
+    },
+    {
+      "modelId": "mimo-v2-6-pro",
+      "vendorModelId": "mimo-v2.6-pro",
+      "billingMode": "payg",
+      "currency": "CNY",
+      "input": 1.5,
+      "cacheRead": 0.0125,
+      "cacheWrite": null,
+      "output": 3,
+      "tier": {
+        "kind": "batch",
+        "note": "官网原文：批量推理（Batch API）行，与同模型实时推理行并列于「模型国内定价 → 语言模型」表内，输入/输出/命中缓存价均为实时推理的 1/2"
+      },
+      "tierLabel": "批量推理",
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网「模型国内定价 → 语言模型」批量推理行，单位原文「元 / 百万 tokens」，已是每 100 万 token 口径，无需换算。input = ¥1.50（未命中缓存）；cacheRead = ¥0.0125（命中缓存）；output = ¥3.00。官网仅注明「缓存写入：限时免费」未给单价，cacheWrite 记 null。海外表同模型批量推理为 $0.2175 / $0.0018 / $0.435（美元/百万 tokens），与国内表分列，未混入本条。"
+    },
+    {
+      "modelId": "mimo-v2-6-flash",
+      "vendorModelId": "mimo-v2.6-flash",
+      "billingMode": "payg",
+      "currency": "CNY",
+      "input": 1,
+      "cacheRead": 0.02,
+      "cacheWrite": null,
+      "output": 2,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "实时推理",
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网「模型国内定价 → 语言模型」实时推理行，单位原文「元 / 百万 tokens」，已是每 100 万 token 口径，无需换算。input 取「输入（未命中缓存）」= ¥1.00；cacheRead 取「输入（命中缓存）」= ¥0.02；output 取「输出」= ¥2.00。官网仅注明「缓存写入：限时免费」未给单价，cacheWrite 记 null。批量推理另立一条记录。海外表同模型实时推理为 $0.14 / $0.0028 / $0.28（美元/百万 tokens），与国内表分列，未混入本条。"
+    },
+    {
+      "modelId": "mimo-v2-6-flash",
+      "vendorModelId": "mimo-v2.6-flash",
+      "billingMode": "payg",
+      "currency": "CNY",
+      "input": 0.5,
+      "cacheRead": 0.01,
+      "cacheWrite": null,
+      "output": 1,
+      "tier": {
+        "kind": "batch",
+        "note": "官网原文：批量推理（Batch API）行，与同模型实时推理行并列于「模型国内定价 → 语言模型」表内，输入/输出/命中缓存价均为实时推理的 1/2"
+      },
+      "tierLabel": "批量推理",
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网「模型国内定价 → 语言模型」批量推理行，单位原文「元 / 百万 tokens」，已是每 100 万 token 口径，无需换算。input = ¥0.50（未命中缓存）；cacheRead = ¥0.01（命中缓存）；output = ¥1.00。官网仅注明「缓存写入：限时免费」未给单价，cacheWrite 记 null。海外表同模型批量推理为 $0.07 / $0.0014 / $0.14（美元/百万 tokens），与国内表分列，未混入本条。"
+    },
+    {
+      "modelId": "mimo-v2-6-pro",
+      "vendorModelId": "mimo-v2.6-pro",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Lite · 月付 · Pro 折算",
+      "promotional": true,
+      "promoNote": "个人版首购享 88 折（每个账号仅 1 次）；连续包年相比连续包月享 88 折；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版月度套餐 Lite（来源 https://mimo.mi.com/docs/price/token-plan ，非按量价格页）：定价 ¥39/月，原始额度 41 亿 Credits（4.1e9）。Credits 为通用额度，官网费率表：mimo-v2.6-pro 输入未命中 300、输出 600、命中缓存 2.5 M Credits / 1M tokens。packageTokens = 10,933,333 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：4.1e9 Credits ÷ (3×300 + 1×600) M Credits per 4M tokens × 4M = 10,933,333 tokens），对应折算均价约 ¥3.57/百万 token（官网同模型按量实时推理混合价 ¥3.75/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服，不会继续扣账户余额。packageMerged=true，packageManualActivation=true（订阅需手动购买并按月续费）。",
+      "packageTokens": 10933333,
+      "packagePeriod": "1 个月",
+      "packagePrice": 39,
+      "packageTierName": "Token Plan Lite（月付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-pro",
+      "vendorModelId": "mimo-v2.6-pro",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Standard · 月付 · Pro 折算",
+      "promotional": true,
+      "promoNote": "个人版首购享 88 折（每个账号仅 1 次）；连续包年相比连续包月享 88 折；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版月度套餐 Standard：定价 ¥99/月，原始额度 110 亿 Credits（1.1e10）。packageTokens = 29,333,333 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：1.1e10 Credits ÷ (3×300 + 1×600) M Credits per 4M tokens × 4M = 29,333,333 tokens），对应折算均价约 ¥3.38/百万 token（官网同模型按量实时推理混合价 ¥3.75/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 29333333,
+      "packagePeriod": "1 个月",
+      "packagePrice": 99,
+      "packageTierName": "Token Plan Standard（月付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-pro",
+      "vendorModelId": "mimo-v2.6-pro",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Pro · 月付 · Pro 折算",
+      "promotional": true,
+      "promoNote": "个人版首购享 88 折（每个账号仅 1 次）；连续包年相比连续包月享 88 折；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版月度套餐 Pro：定价 ¥329/月，原始额度 380 亿 Credits（3.8e10）。packageTokens = 101,333,333 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：3.8e10 Credits ÷ (3×300 + 1×600) M Credits per 4M tokens × 4M = 101,333,333 tokens），对应折算均价约 ¥3.25/百万 token（官网同模型按量实时推理混合价 ¥3.75/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 101333333,
+      "packagePeriod": "1 个月",
+      "packagePrice": 329,
+      "packageTierName": "Token Plan Pro（月付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-pro",
+      "vendorModelId": "mimo-v2.6-pro",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Max · 月付 · Pro 折算",
+      "promotional": true,
+      "promoNote": "个人版首购享 88 折（每个账号仅 1 次）；连续包年相比连续包月享 88 折；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版月度套餐 Max：定价 ¥659/月，原始额度 820 亿 Credits（8.2e10）。packageTokens = 218,666,667 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：8.2e10 Credits ÷ (3×300 + 1×600) M Credits per 4M tokens × 4M = 218,666,667 tokens），对应折算均价约 ¥3.01/百万 token（官网同模型按量实时推理混合价 ¥3.75/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 218666667,
+      "packagePeriod": "1 个月",
+      "packagePrice": 659,
+      "packageTierName": "Token Plan Max（月付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-pro",
+      "vendorModelId": "mimo-v2.6-pro",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Lite · 年付 · Pro 折算",
+      "promotional": true,
+      "promoNote": "连续包年相比连续包月享 88 折（首购优惠不参与包年）；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版年度套餐 Lite：定价 ¥408/年，原始额度 492 亿 Credits（4.92e10）。packageTokens = 131,200,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：4.92e10 Credits ÷ (3×300 + 1×600) M Credits per 4M tokens × 4M = 131,200,000 tokens），对应折算均价约 ¥3.11/百万 token（官网同模型按量实时推理混合价 ¥3.75/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 131200000,
+      "packagePeriod": "1 年",
+      "packagePrice": 408,
+      "packageTierName": "Token Plan Lite（年付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-pro",
+      "vendorModelId": "mimo-v2.6-pro",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Standard · 年付 · Pro 折算",
+      "promotional": true,
+      "promoNote": "连续包年相比连续包月享 88 折（首购优惠不参与包年）；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版年度套餐 Standard：定价 ¥1044/年，原始额度 1320 亿 Credits（1.32e11）。packageTokens = 352,000,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：1.32e11 Credits ÷ (3×300 + 1×600) M Credits per 4M tokens × 4M = 352,000,000 tokens），对应折算均价约 ¥2.97/百万 token（官网同模型按量实时推理混合价 ¥3.75/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 352000000,
+      "packagePeriod": "1 年",
+      "packagePrice": 1044,
+      "packageTierName": "Token Plan Standard（年付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-pro",
+      "vendorModelId": "mimo-v2.6-pro",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Pro · 年付 · Pro 折算",
+      "promotional": true,
+      "promoNote": "连续包年相比连续包月享 88 折（首购优惠不参与包年）；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版年度套餐 Pro：定价 ¥3468/年，原始额度 4560 亿 Credits（4.56e11）。packageTokens = 1,216,000,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：4.56e11 Credits ÷ (3×300 + 1×600) M Credits per 4M tokens × 4M = 1,216,000,000 tokens），对应折算均价约 ¥2.85/百万 token（官网同模型按量实时推理混合价 ¥3.75/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 1216000000,
+      "packagePeriod": "1 年",
+      "packagePrice": 3468,
+      "packageTierName": "Token Plan Pro（年付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-pro",
+      "vendorModelId": "mimo-v2.6-pro",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Max · 年付 · Pro 折算",
+      "promotional": true,
+      "promoNote": "连续包年相比连续包月享 88 折（首购优惠不参与包年）；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版年度套餐 Max：定价 ¥6948/年，原始额度 9840 亿 Credits（9.84e11）。packageTokens = 2,624,000,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：9.84e11 Credits ÷ (3×300 + 1×600) M Credits per 4M tokens × 4M = 2,624,000,000 tokens），对应折算均价约 ¥2.65/百万 token（官网同模型按量实时推理混合价 ¥3.75/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 2624000000,
+      "packagePeriod": "1 年",
+      "packagePrice": 6948,
+      "packageTierName": "Token Plan Max（年付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-flash",
+      "vendorModelId": "mimo-v2.6-flash",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Lite · 月付 · Flash 折算",
+      "promotional": true,
+      "promoNote": "个人版首购享 88 折（每个账号仅 1 次）；连续包年相比连续包月享 88 折；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版月度套餐 Lite（来源 https://mimo.mi.com/docs/price/token-plan ）：定价 ¥39/月，原始额度 41 亿 Credits（4.1e9）。Credits 为通用额度，官网费率表：mimo-v2.6-flash 输入未命中 100、输出 200、命中缓存 2 M Credits / 1M tokens。packageTokens = 32,800,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：4.1e9 Credits ÷ (3×100 + 1×200) M Credits per 4M tokens × 4M = 32,800,000 tokens），对应折算均价约 ¥1.19/百万 token（官网同模型按量实时推理混合价 ¥1.25/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 32800000,
+      "packagePeriod": "1 个月",
+      "packagePrice": 39,
+      "packageTierName": "Token Plan Lite（月付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-flash",
+      "vendorModelId": "mimo-v2.6-flash",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Standard · 月付 · Flash 折算",
+      "promotional": true,
+      "promoNote": "个人版首购享 88 折（每个账号仅 1 次）；连续包年相比连续包月享 88 折；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版月度套餐 Standard：定价 ¥99/月，原始额度 110 亿 Credits（1.1e10）。packageTokens = 88,000,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：1.1e10 Credits ÷ (3×100 + 1×200) M Credits per 4M tokens × 4M = 88,000,000 tokens），对应折算均价约 ¥1.13/百万 token（官网同模型按量实时推理混合价 ¥1.25/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 88000000,
+      "packagePeriod": "1 个月",
+      "packagePrice": 99,
+      "packageTierName": "Token Plan Standard（月付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-flash",
+      "vendorModelId": "mimo-v2.6-flash",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Pro · 月付 · Flash 折算",
+      "promotional": true,
+      "promoNote": "个人版首购享 88 折（每个账号仅 1 次）；连续包年相比连续包月享 88 折；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版月度套餐 Pro：定价 ¥329/月，原始额度 380 亿 Credits（3.8e10）。packageTokens = 304,000,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：3.8e10 Credits ÷ (3×100 + 1×200) M Credits per 4M tokens × 4M = 304,000,000 tokens），对应折算均价约 ¥1.08/百万 token（官网同模型按量实时推理混合价 ¥1.25/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 304000000,
+      "packagePeriod": "1 个月",
+      "packagePrice": 329,
+      "packageTierName": "Token Plan Pro（月付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-flash",
+      "vendorModelId": "mimo-v2.6-flash",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Max · 月付 · Flash 折算",
+      "promotional": true,
+      "promoNote": "个人版首购享 88 折（每个账号仅 1 次）；连续包年相比连续包月享 88 折；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版月度套餐 Max：定价 ¥659/月，原始额度 820 亿 Credits（8.2e10）。packageTokens = 656,000,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：8.2e10 Credits ÷ (3×100 + 1×200) M Credits per 4M tokens × 4M = 656,000,000 tokens），对应折算均价约 ¥1.00/百万 token（官网同模型按量实时推理混合价 ¥1.25/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 656000000,
+      "packagePeriod": "1 个月",
+      "packagePrice": 659,
+      "packageTierName": "Token Plan Max（月付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-flash",
+      "vendorModelId": "mimo-v2.6-flash",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Lite · 年付 · Flash 折算",
+      "promotional": true,
+      "promoNote": "连续包年相比连续包月享 88 折（首购优惠不参与包年）；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版年度套餐 Lite：定价 ¥408/年，原始额度 492 亿 Credits（4.92e10）。packageTokens = 393,600,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：4.92e10 Credits ÷ (3×100 + 1×200) M Credits per 4M tokens × 4M = 393,600,000 tokens），对应折算均价约 ¥1.04/百万 token（官网同模型按量实时推理混合价 ¥1.25/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 393600000,
+      "packagePeriod": "1 年",
+      "packagePrice": 408,
+      "packageTierName": "Token Plan Lite（年付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-flash",
+      "vendorModelId": "mimo-v2.6-flash",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Standard · 年付 · Flash 折算",
+      "promotional": true,
+      "promoNote": "连续包年相比连续包月享 88 折（首购优惠不参与包年）；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版年度套餐 Standard：定价 ¥1044/年，原始额度 1320 亿 Credits（1.32e11）。packageTokens = 1,056,000,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：1.32e11 Credits ÷ (3×100 + 1×200) M Credits per 4M tokens × 4M = 1,056,000,000 tokens），对应折算均价约 ¥0.99/百万 token（官网同模型按量实时推理混合价 ¥1.25/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 1056000000,
+      "packagePeriod": "1 年",
+      "packagePrice": 1044,
+      "packageTierName": "Token Plan Standard（年付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-flash",
+      "vendorModelId": "mimo-v2.6-flash",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Pro · 年付 · Flash 折算",
+      "promotional": true,
+      "promoNote": "连续包年相比连续包月享 88 折（首购优惠不参与包年）；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版年度套餐 Pro：定价 ¥3468/年，原始额度 4560 亿 Credits（4.56e11）。packageTokens = 3,648,000,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：4.56e11 Credits ÷ (3×100 + 1×200) M Credits per 4M tokens × 4M = 3,648,000,000 tokens），对应折算均价约 ¥0.95/百万 token（官网同模型按量实时推理混合价 ¥1.25/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 3648000000,
+      "packagePeriod": "1 年",
+      "packagePrice": 3468,
+      "packageTierName": "Token Plan Pro（年付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    },
+    {
+      "modelId": "mimo-v2-6-flash",
+      "vendorModelId": "mimo-v2.6-flash",
+      "billingMode": "package",
+      "currency": "CNY",
+      "input": null,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": null,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "Token Plan Max · 年付 · Flash 折算",
+      "promotional": true,
+      "promoNote": "连续包年相比连续包月享 88 折（首购优惠不参与包年）；夜间优惠速率：非高峰期（北京时间 0:00-8:00）0.8x 消耗系数",
+      "note": "官网 Token Plan 个人版年度套餐 Max：定价 ¥6948/年，原始额度 9840 亿 Credits（9.84e11）。packageTokens = 7,872,000,000 为按项目 3:1 输入输出混合口径折算的等效 token 数（折算：9.84e11 Credits ÷ (3×100 + 1×200) M Credits per 4M tokens × 4M = 7,872,000,000 tokens），对应折算均价约 ¥0.88/百万 token（官网同模型按量实时推理混合价 ¥1.25/百万 token）。输入输出合并抵扣（Credits 通用额度），额度耗尽即停服。packageMerged=true，packageManualActivation=true。",
+      "packageTokens": 7872000000,
+      "packagePeriod": "1 年",
+      "packagePrice": 6948,
+      "packageTierName": "Token Plan Max（年付）",
+      "packageMerged": true,
+      "packageManualActivation": true
+    }
+  ],
+  "newModels": [
+    {
+      "name": "MiMo-V2.6-Pro-Ultraspeed",
+      "vendorId": "mimo-v2.6-pro-ultraspeed",
+      "observation": "官网「模型国内定价 → 语言模型」实时推理行：输入命中缓存 ¥0.25 / 输入未命中 ¥30.00 / 输出 ¥60.00（¥/百万 tokens）。官网注明「不支持批量推理：mimo-v2.6-pro-ultraspeed」。官网介绍：「兼顾 V2.6-Pro 旗舰性能，提供最高 20 倍输出速度，服务强实时交互与对响应速度敏感的生产场景。」海外表同款 $0.036 / $4.35 / $8.7（美元/百万 tokens）。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "MiMo-V2.5-ASR",
+      "vendorId": "mimo-v2.5-asr",
+      "observation": "官网「模型国内定价 → ASR 系列」表：输入音频时长 ¥0.5 /小时（海外 $0.074 /小时）。Token Plan 内计 30M Credits / 输入音频时长(h)。属语音识别模型，非文本 LLM，未计入本文件 prices。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "MiMo-V2.5-TTS 系列",
+      "vendorId": "mimo-v2.5-tts",
+      "observation": "官网「模型国内定价 → TTS 系列」：限时免费：mimo-v2.5-tts、mimo-v2.5-tts-voiceclone、mimo-v2.5-tts-voicedesign；Token Plan 内亦不消耗套餐 Credits。属语音合成模型，非文本 LLM，未计入本文件 prices。项目 models.json 无此 slug。"
+    }
+  ]
+}

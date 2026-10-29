@@ -1,0 +1,348 @@
+{
+  "channelId": "openai",
+  "channelName": "OpenAI 官方",
+  "fetchedAt": "2026-10-27T14:49:00.000Z",
+  "sourceUrl": "https://developers.openai.com/api/docs/pricing",
+  "evidence": "=== developers.openai.com/api/docs/pricing（Flagship models · Standard · Prices per 1M tokens）===\n表头: | Model | Short context input | Short context output | Short context cached input | Short context 30m write | Short context 12h write | Long context input | Long context output | Long context cached input | Long context 30m write | Long context 12h write |\n| gpt-6-astra | $10.00 | $50.00 | $1.00 | $12.50 | $25.00 | $20.00 | $75.00 | $2.00 | $25.00 | $50.00 |\n| gpt-6.1-sol | $2.00 | $10.00 | $0.10 | $2.50 | $5.00 | $4.00 | $15.00 | $0.20 | $5.00 | $10.00 |\n| gpt-6.1-terra | $1.00 | $5.00 | $0.05 | $1.25 | $2.50 | $2.00 | $7.50 | $0.10 | $2.50 | $5.00 |\n| gpt-6-luna | $0.10 | $0.50 | $0.01 | $0.125 | $0.25 | $0.20 | $0.75 | $0.02 | $0.25 | $0.50 |\n| gpt-6-sol | $2.00 | $10.00 | $0.20 | $2.50 | $5.00 | $4.00 | $15.00 | $0.40 | $5.00 | $10.00 |\n\n=== 上下文长度分档原文 ===\nShort context: ≤272K input tokens. Long context: >272K input tokens.\n\n=== Service tier / 促销原文（Flagship models 表下方）===\nRegional processing (data residency) endpoints are charged a 10% uplift for models released on or after March 5, 2026. FedRAMP endpoints are also charged a 10% uplift. Priority processing was renamed Fast mode on July 30, 2026. GPT-5.6 Sol's promotional pricing is available at least through November 21, 2026.\n\n=== Batch 档（Flagship models · Batch）原文 ===\n| gpt-6-astra | $5.00 | $25.00 | $0.50 | $6.25 | $12.50 | $10.00 | $37.50 | $1.00 | $12.50 | $25.00 |\n| gpt-6.1-sol | $1.00 | $5.00 | $0.05 | $1.25 | $2.50 | $2.00 | $7.50 | $0.10 | $2.50 | $5.00 |\n| gpt-6-luna | $0.05 | $0.25 | $0.005 | $0.0625 | $0.125 | $0.10 | $0.375 | $0.01 | $0.125 | $0.25 |\n\n=== Fast 档（Flagship models · Fast）原文 ===\n| gpt-6-astra | $20.00 | $100.00 | $2.00 | $25.00 | $50.00 | $40.00 | $150.00 | $4.00 | $50.00 | $100.00 |\n| gpt-6.1-sol | $4.00 | $20.00 | $0.20 | $5.00 | $10.00 | $8.00 | $30.00 | $0.40 | $10.00 | $20.00 |\n| gpt-6-luna | $0.20 | $1.00 | $0.02 | $0.25 | $0.50 | $0.40 | $1.50 | $0.04 | $0.50 | $1.00 |\n\n=== Ultrafast 档原文（仅 gpt-6-astra / gpt-6.1-sol 有）===\n| gpt-6-astra | $60.00 | $300.00 | $6.00 | $75.00 | $150.00 | $120.00 | $450.00 | $12.00 | $150.00 | $300.00 |\n| gpt-6.1-sol | $12.00 | $60.00 | $0.60 | $15.00 | $30.00 | $24.00 | $90.00 | $1.20 | $30.00 | $60.00 |\n\n=== 交叉验证：openai.com/business/pricing/#api（ChatGPT API 标签，Standard 档）===\nGPT-6 Astra / Price / Input: $10.00 / 1M tokens / Cached input: $1.00 / 1M tokens / Output: $50.00 / 1M tokens\nGPT-6.1 Sol / Price / Input: $2.00 / 1M tokens / Cached input: $0.10 / 1M tokens / Output: $10.00 / 1M tokens\nGPT-6.1 Terra / Price / Input: $1.00 / 1M tokens / Cache read: $0.05 / 1M tokens / Output: $5.00 / 1M tokens\nGPT-6 Luna / Price / Input: $0.10 / 1M tokens / Cached input: $0.01 / 1M tokens / Output: $0.50 / 1M tokens\nPricing above reflects standard processing rates for context lengths under 272K.\n\n=== 抓取说明 ===\nplatform.openai.com/docs/pricing 与 developers.openai.com/api/docs/pricing 对 Playwright 自带 Chromium 一律返回 Cloudflare 403（\"This request was blocked / 403 FORBIDDEN\"，developers.openai.com 首页同样 403）；改用本机真实 Chrome（Playwright channel:'chrome'）后 HTTP 200，成功取得正文与同页 .md 版本（/api/docs/pricing.md）互相校验，两处数值完全一致。",
+  "status": "ok",
+  "error": null,
+  "prices": [
+    {
+      "modelId": "gpt-6-astra",
+      "vendorModelId": "gpt-6-astra",
+      "billingMode": "payg",
+      "currency": "USD",
+      "input": 10.0,
+      "cacheRead": 1.0,
+      "cacheWrite": 12.5,
+      "output": 50.0,
+      "tier": { "kind": "none" },
+      "tierLabel": null,
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网按每 1M tokens 标价，Standard 档、Short context（≤272K 输入 token）。cacheWrite 取 30 分钟缓存写入价 $12.50（官网另有 12 小时缓存写入 $25.00）。长上下文档单列一条记录：>272K 输入 token 时输入 $20.00、输出 $75.00、缓存读取 $2.00。Batch 半价、Fast 档翻倍、Ultrafast 档 6 倍；data residency 端点加价 10%。"
+    },
+    {
+      "modelId": "gpt-6-astra",
+      "vendorModelId": "gpt-6-astra",
+      "billingMode": "payg",
+      "currency": "USD",
+      "input": 20.0,
+      "cacheRead": 2.0,
+      "cacheWrite": 25.0,
+      "output": 75.0,
+      "tier": {
+        "kind": "long_context",
+        "threshold": 272000,
+        "unit": "token",
+        "note": "官网原文：Short context: ≤272K input tokens. Long context: >272K input tokens. 超过 272K 输入 token 后单价跳档（输入翻倍、输出 1.5 倍）"
+      },
+      "tierLabel": ">272K",
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网按每 1M tokens 标价，Standard 档 Long context（>272K 输入 token）。cacheWrite 取 30 分钟缓存写入价 $25.00（官网另有 12 小时缓存写入 $50.00）。"
+    },
+    {
+      "modelId": "gpt-6-1-sol",
+      "vendorModelId": "gpt-6.1-sol",
+      "billingMode": "payg",
+      "currency": "USD",
+      "input": 2.0,
+      "cacheRead": 0.1,
+      "cacheWrite": 2.5,
+      "output": 10.0,
+      "tier": { "kind": "none" },
+      "tierLabel": null,
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网按每 1M tokens 标价，Standard 档、Short context（≤272K 输入 token）。cacheWrite 取 30 分钟缓存写入价 $2.50（官网另有 12 小时缓存写入 $5.00）。长上下文档单列一条记录：>272K 输入 token 时输入 $4.00、输出 $15.00、缓存读取 $0.20。Batch 半价、Fast 档翻倍、Ultrafast 档 6 倍；data residency 端点加价 10%。"
+    },
+    {
+      "modelId": "gpt-6-1-sol",
+      "vendorModelId": "gpt-6.1-sol",
+      "billingMode": "payg",
+      "currency": "USD",
+      "input": 4.0,
+      "cacheRead": 0.2,
+      "cacheWrite": 5.0,
+      "output": 15.0,
+      "tier": {
+        "kind": "long_context",
+        "threshold": 272000,
+        "unit": "token",
+        "note": "官网原文：Short context: ≤272K input tokens. Long context: >272K input tokens. 超过 272K 输入 token 后单价跳档"
+      },
+      "tierLabel": ">272K",
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网按每 1M tokens 标价，Standard 档 Long context（>272K 输入 token）。cacheWrite 取 30 分钟缓存写入价 $5.00（官网另有 12 小时缓存写入 $10.00）。"
+    },
+    {
+      "modelId": "gpt-6-luna",
+      "vendorModelId": "gpt-6-luna",
+      "billingMode": "payg",
+      "currency": "USD",
+      "input": 0.1,
+      "cacheRead": 0.01,
+      "cacheWrite": 0.125,
+      "output": 0.5,
+      "tier": { "kind": "none" },
+      "tierLabel": null,
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网按每 1M tokens 标价，Standard 档、Short context（≤272K 输入 token）。cacheWrite 取 30 分钟缓存写入价 $0.125（官网另有 12 小时缓存写入 $0.25）。长上下文档单列一条记录：>272K 输入 token 时输入 $0.20、输出 $0.75、缓存读取 $0.02。Batch 半价、Fast 档翻倍；官网 Ultrafast 档未列 gpt-6-luna；data residency 端点加价 10%。"
+    },
+    {
+      "modelId": "gpt-6-luna",
+      "vendorModelId": "gpt-6-luna",
+      "billingMode": "payg",
+      "currency": "USD",
+      "input": 0.2,
+      "cacheRead": 0.02,
+      "cacheWrite": 0.25,
+      "output": 0.75,
+      "tier": {
+        "kind": "long_context",
+        "threshold": 272000,
+        "unit": "token",
+        "note": "官网原文：Short context: ≤272K input tokens. Long context: >272K input tokens. 超过 272K 输入 token 后单价跳档"
+      },
+      "tierLabel": ">272K",
+      "promotional": false,
+      "promoNote": null,
+      "note": "官网按每 1M tokens 标价，Standard 档 Long context（>272K 输入 token）。cacheWrite 取 30 分钟缓存写入价 $0.25（官网另有 12 小时缓存写入 $0.50）。"
+    }
+  ],
+  "newModels": [
+    {
+      "name": "GPT-6.1 Terra",
+      "vendorId": "gpt-6.1-terra",
+      "observation": "官网 Flagship models · Standard：Short context 输入 $1.00 / 输出 $5.00 / 缓存输入 $0.05 / 30m 写入 $1.25 / 12h 写入 $2.50；Long context(>272K) 输入 $2.00 / 输出 $7.50 / 缓存输入 $0.10。Batch 半价，Fast 档输入 $2.00 / 输出 $10.00。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-6 Sol",
+      "vendorId": "gpt-6-sol",
+      "observation": "官网 Flagship models · Standard：Short context 输入 $2.00 / 输出 $10.00 / 缓存输入 $0.20 / 30m 写入 $2.50 / 12h 写入 $5.00；Long context(>272K) 输入 $4.00 / 输出 $15.00 / 缓存输入 $0.40。注意这是与 gpt-6.1-sol 并存的独立模型（缓存输入 $0.20 vs gpt-6.1-sol 的 $0.10）。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.6 Sol",
+      "vendorId": "gpt-5.6-sol",
+      "observation": "官网 Flagship models · Standard：Short context 输入 $4.00 / 输出 $20.00 / 缓存输入 $0.40 / 30m 写入 $5.00 / 12h 写入 $10.00；Long context 输入 $8.00 / 输出 $30.00 / 缓存输入 $0.80。官网注明『GPT-5.6 Sol's promotional pricing is available at least through November 21, 2026』，属限时促销价。同时出现在 Cyber models 表中（Daybreak 系列）。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.6 Terra",
+      "vendorId": "gpt-5.6-terra",
+      "observation": "官网 Standard：Short context 输入 $2.00 / 输出 $12.00 / 缓存输入 $0.20 / 30m 写入 $2.50 / 12h 写入 $5.00；Long context 输入 $4.00 / 输出 $18.00 / 缓存输入 $0.40。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.6 Luna",
+      "vendorId": "gpt-5.6-luna",
+      "observation": "官网 Standard：Short context 输入 $0.20 / 输出 $1.20 / 缓存输入 $0.02 / 30m 写入 $0.25 / 12h 写入 $0.50；Long context 输入 $0.40 / 输出 $1.80 / 缓存输入 $0.04。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.5",
+      "vendorId": "gpt-5.5",
+      "observation": "官网 Standard，标注 (<272K context length)：输入 $5.00 / 输出 $30.00 / 缓存输入 $0.50；长上下文输入 $10.00 / 输出 $45.00 / 缓存输入 $1.00。无 30m / 12h 缓存写入价（官网为 -）。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.5 Pro",
+      "vendorId": "gpt-5.5-pro",
+      "observation": "官网 Standard，标注 (<272K context length)：输入 $30.00 / 输出 $180.00，无缓存价。长上下文输入 $60.00 / 输出 $270.00。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.4",
+      "vendorId": "gpt-5.4",
+      "observation": "官网 Standard，标注 (<272K context length)：输入 $2.50 / 输出 $15.00 / 缓存输入 $0.25；长上下文输入 $5.00 / 输出 $22.50 / 缓存输入 $0.50。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.4 mini",
+      "vendorId": "gpt-5.4-mini",
+      "observation": "官网 Standard：输入 $0.75 / 输出 $4.50 / 缓存输入 $0.075。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.4 nano",
+      "vendorId": "gpt-5.4-nano",
+      "observation": "官网 Standard：输入 $0.20 / 输出 $1.25 / 缓存输入 $0.02。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.2",
+      "vendorId": "gpt-5.2",
+      "observation": "官网 Standard：输入 $1.75 / 输出 $14.00 / 缓存输入 $0.175。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.2 Pro",
+      "vendorId": "gpt-5.2-pro",
+      "observation": "官网 Standard：输入 $21.00 / 输出 $168.00，无缓存价。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.1",
+      "vendorId": "gpt-5.1",
+      "observation": "官网 Standard：输入 $1.25 / 输出 $10.00 / 缓存输入 $0.125。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5",
+      "vendorId": "gpt-5",
+      "observation": "官网 Standard：输入 $1.25 / 输出 $10.00 / 缓存输入 $0.125。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5 mini",
+      "vendorId": "gpt-5-mini",
+      "observation": "官网 Standard：输入 $0.25 / 输出 $2.00 / 缓存输入 $0.025。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5 nano",
+      "vendorId": "gpt-5-nano",
+      "observation": "官网 Standard：输入 $0.05 / 输出 $0.40 / 缓存输入 $0.005。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5 Pro",
+      "vendorId": "gpt-5-pro",
+      "observation": "官网 Standard：输入 $15.00 / 输出 $120.00，无缓存价。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-4.1",
+      "vendorId": "gpt-4.1",
+      "observation": "官网 Standard：输入 $2.00 / 输出 $8.00 / 缓存输入 $0.50。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-4.1 mini",
+      "vendorId": "gpt-4.1-mini",
+      "observation": "官网 Standard：输入 $0.40 / 输出 $1.60 / 缓存输入 $0.10。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-4.1 nano",
+      "vendorId": "gpt-4.1-nano",
+      "observation": "官网 Standard：输入 $0.10 / 输出 $0.40 / 缓存输入 $0.025。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-4o",
+      "vendorId": "gpt-4o",
+      "observation": "官网 Standard：输入 $2.50 / 输出 $10.00 / 缓存输入 $1.25。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-4o mini",
+      "vendorId": "gpt-4o-mini",
+      "observation": "官网 Standard：输入 $0.15 / 输出 $0.60 / 缓存输入 $0.075。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "o1",
+      "vendorId": "o1",
+      "observation": "官网 Standard：输入 $15.00 / 输出 $60.00 / 缓存输入 $7.50。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "o1-pro",
+      "vendorId": "o1-pro",
+      "observation": "官网 Standard：输入 $150.00 / 输出 $600.00，无缓存价。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "o3",
+      "vendorId": "o3",
+      "observation": "官网 Standard：输入 $2.00 / 输出 $8.00 / 缓存输入 $0.50。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "o3-pro",
+      "vendorId": "o3-pro",
+      "observation": "官网 Standard：输入 $20.00 / 输出 $80.00，无缓存价。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "o3-mini",
+      "vendorId": "o3-mini",
+      "observation": "官网 Standard：输入 $1.10 / 输出 $4.40 / 缓存输入 $0.55。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "o4-mini",
+      "vendorId": "o4-mini",
+      "observation": "官网 Standard：输入 $1.10 / 输出 $4.40 / 缓存输入 $0.275。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.3 Codex",
+      "vendorId": "gpt-5.3-codex",
+      "observation": "官网 Specialized models · Codex：Standard 输入 $1.75 / 输出 $14.00 / 缓存输入 $0.175；Fast 档输入 $3.50 / 输出 $28.00 / 缓存输入 $0.35。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "chat-latest",
+      "vendorId": "chat-latest",
+      "observation": "官网 Specialized models · ChatGPT：输入 $5.00 / 输出 $30.00 / 缓存输入 $0.50。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5 Search API",
+      "vendorId": "gpt-5-search-api",
+      "observation": "官网 Specialized models · Search：输入 $1.25 / 输出 $10.00 / 缓存输入 $0.125。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.6 Cyber",
+      "vendorId": "gpt-5.6-cyber",
+      "observation": "官网 Cyber models（Daybreak 系列）Standard：输入 $12.50 / 输出 $75.00 / 缓存输入 $1.25 / 30m 写入 $15.625 / 12h 写入 $31.25；官网未列长上下文档。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-5.5 Cyber",
+      "vendorId": "gpt-5.5-cyber",
+      "observation": "官网 Cyber models（Daybreak 系列）Standard：输入 $12.50 / 输出 $75.00 / 缓存输入 $1.25，无 30m / 12h 写入价，无长上下文档。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-Rosalind Research",
+      "vendorId": "gpt-rosalind-research",
+      "observation": "官网 Life sciences models：输入 $5.00 / 输出 $25.00 / 缓存输入 $0.50。官网注明『Cache-write pricing does not apply to this model』，且『Billing for gpt-rosalind-research begins on October 5, 2026』，需 trusted-access 资格。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-Rosalind Discovery",
+      "vendorId": "gpt-rosalind-discovery",
+      "observation": "官网 Life sciences models：输入 $5.00 / 输出 $25.00 / 缓存输入 $0.50。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-Image 2.5 Sunburst",
+      "vendorId": "gpt-image-2.5-sunburst",
+      "observation": "官网 Image generation models · Standard：Image 模态 输入 $8.00 / 输出 $30.00 / 缓存输入 $2.00；Text 模态 输入 $5.00 / 缓存输入 $1.25。官网注明 GPT Image 2/2.5 的 cached input 价仅适用于 Responses API。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-Image 2.5 Flare",
+      "vendorId": "gpt-image-2.5-flare",
+      "observation": "官网 Image generation models · Standard：Image 模态 输入 $8.00 / 输出 $30.00 / 缓存输入 $2.00；Text 模态 输入 $5.00 / 缓存输入 $1.25。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-Realtime 2.1",
+      "vendorId": "gpt-realtime-2.1",
+      "observation": "官网 Realtime and audio generation models：Audio 输入 $32.00 / 输出 $64.00 / 缓存输入 $0.40；Text 输入 $4.00 / 输出 $24.00 / 缓存输入 $0.40；Image 输入 $5.00 / 缓存输入 $0.50。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-Realtime 2.1 mini",
+      "vendorId": "gpt-realtime-2.1-mini",
+      "observation": "官网 Realtime and audio generation models：Audio 输入 $10.00 / 输出 $20.00 / 缓存输入 $0.30；Text 输入 $0.60 / 输出 $2.40 / 缓存输入 $0.06；Image 输入 $0.80 / 缓存输入 $0.08。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-Live 1",
+      "vendorId": "gpt-live-1",
+      "observation": "官网 Multimodal models：$0.05 / 分钟（按秒计费，GPT-Live 1 语音会话不按整分钟取整，后端模型与工具用量另计）。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-Transcribe",
+      "vendorId": "gpt-transcribe",
+      "observation": "官网 Transcription models：估算成本 $0.0045 / 分钟（$0.00008 / 秒），无按 token 价。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-4o Transcribe",
+      "vendorId": "gpt-4o-transcribe",
+      "observation": "官网 Transcription models：输入 $2.50 / 输出 $10.00，估算成本 $0.006 / 分钟。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "GPT-4o mini Transcribe",
+      "vendorId": "gpt-4o-mini-transcribe",
+      "observation": "官网 Transcription models：输入 $1.25 / 输出 $5.00，估算成本 $0.003 / 分钟。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "text-embedding-3-small",
+      "vendorId": "text-embedding-3-small",
+      "observation": "官网 Specialized models · Embedding：输入 $0.02，无输出价。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "text-embedding-3-large",
+      "vendorId": "text-embedding-3-large",
+      "observation": "官网 Specialized models · Embedding：输入 $0.13，无输出价。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "omni-moderation-latest",
+      "vendorId": "omni-moderation-latest",
+      "observation": "官网 Specialized models · Moderation：标注 Free（免费），无输出价。项目 models.json 无此 slug。"
+    }
+  ]
+}

@@ -54,7 +54,9 @@ jobs:
           echo ""
           echo "=== 首页关键内容校验 ==="
           curl -s --max-time 30 "${BASE}/" -o /tmp/home.html || true
-          for kw in "ModelsMark" "性价比" "能力榜" "全渠道最低"; do
+          # 关键词与首页表格当前列名对应：
+          # 速览表列 = 模型 / 厂商 / 最低价 / 最高价 / 价差 / 智能指数 / 可选渠道
+          for kw in "ModelsMark" "性价比" "最低价" "最高价" "价差" "智能指数"; do
             CNT=$(grep -o "${kw}" /tmp/home.html 2>/dev/null | wc -l)
             echo "  ${kw}: ${CNT} 次"
             if [ "${CNT}" -eq 0 ]; then
@@ -62,6 +64,21 @@ jobs:
               FAILED=1
             fi
           done
+
+          echo ""
+          echo "=== 首页模型数量校验 ==="
+          # 线上模型行数不得明显少于仓库模型表 —— 防止数据被部分覆盖后悄悄变少。
+          # 速览表只列「有按量报价」的模型，因此行数会略少于模型表（差几个属正常）。
+          EXPECTED=$(node -e "
+            const list = require('./data/seeds/models.json');
+            console.log(list.length);
+          " 2>/dev/null || echo 0)
+          ACTUAL=$(grep -o '<tr>' /tmp/home.html 2>/dev/null | wc -l)
+          echo "  模型表 ${EXPECTED} 个 / 首页表格 ${ACTUAL} 行"
+          if [ "${EXPECTED}" -gt 20 ] && [ "${ACTUAL}" -lt $((EXPECTED * 8 / 10)) ]; then
+            echo "  ::error::首页模型行数 ${ACTUAL} 不足模型表 ${EXPECTED} 的 80%，数据可能被部分覆盖"
+            FAILED=1
+          fi
 
           echo ""
           echo "=== 套餐对比页数据校验 ==="

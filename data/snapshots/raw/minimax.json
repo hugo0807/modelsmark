@@ -1,0 +1,97 @@
+{
+  "channelId": "minimax",
+  "channelName": "MiniMax 官方",
+  "fetchedAt": "2026-10-27T15:22:00.000Z",
+  "sourceUrl": "https://platform.minimaxi.com/document/price",
+  "evidence": "=== 抓取入口 ===\n请求 https://platform.minimaxi.com/document/price （HTTP 200），页面最终 URL 为 https://platform.minimax.cn/docs/pricing/overview （锚点 #packages/speech）。站点为 MiniMax 开放平台文档中心「定价概览」页，左侧导航分节：模型价格（语言模型 / 视频 / 语音 / 图像 / 音乐）、工具价格（MCP / 服务端工具）、资源包（语音资源包 / 视频资源包）、计费指南（付费方式对比 / 按量计费说明 / 资源包使用规则 / 常见问题）。\n\n=== 语言模型 section（section#models/text）表格 0：MiniMax-M3.1-Flash（位于 tab 容器之外，独立表）===\n模型\t输入价格 元/百万 tokens\t输出价格 元/百万 tokens\t缓存读取 元/百万 tokens\nMiniMax-M3.1-Flash\t1.00\t4.00\t0.10\n\n=== 语言模型 section 表格 1：tab「标准」（role=tabpanel, id=panel-%E6%A0%87%E5%87%86-0，对应 LI[role=tab]「标准」aria-selected=true，display=block）===\n模型\t输入价格 元/百万 tokens\t输出价格 元/百万 tokens\t缓存读取 元/百万 tokens\nMiniMax-M3 ≤ 512k 输入 tokens 永久五折\t4.20 2.10\t16.80 8.40\t0.84 0.42\nMiniMax-M3 > 512k 输入 tokens* 永久五折\t8.40 4.20\t33.60 16.80\t1.68 0.84\n\n=== 语言模型 section 表格 2：tab「优先*」（role=tabpanel, id=panel-%E4%BC%98%E5%85%88-1，对应 LI[role=tab]「优先*」aria-selected=false，display=none）===\n模型\t输入价格 元/百万 tokens\t输出价格 元/百万 tokens\t缓存读取 元/百万 tokens\nMiniMax-M3≤ 512k 输入 tokens 永久五折\t6.30 3.15\t25.20 12.60\t1.26 0.63\nMiniMax-M3> 512k 输入 tokens 永久五折\t12.60 6.30\t50.40 25.20\t2.52 1.26\n\n=== 价格单元格 innerHTML 核对（确认为「划线原价 + 实付价」，非两个并列档位）===\ntd \"4.20 2.10\" → <del>4.20</del> 2.10\ntd \"16.80 8.40\" → <del>16.80</del> 8.40\ntd \"0.84 0.42\" → <del>0.84</del> 0.42\ntd \"8.40 4.20\" → <del>8.40</del> 4.20\ntd \"33.60 16.80\" → <del>33.60</del> 16.80\ntd \"1.68 0.84\" → <del>1.68</del> 0.84\ntd \"6.30 3.15\" → <del>6.30</del> 3.15\ntd \"25.20 12.60\" → <del>25.20</del> 12.60\ntd \"1.26 0.63\" → <del>1.26</del> 0.63\ntd \"12.60 6.30\" → <del>12.60</del> 6.30\ntd \"50.40 25.20\" → <del>50.40</del> 25.20\ntd \"2.52 1.26\" → <del>2.52</del> 1.26\n模型名单元格内含红色徽章「永久五折」。\n\n=== FAQ 原文（section#guides/faq，展开折叠面板后）===\nM3 标准服务与优先服务有什么区别？ → 优先服务让请求获得优先准入，按标准价格的 1.5 倍计费。调用时将 service_tier 设为 priority 即可启用。不同输入长度对应的价格档位见语言模型价格表。\n\n=== 语言模型区计费说明原文 ===\n请注意：\n计费项是token数；tokens字符比值根据使用场景的不同略有浮动，以实际消耗为准，字符数包括标点等\nToken与字符比（估算）：1600 中文字符约消耗 1000 tokens\n\n=== 视频 section 内 Context-IR 表（非文本 LLM API，仅登记观察）===\n模型/接口\t输入价格 每百万 tokens\t输出价格 每百万 tokens\nMiniMax-H3-Context-IR\t¥5.80\t¥23.00\n\n=== 交叉验证：优先档 = 标准档 × 1.5（与 FAQ「按标准价格的 1.5 倍计费」一致）===\n≤512K 实付：3.15/2.10=1.5、12.60/8.40=1.5、0.63/0.42=1.5\n≤512K 划线原价：6.30/4.20=1.5、25.20/16.80=1.5、1.26/0.84=1.5\n>512K 实付：6.30/4.20=1.5、25.20/16.80=1.5、1.26/0.84=1.5\n>512K 划线原价：12.60/8.40=1.5、50.40/33.60=1.5、2.52/1.68=1.5\n\n=== 已排除（非文本 LLM API 定价，未纳入本文件）===\n视频（H3 系列旗舰/扩展模型、视频再生成、Context-IR）、语音（Speech-to-Text ¥2.50 元/小时、T2A T2A Async speech-2.8-hd/speech-2.8-turbo、音色设计与快速复刻）、图像（image-01 / image-01-live ¥0.025 元/张）、音乐（Music-3.0 / Music-2.6 已下线、歌词生成已下线）、MCP（API-vlm ¥0.025 元/次）、服务端工具（web_search ¥0.03 元/次）、语音资源包、视频资源包。\n\n=== 说明 ===\nMiniMax 官网未提供文本 LLM 的资源包 / 套餐定价（资源包仅有语音与视频两类），故本文件无 billingMode=package 记录。官网未列缓存写入价，cacheWrite 一律记 null。",
+  "status": "ok",
+  "error": null,
+  "prices": [
+    {
+      "modelId": "minimax-m3",
+      "vendorModelId": "MiniMax-M3",
+      "billingMode": "payg",
+      "currency": "CNY",
+      "input": 2.1,
+      "cacheRead": 0.42,
+      "cacheWrite": null,
+      "output": 8.4,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "标准 ≤512K",
+      "promotional": true,
+      "promoNote": "官网标注「永久五折」红色徽章：划线原价输入 4.20 / 输出 16.80 / 缓存读取 0.84（均 元/百万 tokens），实付按五折后价 2.10 / 8.40 / 0.42 计费",
+      "note": "官网 tab「标准」（service_tier 默认）价格，单位原文「元/百万 tokens」，已是每 100 万 token 口径，无需换算。input 取输入价 2.10 元（划线原价 4.20）；cacheRead 取缓存读取价 0.42 元（划线原价 0.84）；output 取输出价 8.40 元（划线原价 16.80）。官网未列缓存写入价，cacheWrite 记 null。档位条件：官网原文「MiniMax-M3 ≤ 512k 输入 tokens」，即输入 ≤512K 时适用本档；>512K 输入 tokens 走另一档（输入/输出翻倍，缓存读取翻倍）。"
+    },
+    {
+      "modelId": "minimax-m3",
+      "vendorModelId": "MiniMax-M3",
+      "billingMode": "payg",
+      "currency": "CNY",
+      "input": 4.2,
+      "cacheRead": 0.84,
+      "cacheWrite": null,
+      "output": 16.8,
+      "tier": {
+        "kind": "long_context",
+        "threshold": 524288,
+        "unit": "token",
+        "note": "官网原文：MiniMax-M3 > 512k 输入 tokens（表格中带 * 标记）。输入超过 512K tokens 后单价翻倍"
+      },
+      "tierLabel": "标准 >512K",
+      "promotional": true,
+      "promoNote": "官网标注「永久五折」红色徽章：划线原价输入 8.40 / 输出 33.60 / 缓存读取 1.68（均 元/百万 tokens），实付按五折后价 4.20 / 16.80 / 0.84 计费",
+      "note": "官网 tab「标准」（service_tier 默认）价格，单位原文「元/百万 tokens」，已是每 100 万 token 口径，无需换算。input = 4.20 元（划线原价 8.40）；cacheRead = 0.84 元（划线原价 1.68）；output = 16.80 元（划线原价 33.60）。官网未列缓存写入价，cacheWrite 记 null。官网未给出 * 标记对应的额外说明文字（页面仅在模型名后带 *），按上下文理解为 >512K 输入 tokens 档位。"
+    },
+    {
+      "modelId": "minimax-m3",
+      "vendorModelId": "MiniMax-M3",
+      "billingMode": "payg",
+      "currency": "CNY",
+      "input": 3.15,
+      "cacheRead": 0.63,
+      "cacheWrite": null,
+      "output": 12.6,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "优先 ≤512K",
+      "promotional": true,
+      "promoNote": "优先档同样标注「永久五折」：划线原价输入 6.30 / 输出 25.20 / 缓存读取 1.26（均 元/百万 tokens），实付按五折后价 3.15 / 12.60 / 0.63 计费",
+      "note": "官网 tab「优先*」价格（需调用时设置 service_tier=priority）。单位原文「元/百万 tokens」，已是每 100 万 token 口径，无需换算。input = 3.15 元（划线原价 6.30）；cacheRead = 0.63 元（划线原价 1.26）；output = 12.60 元（划线原价 25.20）。官网未列缓存写入价，cacheWrite 记 null。官网 FAQ 原文：「优先服务让请求获得优先准入，按标准价格的 1.5 倍计费。调用时将 service_tier 设为 priority 即可启用。不同输入长度对应的价格档位见语言模型价格表。」经核算本档 = 标准档实付价 × 1.5（3.15/2.10=12.60/8.40=0.63/0.42=1.5），与 FAQ 一致。"
+    },
+    {
+      "modelId": "minimax-m3",
+      "vendorModelId": "MiniMax-M3",
+      "billingMode": "payg",
+      "currency": "CNY",
+      "input": 6.3,
+      "cacheRead": 1.26,
+      "cacheWrite": null,
+      "output": 25.2,
+      "tier": {
+        "kind": "long_context",
+        "threshold": 524288,
+        "unit": "token",
+        "note": "官网原文：MiniMax-M3 > 512k 输入 tokens。输入超过 512K tokens 后单价翻倍；本档为优先服务（service_tier=priority），标准同长度档的 1.5 倍"
+      },
+      "tierLabel": "优先 >512K",
+      "promotional": true,
+      "promoNote": "优先档同样标注「永久五折」：划线原价输入 12.60 / 输出 50.40 / 缓存读取 2.52（均 元/百万 tokens），实付按五折后价 6.30 / 25.20 / 1.26 计费",
+      "note": "官网 tab「优先*」价格（需调用时设置 service_tier=priority）。单位原文「元/百万 tokens」，已是每 100 万 token 口径，无需换算。input = 6.30 元（划线原价 12.60）；cacheRead = 1.26 元（划线原价 2.52）；output = 25.20 元（划线原价 50.40）。官网未列缓存写入价，cacheWrite 记 null。经核算本档 = 标准 >512K 档实付价 × 1.5（6.30/4.20=25.20/16.80=1.26/0.84=1.5），与官网 FAQ「优先服务…按标准价格的 1.5 倍计费」一致。"
+    }
+  ],
+  "newModels": [
+    {
+      "name": "MiniMax-M3.1-Flash",
+      "vendorId": "MiniMax-M3.1-Flash",
+      "observation": "官网「语言模型」区独立表（位于「标准 / 优先*」tab 容器之外）：输入 1.00 / 输出 4.00 / 缓存读取 0.10（元/百万 tokens），无划线原价、无五折徽章。官网首页横幅「🎉 新一代 MiniMax M3.1 Flash 全新发布！查看文档 ➔」。项目 models.json 无此 slug。"
+    },
+    {
+      "name": "MiniMax-H3-Context-IR",
+      "vendorId": "MiniMax-H3-Context-IR",
+      "observation": "官网「视频」section 下的 Context-IR 表：输入 ¥5.80 / 输出 ¥23.00（每百万 tokens）。属视频链路的上下文理解模型，非独立文本 LLM API，未计入本文件 prices。项目 models.json 无此 slug。"
+    }
+  ]
+}

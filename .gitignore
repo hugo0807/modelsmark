@@ -13,6 +13,9 @@ dist/
 screenshots/
 
 # 数据抓取临时产物（最新快照保留在仓库中）
+# 注意：采集器的输入源已迁到 data/snapshots/raw/ 并入库 ——
+# data/raw/ 只是本地工作区，CI 全新 clone 上是空的，
+# 若采集输入源放在这里，CI 重建出的数据会缺失一大半。
 data/raw/*
 !data/raw/.gitkeep
 data/prices.prev.json
