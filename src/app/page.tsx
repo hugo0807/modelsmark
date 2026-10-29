@@ -81,7 +81,15 @@ export default function HomePage() {
       return (a.lowestBlendedCny ?? 0) - (b.lowestBlendedCny ?? 0);
     });
 
-  const typeCount = (t: string) => ds.channels.filter((c) => c.type === t).length;
+  /*
+   * 只统计「真正采到报价」的渠道。
+   * 渠道表里还有 5 家已收录但尚无数据的渠道（Google AI Studio、Vertex、
+   * xAI、天翼云、无问芯穹），把它们算进来会让「官方直售 9 家」这类说法
+   * 虚高 —— 实际只有 6 家有价。
+   */
+  const pricedChannels = new Set(ds.prices.map((p) => p.channelId));
+  const typeCount = (t: string) =>
+    ds.channels.filter((c) => c.type === t && pricedChannels.has(c.id)).length;
 
   return (
     <>
