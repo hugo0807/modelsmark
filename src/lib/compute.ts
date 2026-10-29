@@ -27,6 +27,18 @@ export const BLEND_RATIO = { input: 3, output: 1 } as const;
 const DISCOUNT_TIER =
   /(闲时|空闲|低峰|夜间|批量|低优|经济版|五折|折扣|兜底|秒杀|活动价|offpeak|batch)/i;
 
+/**
+ * 溢价档 —— 与折扣档相反，是「加钱才给」的那一档。
+ *
+ * 典型两类：
+ * · 长上下文上档：「>512K」比「≤512K」贵一倍多
+ * · 加速档：「优先」（Priority）比「标准」贵 50%
+ *
+ * 这两档若混进标准档，会把「全渠道最低价」抬高、把「官方刊例价」
+ * 算成两个值（实测 minimax-m3 出现 3.68 与 5.51 两个官方价）。
+ */
+const PREMIUM_TIER = /(优先|priority|加速|高优|turbo|极速)/i;
+
 export function isStandardTier(p: {
   tier: { kind: string };
   tierLabel?: string | null;
@@ -40,6 +52,8 @@ export function isStandardTier(p: {
   if (kind !== 'none') return false;
   const label = p.tierLabel ?? '';
   if (label && DISCOUNT_TIER.test(label)) return false;
+  // 加速档 / 优先档是溢价档，不是刊例价
+  if (label && PREMIUM_TIER.test(label)) return false;
   // 「>256K」这类上档是溢价档，不参与标准档均价
   if (label.includes('>')) return false;
   /*

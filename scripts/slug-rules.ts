@@ -48,6 +48,10 @@ export const SLUG_PATTERNS: Array<[RegExp, string]> = [
   [/glm[\s\-.]*5[\s\-.]*2/i, 'glm-5-2'],
   [/glm[\s\-.]*5[\s\-.]*1/i, 'glm-5-1'],
   [/glm[\s\-.]*5(?!\.)/i, 'glm-5'],
+  // highspeed 必须排在通用 pro 规则之前 ——
+  // Kimi 官方把加速版单独定价（¥26/¥136，是普通版的 2 倍），
+  // 被通用规则吃掉后，同一个模型页会同时出现两个「官方价」。
+  [/kimi[\s\-.]*k3[\s\-.]*1[\s\-.]*pro[\s\-.]*highspeed/i, 'kimi-k3-1-pro-highspeed'],
   [/kimi[\s\-.]*k3[\s\-.]*1[\s\-.]*pro/i, 'kimi-k3-1-pro'],
   [/kimi[\s\-.]*k3(?!\.)/i, 'kimi-k3'],
   [/kimi[\s\-.]*k2[\s\-.]*7[\s\-.]*code/i, 'kimi-k2-7-code'],

@@ -17,6 +17,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import type { PriceRecord, Model, Channel } from '../src/lib/types';
+import { isStandardTier } from '../src/lib/compute';
 
 const ROOT = process.cwd();
 const DATA = path.join(ROOT, 'data');
@@ -130,12 +131,20 @@ for (const p of prices) {
 }
 
 // ── 7. 官方基准唯一 ──
+/*
+ * 只比较「标准档」的官方价。
+ *
+ * 之前把 Batch 五折、闲时档也算进来，于是同一个模型有 13 和 6.5 两个
+ * 「官方价」，刷出 21 条假警告 —— 折扣档本来就不是刊例价。
+ * 口径与站点一致：isStandardTier 判定通过才算官方刊例价。
+ */
 const officialIds = new Set(channels.filter((c) => c.type === 'official').map((c) => c.id));
 const officialBlend = new Map<string, number>();
 for (const p of prices) {
   if (!officialIds.has(p.channelId)) continue;
   if (p.billingMode !== 'payg') continue;
   if (p.input == null && p.output == null) continue;
+  if (!isStandardTier(p)) continue;
   const blend = Math.round(((p.input ?? 0) * 3 + (p.output ?? 0)) / 4 * 100) / 100;
   const prev = officialBlend.get(p.modelId);
   if (prev != null && Math.abs(prev - blend) > 0.01) {
@@ -232,6 +241,30 @@ if (!baseline) {
       lost.join(' ')
     );
   }
+
+  /*
+   * 单渠道大幅萎缩。
+   *
+   * 上一版「渠道整条消失」只抓 0 条的情况；实际最常见的故障是
+   * 采集器只解析出一小部分（页面改版导致多数行识别不到），
+   * 渠道还在但从 85 条掉到 20 条 —— 这种靠总量阈值抓不住
+   * （其他渠道补上后总跌幅可能只有 13%），必须逐渠道看。
+   */
+  const shrunk: string[] = [];
+  for (const [cid, n] of prevChannels) {
+    if (n < 5) continue; // 本来就少的渠道不参与判定
+    const now = nowChannels.get(cid) ?? 0;
+    if (now > 0 && now < n * 0.6) shrunk.push(`${cid}(${n}→${now})`);
+  }
+  if (shrunk.length) {
+    err(
+      '渠道数据大幅萎缩',
+      `以下渠道的记录数跌超 40%：${shrunk.join('、')} —— ` +
+        `通常是页面结构变化导致只解析出部分行，不是价格真的少了`,
+      shrunk.join(' ')
+    );
+  }
+
   console.log(`数据量守门基线: ${baseline.source}（${prev.length} 条 / ${prevChannels.size} 渠道）`);
 }
 
