@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>套餐对比原型 — ModelsMark</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="logo">Models<span>Mark</span></a>
+    <nav class="nav">
+      <a href="index.html">首页</a>
+      <a href="model.html">模型详情</a>
+      <a href="plans.html" class="on">套餐对比</a>
+      <a href="channels.html">渠道榜</a>
+    </nav>
+    <div class="header-meta"><span>74 模型 · 16 渠道</span></div>
+    <button class="nav-toggle" type="button">菜单</button>
+  </div>
+</header>
+
+<div class="banner">结构原型 · 页面中的数字均为示意值，不代表真实报价</div>
+
+<main class="wrap">
+
+  <h1 class="sr-only">套餐对比</h1>
+
+  <div class="formula" style="margin-top:20px">
+    <b>折合单价</b> ＝ 套餐价格 ÷ 套餐额度 × 1,000,000
+    <span class="eg">示例：¥6,800 ÷ 10 亿 tokens × 1,000,000 ＝ <b>¥0.68</b> / 百万 tokens</span>
+    <span class="why">与按量 3:1 混合价同口径，可直接比较</span>
+  </div>
+
+  <!-- 三个 Top3 小榜 -->
+  <div class="boards">
+    <div class="board">
+      <h3>折合单价最低 <span class="unit">¥ / M tokens</span></h3>
+      <table class="data"><tbody>
+        <tr><td class="rank">1</td><td>火山方舟 · 年包</td><td class="right num">0.68</td></tr>
+        <tr><td class="rank">2</td><td>硅基流动 · 季包</td><td class="right num">0.82</td></tr>
+        <tr><td class="rank">3</td><td>腾讯云 · 半年包</td><td class="right num">0.91</td></tr>
+      </tbody></table>
+    </div>
+    <div class="board">
+      <h3>相对刊例价折扣最大 <span class="unit">越低越划算</span></h3>
+      <table class="data"><tbody>
+        <tr><td class="rank">1</td><td>火山方舟 · 年包</td><td class="right num down">62%</td></tr>
+        <tr><td class="rank">2</td><td>硅基流动 · 季包</td><td class="right num down">75%</td></tr>
+        <tr><td class="rank">3</td><td>阿里云 · 月包</td><td class="right num down">88%</td></tr>
+      </tbody></table>
+    </div>
+    <div class="board">
+      <h3>比按量更贵（不建议） <span class="unit">溢价</span></h3>
+      <table class="data"><tbody>
+        <tr><td class="rank">1</td><td>联通云 · 团队版</td><td class="right num up">+15%</td></tr>
+        <tr><td class="rank">2</td><td>移动云 · 月包</td><td class="right num up">+8%</td></tr>
+        <tr><td class="rank">3</td><td>—</td><td class="right num flat">—</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <!-- 单张主表 -->
+  <div class="section-title">全部套餐 <span class="sub">可搜索、可筛选、点表头排序</span></div>
+  <div data-table>
+    <div class="toolbar">
+      <input data-search placeholder="搜索渠道或套餐" />
+      <span class="filter on" data-f="all">全部</span>
+      <span class="filter" data-f="tokens">Token 制</span>
+      <span class="filter" data-f="calls">次数制</span>
+      <span class="filter" data-f="credits">积分制</span>
+      <span class="filter" data-f="worth">比按量省</span>
+      <span class="count" data-count></span>
+    </div>
+    <div class="card table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th data-key="ch">渠道</th>
+            <th data-key="pkg">套餐</th>
+            <th class="nosort hide-sm">适用模型</th>
+            <th class="right nosort">额度</th>
+            <th class="nosort hide-sm">周期</th>
+            <th class="right nosort">价格</th>
+            <th class="right" data-key="unit">折合 ¥/M</th>
+            <th class="right" data-key="ratio">对比刊例价</th>
+            <th class="nosort">结论</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-tags="tokens worth">
+            <td data-k="ch">火山方舟</td>
+            <td data-k="pkg">10 亿 tokens 年包</td>
+            <td class="m-sub hide-sm">DeepSeek-V4.1-Flash</td>
+            <td class="right num">10 亿 tokens</td>
+            <td class="hide-sm">12 个月</td>
+            <td class="right num">¥6,800</td>
+            <td class="right num" data-k="unit" data-v="0.68"><b>¥0.68</b></td>
+            <td class="right num down" data-k="ratio" data-v="62">62%</td>
+            <td class="m-sub">约为刊例价六折，明显划算</td>
+          </tr>
+          <tr data-tags="tokens worth">
+            <td data-k="ch">硅基流动</td>
+            <td data-k="pkg">2.5 亿 tokens 季包</td>
+            <td class="m-sub hide-sm">DeepSeek-V4.1-Flash</td>
+            <td class="right num">2.5 亿 tokens</td>
+            <td class="hide-sm">3 个月</td>
+            <td class="right num">¥2,050</td>
+            <td class="right num" data-k="unit" data-v="0.82"><b>¥0.82</b></td>
+            <td class="right num down" data-k="ratio" data-v="75">75%</td>
+            <td class="m-sub">低于刊例价，值得考虑</td>
+          </tr>
+          <tr data-tags="tokens worth">
+            <td data-k="ch">腾讯云 TokenHub</td>
+            <td data-k="pkg">5 亿 tokens 半年包</td>
+            <td class="m-sub hide-sm">DeepSeek-V4.1-Flash</td>
+            <td class="right num">5 亿 tokens</td>
+            <td class="hide-sm">6 个月</td>
+            <td class="right num">¥4,550</td>
+            <td class="right num" data-k="unit" data-v="0.91"><b>¥0.91</b></td>
+            <td class="right num down" data-k="ratio" data-v="88">88%</td>
+            <td class="m-sub">略低于刊例价</td>
+          </tr>
+          <tr data-tags="tokens worth">
+            <td data-k="ch">阿里云百炼</td>
+            <td data-k="pkg">1 亿 tokens 月包</td>
+            <td class="m-sub hide-sm">Qwen3.8-Max</td>
+            <td class="right num">1 亿 tokens</td>
+            <td class="hide-sm">1 个月</td>
+            <td class="right num">¥1,120</td>
+            <td class="right num" data-k="unit" data-v="1.12"><b>¥1.12</b></td>
+            <td class="right num down" data-k="ratio" data-v="88">88%</td>
+            <td class="m-sub">用量稳定才划算</td>
+          </tr>
+          <tr data-tags="tokens">
+            <td data-k="ch">联通云</td>
+            <td data-k="pkg">团队版资源包</td>
+            <td class="m-sub hide-sm">多模型通用</td>
+            <td class="right num">3 亿 tokens</td>
+            <td class="hide-sm">12 个月</td>
+            <td class="right num">¥4,140</td>
+            <td class="right num" data-k="unit" data-v="1.38"><b>¥1.38</b></td>
+            <td class="right num up" data-k="ratio" data-v="115">115%</td>
+            <td class="m-sub">高于刊例价，不建议替代按量</td>
+          </tr>
+          <tr data-tags="tokens">
+            <td data-k="ch">移动云</td>
+            <td data-k="pkg">标准月包</td>
+            <td class="m-sub hide-sm">混元 HY3</td>
+            <td class="right num">0.8 亿 tokens</td>
+            <td class="hide-sm">1 个月</td>
+            <td class="right num">¥780</td>
+            <td class="right num" data-k="unit" data-v="0.98"><b>¥0.98</b></td>
+            <td class="right num up" data-k="ratio" data-v="108">108%</td>
+            <td class="m-sub">略高于刊例价</td>
+          </tr>
+          <tr data-tags="calls">
+            <td data-k="ch">火山方舟</td>
+            <td data-k="pkg">Agent Plan 标准版</td>
+            <td class="m-sub hide-sm">多模型通用</td>
+            <td class="right num">100,000 次</td>
+            <td class="hide-sm">1 个月</td>
+            <td class="right num">¥9,900</td>
+            <td class="right num" data-k="unit" data-v="">按次计价</td>
+            <td class="right num flat" data-k="ratio" data-v="">—</td>
+            <td class="m-sub">无法折算 ¥/M，按次对比</td>
+          </tr>
+          <tr data-tags="credits">
+            <td data-k="ch">联通云</td>
+            <td data-k="pkg">团队版（积分制）</td>
+            <td class="m-sub hide-sm">多模型通用</td>
+            <td class="right num">积分制</td>
+            <td class="hide-sm">12 个月</td>
+            <td class="right num">¥3,600</td>
+            <td class="right num" data-k="unit" data-v="">积分抵扣</td>
+            <td class="right num flat" data-k="ratio" data-v="">—</td>
+            <td class="m-sub">不同模型抵扣系数不同</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <details class="gloss">
+    <summary>口径说明（点击展开）</summary>
+    <p>折合单价 = 套餐价格 ÷ 套餐额度 × 1,000,000，与按量刊例价同为「¥ / 百万 tokens」；输入输出合并抵扣的套餐按总额度均摊。</p>
+    <p class="limit">按次数与积分制的套餐无法折算为统一单价，单列不参与排序。官方未公开定价明细的产品不收录。</p>
+  </details>
+
+  <p class="footnote">原型仅用于验证信息架构，数字为示意值。</p>
+</main>
+
+<footer class="site-footer"><div class="wrap">ModelsMark · 结构原型</div></footer>
+<script src="app.js"></script>
+</body>
+</html>

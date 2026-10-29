@@ -10391,7 +10391,7 @@
     "tier": {
       "kind": "none"
     },
-    "tierLabel": "输入<=128k",
+    "tierLabel": "32k<输入<=128k",
     "vendorModelId": "ERNIE-5.1",
     "promotional": false,
     "promoNote": null,
@@ -10409,138 +10409,6 @@
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
       "quote": "输入（32k<输入<=128k） 0.006 | 输出（32k<输入<=128k） 0.022",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
-    "modelId": "ernie-4-5-turbo-128k-preview",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 0.8,
-    "cacheRead": 0.2,
-    "cacheWrite": null,
-    "output": 3.2,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "ERNIE-4.5-Turbo-128K-Preview",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.0008 元/千tokens | 命中缓存 0.0002 元/千tokens | 输出 0.0032 元/千tokens",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
-    "modelId": "ernie-4-5-turbo-32k",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": null,
-    "cacheRead": 0.2,
-    "cacheWrite": null,
-    "output": 3.2,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "推理服务",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "0.0008 0.00032 | 命中缓存 0.0002 元/千tokens | 输出 0.0032 元/千tokens",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
-    "modelId": "ernie-4-5-turbo",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": null,
-    "cacheRead": 0.2,
-    "cacheWrite": null,
-    "output": 3.2,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "推理服务",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "命中缓存 0.0002 元/千tokens | 输出 0.0032 元/千tokens",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
-    "modelId": "ernie-4-5-turbo-vl-32k",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 3,
-    "cacheRead": 0.75,
-    "cacheWrite": null,
-    "output": 9,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "ERNIE-4.5-Turbo-VL ERNIE-4.5-Turbo-VL-32K",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.003 元/千tokens | 命中缓存 0.00075 元/千tokens | 输出 0.009 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -10776,72 +10644,6 @@
     }
   },
   {
-    "modelId": "internvl3-38b",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 8,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": 24,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "InternVL3-38B",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.008 元/千tokens | 输出 0.024 元/千tokens",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
-    "modelId": "ernie-x1-1-preview",
-    "channelId": "baidu-qianfan",
-    "billingMode": "payg",
-    "currency": "CNY",
-    "input": 1,
-    "cacheRead": null,
-    "cacheWrite": null,
-    "output": 4,
-    "tier": {
-      "kind": "none"
-    },
-    "tierLabel": null,
-    "vendorModelId": "ERNIE-X1.1-Preview（即将下线）",
-    "promotional": false,
-    "promoNote": null,
-    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
-    "packageQuota": null,
-    "packageQuotaUnit": "tokens",
-    "packagePeriod": null,
-    "packagePrice": null,
-    "packageTierName": null,
-    "packageMerged": null,
-    "packageManualActivation": null,
-    "packageCalls": null,
-    "packageIncludes": null,
-    "evidence": {
-      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-      "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.001 -- | 输出 0.004 --",
-      "pageUpdatedAt": "2026-10-18"
-    }
-  },
-  {
     "modelId": "glm-5-3-flash",
     "channelId": "baidu-qianfan",
     "billingMode": "payg",
@@ -10870,7 +10672,7 @@
     "evidence": {
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.0008 - | 命中缓存 0.00023 - | 输出 0.0028 -",
+      "quote": "输入 0.0008 元/千tokens | 命中缓存 0.00023 元/千tokens | 输出 0.0028 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -10903,7 +10705,7 @@
     "evidence": {
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.008 - | 命中缓存 0.002 - | 输出 0.028 -",
+      "quote": "输入 0.008 元/千tokens | 命中缓存 0.002 元/千tokens | 输出 0.028 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -10936,7 +10738,7 @@
     "evidence": {
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.016 - | 命中缓存 0.004 - | 输出 0.056 -",
+      "quote": "输入 0.016 元/千tokens | 命中缓存 0.004 元/千tokens | 输出 0.056 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -10969,7 +10771,7 @@
     "evidence": {
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.008 - | 命中缓存 0.002 - | 输出 0.028 -",
+      "quote": "输入 0.008 元/千tokens | 命中缓存 0.002 元/千tokens | 输出 0.028 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -10985,7 +10787,7 @@
     "tier": {
       "kind": "none"
     },
-    "tierLabel": null,
+    "tierLabel": "[0,32k)",
     "vendorModelId": "GLM-5.1",
     "promotional": false,
     "promoNote": null,
@@ -11002,7 +10804,40 @@
     "evidence": {
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.006 - | 命中缓存 0.0013 - | 输出 0.024 -",
+      "quote": "输入 0.006 元/千tokens | 命中缓存 0.0013 元/千tokens | 输出 0.024 元/千tokens",
+      "pageUpdatedAt": "2026-10-18"
+    }
+  },
+  {
+    "modelId": "glm-5-1",
+    "channelId": "baidu-qianfan",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 8,
+    "cacheRead": 2,
+    "cacheWrite": null,
+    "output": 28,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "（32k，200k]",
+    "vendorModelId": "GLM-5.1",
+    "promotional": false,
+    "promoNote": null,
+    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "输入 0.008 元/千tokens | 命中缓存 0.002 元/千tokens | 输出 0.028 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -11018,7 +10853,7 @@
     "tier": {
       "kind": "none"
     },
-    "tierLabel": null,
+    "tierLabel": "[0,32k)",
     "vendorModelId": "GLM-5（即将下线）",
     "promotional": false,
     "promoNote": null,
@@ -11035,7 +10870,40 @@
     "evidence": {
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.004 - | 命中缓存 0.001 - | 输出 0.018 -",
+      "quote": "输入 0.004 元/千tokens | 命中缓存 0.001 元/千tokens | 输出 0.018 元/千tokens",
+      "pageUpdatedAt": "2026-10-18"
+    }
+  },
+  {
+    "modelId": "glm-5",
+    "channelId": "baidu-qianfan",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 6,
+    "cacheRead": 1.5,
+    "cacheWrite": null,
+    "output": 22,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "（32k，200k]",
+    "vendorModelId": "GLM-5（即将下线）",
+    "promotional": false,
+    "promoNote": null,
+    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "输入 0.006 元/千tokens | 命中缓存 0.0015 元/千tokens | 输出 0.022 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -11068,7 +10936,7 @@
     "evidence": {
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.0065 -- | 命中缓存 0.0011 -- | 输出 0.027 --",
+      "quote": "输入 0.0065 元/千tokens | 命中缓存 0.0011 元/千tokens | 输出 0.027 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -11084,7 +10952,7 @@
     "tier": {
       "kind": "none"
     },
-    "tierLabel": null,
+    "tierLabel": "[0,128k]",
     "vendorModelId": "Qwen3.5-397B-A17B",
     "promotional": false,
     "promoNote": null,
@@ -11101,7 +10969,40 @@
     "evidence": {
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.0012 -- | 输出 0.0072 --",
+      "quote": "输入 0.0012 元/千tokens | 输出 0.0072 元/千tokens",
+      "pageUpdatedAt": "2026-10-18"
+    }
+  },
+  {
+    "modelId": "qwen3-5-397b-a17b",
+    "channelId": "baidu-qianfan",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 3,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 18,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "(128k,256]",
+    "vendorModelId": "Qwen3.5-397B-A17B",
+    "promotional": false,
+    "promoNote": null,
+    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "输入 0.003 元/千tokens | 输出 0.018 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -11117,7 +11018,7 @@
     "tier": {
       "kind": "none"
     },
-    "tierLabel": null,
+    "tierLabel": "[0,128k]",
     "vendorModelId": "Qwen3.5-122B-A10B",
     "promotional": false,
     "promoNote": null,
@@ -11134,7 +11035,40 @@
     "evidence": {
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.0008 -- | 输出 0.0064 --",
+      "quote": "输入 0.0008 元/千tokens | 输出 0.0064 元/千tokens",
+      "pageUpdatedAt": "2026-10-18"
+    }
+  },
+  {
+    "modelId": "qwen3-5-122b-a10b",
+    "channelId": "baidu-qianfan",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 2,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 16,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "(128k,256]",
+    "vendorModelId": "Qwen3.5-122B-A10B",
+    "promotional": false,
+    "promoNote": null,
+    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "输入 0.002 元/千tokens | 输出 0.016 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -11150,7 +11084,7 @@
     "tier": {
       "kind": "none"
     },
-    "tierLabel": null,
+    "tierLabel": "[0,128k]",
     "vendorModelId": "Qwen3.5-27B",
     "promotional": false,
     "promoNote": null,
@@ -11167,7 +11101,40 @@
     "evidence": {
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.0006 -- | 输出 0.0048 --",
+      "quote": "输入 0.0006 元/千tokens | 输出 0.0048 元/千tokens",
+      "pageUpdatedAt": "2026-10-18"
+    }
+  },
+  {
+    "modelId": "qwen3-5-27b",
+    "channelId": "baidu-qianfan",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 1.8,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 14.4,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "(128k,256]",
+    "vendorModelId": "Qwen3.5-27B",
+    "promotional": false,
+    "promoNote": null,
+    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "输入 0.0018 元/千tokens | 输出 0.0144 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },
@@ -11183,7 +11150,7 @@
     "tier": {
       "kind": "none"
     },
-    "tierLabel": null,
+    "tierLabel": "[0,128k]",
     "vendorModelId": "Qwen3.5-35B-A3B",
     "promotional": false,
     "promoNote": null,
@@ -11200,7 +11167,40 @@
     "evidence": {
       "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
       "fetchedAt": "2026-10-27T16:30:00Z",
-      "quote": "输入 0.0004 -- | 输出 0.0032 --",
+      "quote": "输入 0.0004 元/千tokens | 输出 0.0032 元/千tokens",
+      "pageUpdatedAt": "2026-10-18"
+    }
+  },
+  {
+    "modelId": "qwen3-5-35b-a3b",
+    "channelId": "baidu-qianfan",
+    "billingMode": "payg",
+    "currency": "CNY",
+    "input": 1.6,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 12.8,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "(128k,256]",
+    "vendorModelId": "Qwen3.5-35B-A3B",
+    "promotional": false,
+    "promoNote": null,
+    "note": "百度千帆官方计费文档（元/千tokens，已折算为元/百万 tokens）",
+    "packageQuota": null,
+    "packageQuotaUnit": "tokens",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "evidence": {
+      "sourceUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
+      "fetchedAt": "2026-10-27T16:30:00Z",
+      "quote": "输入 0.0016 元/千tokens | 输出 0.0128 元/千tokens",
       "pageUpdatedAt": "2026-10-18"
     }
   },

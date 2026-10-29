@@ -196,62 +196,6 @@
     "docsUrl": null
   },
   {
-    "id": "ernie-4-5-turbo",
-    "name": "ERNIE-4.5-Turbo-VL ERNIE-4.5-Turbo-VL-32K",
-    "vendor": "百度",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-    "docsUrl": null
-  },
-  {
-    "id": "ernie-4-5-turbo-128k-preview",
-    "name": "ERNIE-4.5-Turbo-128K-Preview",
-    "vendor": "百度",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-    "docsUrl": null
-  },
-  {
-    "id": "ernie-4-5-turbo-32k",
-    "name": "ERNIE-4.5-Turbo-32K",
-    "vendor": "百度",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-    "docsUrl": null
-  },
-  {
-    "id": "ernie-4-5-turbo-vl-32k",
-    "name": "ERNIE-4.5-Turbo-VL ERNIE-4.5-Turbo-VL-32K",
-    "vendor": "百度",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-    "docsUrl": null
-  },
-  {
     "id": "ernie-5-1",
     "name": "ERNIE 5.1",
     "vendor": "百度",
@@ -264,20 +208,6 @@
     "activeParams": null,
     "pricingUrl": "https://cloud.baidu.com/doc/WENXINWORKSHOP/s/hlrk4akp7",
     "docsUrl": "https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html"
-  },
-  {
-    "id": "ernie-x1-1-preview",
-    "name": "ERNIE X1.1 Preview",
-    "vendor": "百度",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
-    "docsUrl": null
   },
   {
     "id": "gemini-4-argon",
@@ -487,20 +417,6 @@
     "params": null,
     "activeParams": null,
     "pricingUrl": "https://cloud.tencent.com/document/product/1823/97731",
-    "docsUrl": null
-  },
-  {
-    "id": "internvl3-38b",
-    "name": "InternVL3-38B",
-    "vendor": "上海人工智能实验室",
-    "origin": "domestic",
-    "openWeights": false,
-    "contextWindow": null,
-    "maxOutput": null,
-    "releasedAt": null,
-    "params": null,
-    "activeParams": null,
-    "pricingUrl": "https://cloud.baidu.com/doc/qianfan/s/wmh4sv6ya",
     "docsUrl": null
   },
   {

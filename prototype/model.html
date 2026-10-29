@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>模型详情原型 — ModelsMark</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="logo">Models<span>Mark</span></a>
+    <nav class="nav">
+      <a href="index.html">首页</a>
+      <a href="model.html" class="on">模型详情</a>
+      <a href="plans.html">套餐对比</a>
+      <a href="channels.html">渠道榜</a>
+    </nav>
+    <div class="header-meta"><span>74 模型 · 16 渠道</span></div>
+    <button class="nav-toggle" type="button">菜单</button>
+  </div>
+</header>
+
+<div class="banner">结构原型 · 页面中的数字均为示意值，不代表真实报价</div>
+
+<main class="wrap">
+
+  <p class="footnote" style="margin:16px 0 0 0"><a href="index.html">首页</a> / DeepSeek-V4.1-Flash-1017</p>
+
+  <section class="hero" style="border:none;padding:12px 0 0">
+    <h1 style="font-size:24px"><i class="dot dot-domestic"></i>DeepSeek-V4.1-Flash-1017</h1>
+    <p class="sub">DeepSeek · 1M 上下文 · 671B 参数（37B 激活）· 2026-10-17 发布 · <span class="badge">开源权重</span></p>
+  </section>
+
+  <!-- 一句话结论 -->
+  <div class="verdict-line">
+    7 家渠道在卖，最便宜的是 <b>硅基流动 ¥1.10/M</b>，最贵的是 <b>阿里云百炼 ¥1.80/M</b> ——
+    换个渠道买能省 <b>39%</b>。
+  </div>
+
+  <!-- 3 张卡（无官方价时只渲染 2 张，这里官方价存在故 3 张 + 指数） -->
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-label">最低混合价</div>
+      <div class="metric-value">¥1.10</div>
+      <div class="metric-note">硅基流动 · 3:1 混合价</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">智能指数</div>
+      <div class="metric-value">52</div>
+      <div class="metric-note">全球第 12 名 · 第三方评测</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">渠道价差</div>
+      <div class="metric-value">1.6×</div>
+      <div class="metric-note">7 家渠道 · 换渠道最多省 39%</div>
+    </div>
+  </div>
+
+  <!-- 渠道表 -->
+  <div class="section-title">各渠道报价 <span class="sub">输入 / 缓存读 / 输出 三项全列 · 按官方 / 云厂商 / 第三方分组</span></div>
+
+  <div class="formula">
+    <b>3:1 混合价</b> ＝（3 × 输入价 ＋ 1 × 输出价）÷ 4
+    <span class="eg">示例：输入 ¥0.70、输出 ¥2.30 →（3 × 0.70 ＋ 2.30）÷ 4 ＝ <b>¥1.10</b> / 百万 tokens</span>
+    <span class="why">缓存读价单列，不计入混合价</span>
+  </div>
+  <div class="card table-scroll">
+    <table class="data">
+      <thead>
+        <tr>
+          <th class="nosort">渠道</th>
+          <th class="right nosort">输入</th>
+          <th class="right nosort hide-sm">缓存读</th>
+          <th class="right nosort">输出</th>
+          <th class="right nosort">3:1 混合价</th>
+          <th class="right nosort">对比最低</th>
+          <th class="nosort">来源</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="chan-band"><td colspan="7">官方直售<span class="badge" style="margin-left:6px">standard</span> · 厂商第一方渠道 · 1 家 · 本组最低 ¥1.20</td></tr>
+        <tr>
+          <td>DeepSeek 官方</td>
+          <td class="right num">0.80</td>
+          <td class="right num m-sub hide-sm">0.20</td>
+          <td class="right num">2.40</td>
+          <td class="right num"><b>¥1.20</b></td>
+          <td class="right num up">+9%</td>
+          <td><a href="#" style="color:var(--accent)">原文 ↗</a></td>
+        </tr>
+
+        <tr class="chan-band"><td colspan="7">云厂商 · 主流云平台代售 · 4 家 · 本组最低 ¥1.40</td></tr>
+        <tr>
+          <td>火山方舟</td>
+          <td class="right num">0.90</td>
+          <td class="right num m-sub hide-sm">0.22</td>
+          <td class="right num">2.90</td>
+          <td class="right num"><b>¥1.40</b></td>
+          <td class="right num up">+27%</td>
+          <td><a href="#" style="color:var(--accent)">原文 ↗</a></td>
+        </tr>
+        <tr>
+          <td>腾讯云 TokenHub</td>
+          <td class="right num">1.00</td>
+          <td class="right num m-sub hide-sm">0.25</td>
+          <td class="right num">3.00</td>
+          <td class="right num"><b>¥1.50</b></td>
+          <td class="right num up">+36%</td>
+          <td><a href="#" style="color:var(--accent)">原文 ↗</a></td>
+        </tr>
+        <tr>
+          <td>百度智能云千帆</td>
+          <td class="right num">1.10</td>
+          <td class="right num m-sub hide-sm">0.28</td>
+          <td class="right num">3.30</td>
+          <td class="right num"><b>¥1.65</b></td>
+          <td class="right num up">+50%</td>
+          <td><a href="#" style="color:var(--accent)">原文 ↗</a></td>
+        </tr>
+        <tr>
+          <td>阿里云百炼</td>
+          <td class="right num">1.20</td>
+          <td class="right num m-sub hide-sm">0.30</td>
+          <td class="right num">3.60</td>
+          <td class="right num"><b>¥1.80</b></td>
+          <td class="right num up">+64%</td>
+          <td><a href="#" style="color:var(--accent)">原文 ↗</a></td>
+        </tr>
+
+        <tr class="chan-band"><td colspan="7">第三方 Token Hub · 聚合平台 · 2 家 · 本组最低 ¥1.10</td></tr>
+        <tr style="background:var(--bg-subtle)">
+          <td>硅基流动 <span class="badge">最便宜</span></td>
+          <td class="right num">0.70</td>
+          <td class="right num m-sub hide-sm">0.18</td>
+          <td class="right num">2.30</td>
+          <td class="right num"><b>¥1.10</b></td>
+          <td class="right num flat">基准</td>
+          <td><a href="#" style="color:var(--accent)">原文 ↗</a></td>
+        </tr>
+        <tr>
+          <td>七牛云</td>
+          <td class="right num">0.85</td>
+          <td class="right num m-sub hide-sm">0.20</td>
+          <td class="right num">2.70</td>
+          <td class="right num"><b>¥1.31</b></td>
+          <td class="right num up">+19%</td>
+          <td><a href="#" style="color:var(--accent)">原文 ↗</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 套餐 -->
+  <div class="verdict-line" style="border-left-color:var(--warn);margin-top:20px">
+    该模型有 <b>3 个套餐</b>，折合最低 <b>¥0.68/M</b>，比按量最低价再省 <b>38%</b>。
+    <a href="plans.html" style="color:var(--accent);margin-left:8px">看套餐对比 →</a>
+  </div>
+
+  <!-- 能力基准：四项核心基准横向柱图对比 -->
+  <div class="section-title">四项核心基准对比 <span class="sub">横向柱图看差距 · 悬停或点「?」看这个指标代表什么</span><span class="more">全部 14 项</span></div>
+
+  <div class="bench-grid2">
+    <div class="bcard">
+      <div class="bhead">
+        <span class="bname">Terminal-Bench 4.0</span>
+        <span class="tip">?<span class="tip-text"><b>测什么</b>：在真实终端环境里完成多步工程任务——装依赖、改代码、跑通测试。<br><b>代表意义</b>：模型在真实开发环境中的动手能力，最接近「能不能当工程师用」。</span></span>
+        <span class="bcat">编码工程</span>
+        <span class="bscale">百分比</span>
+      </div>
+      <div class="bar-row"><span class="bar-name">Claude-Opus-5.5</span><span class="bar"><span class="bar-fill" style="width:100%"></span></span><span class="bar-val">78.2</span></div>
+      <div class="bar-row"><span class="bar-name">GPT-5.2</span><span class="bar"><span class="bar-fill" style="width:94.8%"></span></span><span class="bar-val">74.1</span></div>
+      <div class="bar-row"><span class="bar-name">Kimi-K3.1-Pro</span><span class="bar"><span class="bar-fill" style="width:85.4%"></span></span><span class="bar-val">66.8</span></div>
+      <div class="bar-row me"><span class="bar-name">DeepSeek-V4.1-Flash</span><span class="bar"><span class="bar-fill" style="width:79.8%"></span></span><span class="bar-val">62.4</span></div>
+      <div class="bar-row"><span class="bar-name">GLM-5.3</span><span class="bar"><span class="bar-fill" style="width:77.0%"></span></span><span class="bar-val">60.2</span></div>
+      <div class="bar-row"><span class="bar-name">Qwen3.8-Max</span><span class="bar"><span class="bar-fill" style="width:74.7%"></span></span><span class="bar-val">58.4</span></div>
+    </div>
+
+    <div class="bcard">
+      <div class="bhead">
+        <span class="bname">Agents' Last Exam</span>
+        <span class="tip">?<span class="tip-text"><b>测什么</b>：多步长链条 Agent 任务，要求自主规划、调用工具并收敛出答案。<br><b>代表意义</b>：长任务自主完成能力，决定模型能不能无人值守地干活。</span></span>
+        <span class="bcat">Agent 能力</span>
+        <span class="bscale">百分比</span>
+      </div>
+      <div class="bar-row"><span class="bar-name">Claude-Opus-5.5</span><span class="bar"><span class="bar-fill" style="width:100%"></span></span><span class="bar-val">52.6</span></div>
+      <div class="bar-row"><span class="bar-name">GPT-5.2</span><span class="bar"><span class="bar-fill" style="width:93.7%"></span></span><span class="bar-val">49.3</span></div>
+      <div class="bar-row"><span class="bar-name">Kimi-K3.1-Pro</span><span class="bar"><span class="bar-fill" style="width:83.7%"></span></span><span class="bar-val">44.0</span></div>
+      <div class="bar-row me"><span class="bar-name">DeepSeek-V4.1-Flash</span><span class="bar"><span class="bar-fill" style="width:78.3%"></span></span><span class="bar-val">41.2</span></div>
+      <div class="bar-row"><span class="bar-name">GLM-5.3</span><span class="bar"><span class="bar-fill" style="width:75.7%"></span></span><span class="bar-val">39.8</span></div>
+      <div class="bar-row"><span class="bar-name">Qwen3.8-Max</span><span class="bar"><span class="bar-fill" style="width:69.4%"></span></span><span class="bar-val">36.5</span></div>
+    </div>
+
+    <div class="bcard">
+      <div class="bhead">
+        <span class="bname">Humanity's Last Exam</span>
+        <span class="tip">?<span class="tip-text"><b>测什么</b>：覆盖数百个学科的专家级难题问答（允许使用工具）。<br><b>代表意义</b>：知识深度与推理上限，适合判断能不能啃硬骨头。</span></span>
+        <span class="bcat">知识推理</span>
+        <span class="bscale">百分比</span>
+      </div>
+      <div class="bar-row"><span class="bar-name">Claude-Opus-5.5</span><span class="bar"><span class="bar-fill" style="width:100%"></span></span><span class="bar-val">38.4</span></div>
+      <div class="bar-row"><span class="bar-name">GPT-5.2</span><span class="bar"><span class="bar-fill" style="width:89.1%"></span></span><span class="bar-val">34.2</span></div>
+      <div class="bar-row"><span class="bar-name">Gemini-4-Flash</span><span class="bar"><span class="bar-fill" style="width:77.6%"></span></span><span class="bar-val">29.8</span></div>
+      <div class="bar-row me"><span class="bar-name">DeepSeek-V4.1-Flash</span><span class="bar"><span class="bar-fill" style="width:64.1%"></span></span><span class="bar-val">24.6</span></div>
+      <div class="bar-row"><span class="bar-name">GLM-5.3</span><span class="bar"><span class="bar-fill" style="width:57.6%"></span></span><span class="bar-val">22.1</span></div>
+      <div class="bar-row"><span class="bar-name">Qwen3.8-Max</span><span class="bar"><span class="bar-fill" style="width:53.1%"></span></span><span class="bar-val">20.4</span></div>
+    </div>
+
+    <div class="bcard">
+      <div class="bhead">
+        <span class="bname">GDPVal-AA v2.1</span>
+        <span class="tip">?<span class="tip-text"><b>测什么</b>：按真实职业任务给模型的产出打分，采用 Elo 制对战评分。<br><b>代表意义</b>：模型产出是否具有可交付的经济价值，离「真能替代人干活」最近。</span></span>
+        <span class="bcat">垂直行业</span>
+        <span class="bscale">Elo</span>
+      </div>
+      <div class="bar-row"><span class="bar-name">Claude-Opus-5.5</span><span class="bar"><span class="bar-fill" style="width:100%"></span></span><span class="bar-val">1420</span></div>
+      <div class="bar-row"><span class="bar-name">GPT-5.2</span><span class="bar"><span class="bar-fill" style="width:96.1%"></span></span><span class="bar-val">1365</span></div>
+      <div class="bar-row"><span class="bar-name">Gemini-4-Flash</span><span class="bar"><span class="bar-fill" style="width:90.8%"></span></span><span class="bar-val">1290</span></div>
+      <div class="bar-row"><span class="bar-name">Kimi-K3.1-Pro</span><span class="bar"><span class="bar-fill" style="width:85.6%"></span></span><span class="bar-val">1215</span></div>
+      <div class="bar-row me"><span class="bar-name">DeepSeek-V4.1-Flash</span><span class="bar"><span class="bar-fill" style="width:83.1%"></span></span><span class="bar-val">1180</span></div>
+      <div class="bar-row"><span class="bar-name">GLM-5.3</span><span class="bar"><span class="bar-fill" style="width:80.3%"></span></span><span class="bar-val">1140</span></div>
+    </div>
+  </div>
+
+  <details class="gloss" style="margin-top:12px">
+    <summary>全部 14 项基准（点击展开）</summary>
+    <div class="table-scroll" style="margin-top:8px">
+      <table class="data">
+        <thead>
+          <tr>
+            <th class="nosort">基准</th>
+            <th class="right nosort">分数</th>
+            <th class="right nosort">量纲</th>
+            <th class="nosort">来源</th>
+            <th class="nosort">口径标注</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Terminal-Bench 4.0</td><td class="right num"><b>62.4</b></td><td class="right m-sub">百分比</td><td class="m-sub">Artificial Analysis · 2026-10-20</td><td class="m-sub">—</td></tr>
+          <tr><td>SWE Marathon</td><td class="right num">48.6</td><td class="right m-sub">百分比</td><td class="m-sub">Artificial Analysis · 2026-10-20</td><td class="m-sub">—</td></tr>
+          <tr><td>Terminal-Bench Science 0.1</td><td class="right num">33.2</td><td class="right m-sub">百分比</td><td class="m-sub">Artificial Analysis · 2026-10-20</td><td class="m-sub">—</td></tr>
+          <tr><td>Kimi Code Bench 3.0</td><td class="right num">54.1</td><td class="right m-sub">百分比</td><td class="m-sub">月之暗面 · 2026-09-30</td><td class="m-sub">厂商自建</td></tr>
+          <tr><td>GPQA Diamond</td><td class="right num">68.2</td><td class="right m-sub">百分比</td><td class="m-sub">Artificial Analysis · 2026-10-20</td><td class="m-sub">—</td></tr>
+          <tr><td>OSWorld V2.1</td><td class="right num">41.4</td><td class="right m-sub">百分比</td><td class="m-sub">Artificial Analysis · 2026-10-20</td><td class="m-sub">—</td></tr>
+          <tr><td>Frontier Finance</td><td class="right num">28.9</td><td class="right m-sub">百分比</td><td class="m-sub">Artificial Analysis · 2026-10-20</td><td class="m-sub">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="gloss">
+    <summary>口径说明（点击展开）</summary>
+    <p>混合价 =（3 × 输入价 + 1 × 输出价）÷ 4，单位 ¥ / 百万 tokens。「对比最低」= 该渠道相对全渠道最低混合价的溢价。</p>
+    <p class="limit">已排除批量推理、闲时折扣、长上下文溢价档；缓存读价单列，不计入混合价。第三方评测分数采用推理档位拉满设定。</p>
+  </details>
+
+  <p class="footnote">原型仅用于验证信息架构，数字为示意值。</p>
+</main>
+
+<footer class="site-footer"><div class="wrap">ModelsMark · 结构原型</div></footer>
+<script src="app.js"></script>
+</body>
+</html>

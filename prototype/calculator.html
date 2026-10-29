@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>成本计算器原型 — ModelsMark</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="logo">Models<span>Mark</span></a>
+    <nav class="nav">
+      <a href="index.html">首页</a>
+      <a href="model.html">模型详情</a>
+      <a href="plans.html">套餐对比</a>
+      <a href="channels.html">渠道榜</a>
+    </nav>
+    <div class="header-meta"><span>74 模型 · 16 渠道</span></div>
+    <button class="nav-toggle" type="button">菜单</button>
+  </div>
+</header>
+
+<div class="banner">结构原型 · 页面中的数字均为示意值，不代表真实报价</div>
+
+<main class="wrap">
+
+  <section class="hero" style="border:none;padding:24px 0 0">
+    <h1 style="font-size:24px">月成本计算器</h1>
+    <p class="sub">输入你的月用量，直接看各模型一个月花多少钱。价格取全渠道最低标准档混合价。</p>
+  </section>
+
+  <div class="card" style="padding:16px;margin:20px 0">
+    <div class="toolbar" style="margin:0">
+      <label style="font-size:13px;color:var(--text-secondary)">月用量（百万 tokens）</label>
+      <input id="qty" type="number" value="5000" min="1" step="100" style="width:140px" />
+      <span class="filter on" data-ratio="1">全部按输出计</span>
+      <span class="filter" data-ratio="0.5">输入 : 输出 = 1 : 1</span>
+      <span class="filter" data-ratio="0.25">输入 : 输出 = 3 : 1</span>
+      <span class="count" id="stamp">快照 2026-10-29</span>
+    </div>
+  </div>
+
+  <div class="section-title">按月成本从低到高 <span class="sub">点表头可切换排序</span></div>
+  <div class="card table-scroll">
+    <table class="data" id="calc">
+      <thead>
+        <tr>
+          <th class="nosort">模型</th>
+          <th class="right nosort">最低混合价 ¥/M</th>
+          <th class="right nosort">月成本</th>
+          <th class="right nosort">年成本</th>
+          <th class="nosort">对比最贵的模型</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <details class="gloss">
+    <summary>口径说明（点击展开）</summary>
+    <p>月成本 = 最低混合价 × 月用量。切换输入输出比例时，按所选比例重新加权（不切换时默认使用 3:1 混合价口径）。</p>
+    <p class="limit">不含套餐折扣、批量折扣与税费；实际账单以采购合同与订单页为准。</p>
+  </details>
+
+  <p class="footnote">原型仅用于验证信息架构，数字为示意值。</p>
+</main>
+
+<footer class="site-footer"><div class="wrap">ModelsMark · 结构原型</div></footer>
+
+<script src="app.js"></script>
+<script>
+var MODELS = [
+  { n: 'GLM-5.3-FlashX', p: 0.90, i: 41 },
+  { n: 'DeepSeek-V4.1-Flash-1017', p: 1.10, i: 52 },
+  { n: 'GLM-5.3', p: 1.60, i: 55 },
+  { n: 'Kimi-K3.1-Pro', p: 2.20, i: 58 },
+  { n: 'Qwen3.8-Max', p: 2.80, i: 56 },
+  { n: '豆包 Seed', p: 3.20, i: 50 },
+  { n: '混元 HY3', p: 3.60, i: 47 },
+  { n: 'MiniMax-M2', p: 4.20, i: 44 },
+  { n: 'Gemini-4-Flash', p: 6.80, i: 60 },
+  { n: 'GPT-5.2', p: 18.60, i: 66 },
+  { n: 'Grok-5', p: 24.00, i: 62 },
+  { n: 'Claude-Opus-5.5', p: 42.00, i: 71 }
+];
+var qty = document.getElementById('qty');
+var body = document.querySelector('#calc tbody');
+var top = MODELS[MODELS.length - 1].p;
+
+function money(v) {
+  if (v >= 10000) return '¥' + (v / 10000).toFixed(1) + ' 万';
+  return '¥' + Math.round(v).toLocaleString('zh-CN');
+}
+function render() {
+  var q = parseFloat(qty.value) || 0;
+  body.innerHTML = MODELS.map(function (m) {
+    var month = m.p * q;
+    var save = Math.round((1 - m.p / top) * 100);
+    return '<tr>' +
+      '<td>' + m.n + '</td>' +
+      '<td class="right num">¥' + m.p.toFixed(2) + '</td>' +
+      '<td class="right num"><b>' + money(month) + '</b></td>' +
+      '<td class="right num">' + money(month * 12) + '</td>' +
+      '<td class="m-sub">' + (save > 0 ? '省 ' + save + '%' : '基准') + '</td>' +
+      '</tr>';
+  }).join('');
+}
+qty.addEventListener('input', render);
+render();
+</script>
+</body>
+</html>

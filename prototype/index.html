@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>首页原型 — ModelsMark</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="logo">Models<span>Mark</span></a>
+    <nav class="nav">
+      <a href="index.html" class="on">首页</a>
+      <a href="model.html">模型详情</a>
+      <a href="plans.html">套餐对比</a>
+      <a href="channels.html">渠道榜</a>
+      <a href="calculator.html">成本计算器</a>
+    </nav>
+    <div class="header-meta"><span>74 模型 · 16 渠道</span></div>
+    <button class="nav-toggle" type="button">菜单</button>
+  </div>
+</header>
+
+<div class="banner">结构原型 · 页面中的数字均为示意值，不代表真实报价</div>
+
+<main class="wrap">
+  <h1 class="sr-only">模型 API 价格与能力对比</h1>
+
+  <!-- 1 · 数据条 -->
+  <div class="trustbar" style="margin-top:20px">
+    <span><b>74</b>个模型</span>
+    <span><b>16</b>家渠道</span>
+    <span><b>387</b>条报价</span>
+    <span class="stamp">快照 2026-10-29 · 每周一 06:00 更新</span>
+  </div>
+
+  <!-- 2 · 结论三卡 -->
+  <div class="section-title">先看结论 <span class="sub">按能力指数、价格、性价比各取一个</span></div>
+  <div class="verdicts">
+    <div class="verdict">
+      <div class="label">模型能力指数最高</div>
+      <div class="name">Claude-Opus-5.5</div>
+      <div class="why">指数 71，全球第 1 · ¥42.00/M · 只有 2 家渠道在卖</div>
+      <a class="go" href="model.html">看各渠道报价 →</a>
+    </div>
+    <div class="verdict">
+      <div class="label">价格最低</div>
+      <div class="name">GLM-5.3-FlashX</div>
+      <div class="why">¥0.90/M（输入 ¥0.60 · 输出 ¥1.80）· 指数 41</div>
+      <a class="go" href="model.html">看各渠道报价 →</a>
+    </div>
+    <div class="verdict">
+      <div class="label">性价比最优</div>
+      <div class="name">DeepSeek-V4.1-Flash-1017</div>
+      <div class="why">每 1 分能力指数只要 ¥0.021，¥1.10/M · 指数 52</div>
+      <a class="go" href="model.html">看各渠道报价 →</a>
+    </div>
+  </div>
+
+  <!-- 3 · 矩阵 -->
+  <div class="section-title">性价比矩阵 <span class="sub">横轴最低价（对数）· 纵轴能力指数 · 左上角最优</span><span class="more">口径说明</span></div>
+  <div class="card matrix-wrap">
+    <svg viewBox="0 0 900 400" role="img" aria-label="性价比矩阵示意">
+      <rect x="100" y="100" width="160" height="120" fill="rgba(59,109,17,0.07)"/>
+      <text x="108" y="116" font-size="11" fill="#3b6d11">又强又便宜</text>
+
+      <line x1="100" y1="340" x2="660" y2="340" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+      <line x1="100" y1="40" x2="100" y2="340" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+
+      <line x1="100" y1="240" x2="660" y2="240" stroke="rgba(0,0,0,0.08)" stroke-dasharray="2 3"/>
+      <line x1="100" y1="140" x2="660" y2="140" stroke="rgba(0,0,0,0.08)" stroke-dasharray="2 3"/>
+      <text x="92" y="344" font-size="11" fill="#8f8e88" text-anchor="end">20</text>
+      <text x="92" y="244" font-size="11" fill="#8f8e88" text-anchor="end">40</text>
+      <text x="92" y="144" font-size="11" fill="#8f8e88" text-anchor="end">60</text>
+      <text x="92" y="44" font-size="11" fill="#8f8e88" text-anchor="end">80</text>
+
+      <line x1="125" y1="40" x2="125" y2="340" stroke="rgba(0,0,0,0.08)" stroke-dasharray="2 3"/>
+      <line x1="244" y1="40" x2="244" y2="340" stroke="rgba(0,0,0,0.08)" stroke-dasharray="2 3"/>
+      <line x1="375" y1="40" x2="375" y2="340" stroke="rgba(0,0,0,0.08)" stroke-dasharray="2 3"/>
+      <line x1="494" y1="40" x2="494" y2="340" stroke="rgba(0,0,0,0.08)" stroke-dasharray="2 3"/>
+      <line x1="625" y1="40" x2="625" y2="340" stroke="rgba(0,0,0,0.08)" stroke-dasharray="2 3"/>
+      <text x="125" y="358" font-size="11" fill="#8f8e88" text-anchor="middle">¥1</text>
+      <text x="244" y="358" font-size="11" fill="#8f8e88" text-anchor="middle">¥3</text>
+      <text x="375" y="358" font-size="11" fill="#8f8e88" text-anchor="middle">¥10</text>
+      <text x="494" y="358" font-size="11" fill="#8f8e88" text-anchor="middle">¥30</text>
+      <text x="625" y="358" font-size="11" fill="#8f8e88" text-anchor="middle">¥100</text>
+      <text x="380" y="388" font-size="11" fill="#8f8e88" text-anchor="middle">全渠道最低 3:1 混合价 ¥ / 百万 tokens（对数轴）</text>
+
+      <a href="model.html"><circle cx="135" cy="180" r="7" fill="#378add"/></a>
+      <text x="146" y="184" font-size="11" fill="#1c1c1a">DeepSeek-V4.1-Flash</text>
+      <a href="model.html"><circle cx="176" cy="165" r="7" fill="#378add"/></a>
+      <text x="187" y="169" font-size="11" fill="#1c1c1a">GLM-5.3</text>
+      <a href="model.html"><circle cx="210" cy="150" r="7" fill="#378add"/></a>
+      <text x="200" y="132" font-size="11" fill="#1c1c1a" text-anchor="middle">Kimi-K3.1-Pro</text>
+      <a href="model.html"><circle cx="237" cy="160" r="5" fill="#d85a30" fill-opacity="0.75"/></a>
+      <text x="246" y="176" font-size="11" fill="#5f5e5a">Qwen3.8-Max</text>
+      <a href="model.html"><circle cx="251" cy="190" r="5" fill="#d85a30" fill-opacity="0.75"/></a>
+      <text x="260" y="206" font-size="11" fill="#5f5e5a">豆包 Seed</text>
+      <a href="model.html"><circle cx="264" cy="205" r="5" fill="#d85a30" fill-opacity="0.75"/></a>
+      <text x="273" y="221" font-size="11" fill="#5f5e5a">混元 HY3</text>
+      <a href="model.html"><circle cx="281" cy="220" r="5" fill="#d85a30" fill-opacity="0.75"/></a>
+      <text x="290" y="236" font-size="11" fill="#5f5e5a">MiniMax-M2</text>
+      <a href="model.html"><circle cx="114" cy="235" r="5" fill="#d85a30" fill-opacity="0.75"/></a>
+      <text x="104" y="252" font-size="11" fill="#5f5e5a" text-anchor="end">GLM-5.3-FlashX</text>
+      <a href="model.html"><circle cx="333" cy="140" r="5" fill="#5f5e5a" fill-opacity="0.75"/></a>
+      <text x="342" y="128" font-size="11" fill="#5f5e5a">Gemini-4-Flash</text>
+      <a href="model.html"><circle cx="442" cy="110" r="5" fill="#5f5e5a" fill-opacity="0.75"/></a>
+      <text x="451" y="114" font-size="11" fill="#5f5e5a">GPT-5.2</text>
+      <a href="model.html"><circle cx="470" cy="130" r="5" fill="#5f5e5a" fill-opacity="0.75"/></a>
+      <text x="479" y="146" font-size="11" fill="#5f5e5a">Grok-5</text>
+      <a href="model.html"><circle cx="531" cy="85" r="5" fill="#5f5e5a" fill-opacity="0.75"/></a>
+      <text x="540" y="89" font-size="11" fill="#5f5e5a">Claude-Opus-5.5</text>
+    </svg>
+    <div class="legend">
+      <span><i class="dot dot-domestic"></i> 国内模型</span>
+      <span><i class="dot dot-overseas"></i> 海外模型</span>
+      <span class="hint">仅含同时具备价格与能力指数的 18 个模型 · 点击圆点看各渠道报价</span>
+    </div>
+  </div>
+
+  <!-- 4 · 三个 Top5 榜（已删除价差榜，改为能力指数榜） -->
+  <div class="section-title">三个榜 <span class="sub">每个只看前 5 名</span></div>
+  <div class="boards">
+    <div class="board">
+      <h3>能力指数最高 <span class="unit">指数</span></h3>
+      <table class="data">
+        <tbody>
+          <tr><td class="rank">1</td><td>Claude-Opus-5.5</td><td class="right num">71</td></tr>
+          <tr><td class="rank">2</td><td>GPT-5.2</td><td class="right num">66</td></tr>
+          <tr><td class="rank">3</td><td>Grok-5</td><td class="right num">62</td></tr>
+          <tr><td class="rank">4</td><td>Gemini-4-Flash</td><td class="right num">60</td></tr>
+          <tr><td class="rank">5</td><td>Kimi-K3.1-Pro</td><td class="right num">58</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="board board-price">
+      <h3>价格最低 <span class="unit">按 3:1 混合价排序 · ¥/百万 tokens</span></h3>
+      <table class="data">
+        <thead>
+          <tr>
+            <th class="rank"></th>
+            <th>模型</th>
+            <th class="right">输入</th>
+            <th class="right">缓存读</th>
+            <th class="right">输出</th>
+            <th class="right">3:1 混合</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="rank">1</td><td>GLM-5.3-FlashX</td><td class="right num">0.60</td><td class="right num m-sub">0.15</td><td class="right num">1.80</td><td class="right num"><b>0.90</b></td></tr>
+          <tr><td class="rank">2</td><td>DeepSeek-V4.1-Flash-1017</td><td class="right num">0.70</td><td class="right num m-sub">0.18</td><td class="right num">2.30</td><td class="right num"><b>1.10</b></td></tr>
+          <tr><td class="rank">3</td><td>GLM-5.3</td><td class="right num">1.00</td><td class="right num m-sub">0.25</td><td class="right num">3.40</td><td class="right num"><b>1.60</b></td></tr>
+          <tr><td class="rank">4</td><td>Kimi-K3.1-Pro</td><td class="right num">1.40</td><td class="right num m-sub">0.35</td><td class="right num">4.60</td><td class="right num"><b>2.20</b></td></tr>
+          <tr><td class="rank">5</td><td>Qwen3.8-Max</td><td class="right num">1.80</td><td class="right num m-sub">0.45</td><td class="right num">5.80</td><td class="right num"><b>2.80</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="board">
+      <h3>性价比最优 <span class="unit">¥ / 每分指数</span></h3>
+      <table class="data">
+        <tbody>
+          <tr><td class="rank">1</td><td>DeepSeek-V4.1-Flash</td><td class="right num">0.021</td></tr>
+          <tr><td class="rank">2</td><td>GLM-5.3-FlashX</td><td class="right num">0.022</td></tr>
+          <tr><td class="rank">3</td><td>GLM-5.3</td><td class="right num">0.029</td></tr>
+          <tr><td class="rank">4</td><td>Kimi-K3.1-Pro</td><td class="right num">0.038</td></tr>
+          <tr><td class="rank">5</td><td>Qwen3.8-Max</td><td class="right num">0.050</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 5 · 全量主表：输入 / 缓存读 / 输出 / 混合价 全部列出 -->
+  <div class="section-title">全部模型 <span class="sub">价格取该模型最低价渠道的标准档 · 可搜索筛选排序</span></div>
+
+  <div class="formula">
+    <b>3:1 混合价</b> ＝（3 × 输入价 ＋ 1 × 输出价）÷ 4
+    <span class="eg">示例：输入 ¥0.70、输出 ¥2.30 →（3 × 0.70 ＋ 2.30）÷ 4 ＝ <b>¥1.10</b> / 百万 tokens</span>
+    <span class="why">按 3 份输入配 1 份输出的典型对话用量加权，把三项价格压成一个可比数字</span>
+  </div>
+
+  <div data-table data-limit="8">
+    <div class="toolbar">
+      <input data-search placeholder="搜索模型或厂商" />
+      <span class="filter on" data-f="all">全部</span>
+      <span class="filter" data-f="domestic">国产</span>
+      <span class="filter" data-f="intel">有能力指数</span>
+      <span class="count" data-count></span>
+    </div>
+    <div class="card table-scroll">
+      <table class="data wide">
+        <thead>
+          <tr>
+            <th data-key="name">模型</th>
+            <th class="right" data-key="in">输入</th>
+            <th class="right" data-key="cache">缓存读</th>
+            <th class="right" data-key="out">输出</th>
+            <th class="right" data-key="blend">3:1 混合价</th>
+            <th class="right" data-key="intel">能力指数</th>
+            <th class="right" data-key="value">性价比 ¥/分</th>
+            <th class="right" data-key="ch">渠道数</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-tags="domestic intel">
+            <td data-k="name"><i class="dot dot-domestic"></i>DeepSeek-V4.1-Flash-1017</td>
+            <td class="right num" data-k="in" data-v="0.70">0.70</td>
+            <td class="right num m-sub" data-k="cache" data-v="0.18">0.18</td>
+            <td class="right num" data-k="out" data-v="2.30">2.30</td>
+            <td class="right num" data-k="blend" data-v="1.10"><b>¥1.10</b></td>
+            <td class="right num" data-k="intel" data-v="52">52</td>
+            <td class="right num" data-k="value" data-v="0.021">0.021</td>
+            <td class="right num" data-k="ch" data-v="6">6</td>
+          </tr>
+          <tr data-tags="domestic intel">
+            <td data-k="name"><i class="dot dot-domestic"></i>GLM-5.3-FlashX</td>
+            <td class="right num" data-k="in" data-v="0.60">0.60</td>
+            <td class="right num m-sub" data-k="cache" data-v="0.15">0.15</td>
+            <td class="right num" data-k="out" data-v="1.80">1.80</td>
+            <td class="right num" data-k="blend" data-v="0.90"><b>¥0.90</b></td>
+            <td class="right num" data-k="intel" data-v="41">41</td>
+            <td class="right num" data-k="value" data-v="0.022">0.022</td>
+            <td class="right num" data-k="ch" data-v="5">5</td>
+          </tr>
+          <tr data-tags="domestic intel">
+            <td data-k="name"><i class="dot dot-domestic"></i>GLM-5.3</td>
+            <td class="right num" data-k="in" data-v="1.00">1.00</td>
+            <td class="right num m-sub" data-k="cache" data-v="0.25">0.25</td>
+            <td class="right num" data-k="out" data-v="3.40">3.40</td>
+            <td class="right num" data-k="blend" data-v="1.60"><b>¥1.60</b></td>
+            <td class="right num" data-k="intel" data-v="55">55</td>
+            <td class="right num" data-k="value" data-v="0.029">0.029</td>
+            <td class="right num" data-k="ch" data-v="7">7</td>
+          </tr>
+          <tr data-tags="domestic intel">
+            <td data-k="name"><i class="dot dot-domestic"></i>Kimi-K3.1-Pro</td>
+            <td class="right num" data-k="in" data-v="1.40">1.40</td>
+            <td class="right num m-sub" data-k="cache" data-v="0.35">0.35</td>
+            <td class="right num" data-k="out" data-v="4.60">4.60</td>
+            <td class="right num" data-k="blend" data-v="2.20"><b>¥2.20</b></td>
+            <td class="right num" data-k="intel" data-v="58">58</td>
+            <td class="right num" data-k="value" data-v="0.038">0.038</td>
+            <td class="right num" data-k="ch" data-v="4">4</td>
+          </tr>
+          <tr data-tags="domestic intel">
+            <td data-k="name"><i class="dot dot-domestic"></i>Qwen3.8-Max</td>
+            <td class="right num" data-k="in" data-v="1.80">1.80</td>
+            <td class="right num m-sub" data-k="cache" data-v="0.45">0.45</td>
+            <td class="right num" data-k="out" data-v="5.80">5.80</td>
+            <td class="right num" data-k="blend" data-v="2.80"><b>¥2.80</b></td>
+            <td class="right num" data-k="intel" data-v="56">56</td>
+            <td class="right num" data-k="value" data-v="0.050">0.050</td>
+            <td class="right num" data-k="ch" data-v="8">8</td>
+          </tr>
+          <tr data-tags="domestic intel">
+            <td data-k="name"><i class="dot dot-domestic"></i>豆包 Seed</td>
+            <td class="right num" data-k="in" data-v="2.00">2.00</td>
+            <td class="right num m-sub" data-k="cache" data-v="0.50">0.50</td>
+            <td class="right num" data-k="out" data-v="6.80">6.80</td>
+            <td class="right num" data-k="blend" data-v="3.20"><b>¥3.20</b></td>
+            <td class="right num" data-k="intel" data-v="50">50</td>
+            <td class="right num" data-k="value" data-v="0.064">0.064</td>
+            <td class="right num" data-k="ch" data-v="3">3</td>
+          </tr>
+          <tr data-tags="domestic intel">
+            <td data-k="name"><i class="dot dot-domestic"></i>混元 HY3</td>
+            <td class="right num" data-k="in" data-v="2.30">2.30</td>
+            <td class="right num m-sub" data-k="cache" data-v="0.55">0.55</td>
+            <td class="right num" data-k="out" data-v="7.50">7.50</td>
+            <td class="right num" data-k="blend" data-v="3.60"><b>¥3.60</b></td>
+            <td class="right num" data-k="intel" data-v="47">47</td>
+            <td class="right num" data-k="value" data-v="0.077">0.077</td>
+            <td class="right num" data-k="ch" data-v="4">4</td>
+          </tr>
+          <tr data-tags="domestic intel">
+            <td data-k="name"><i class="dot dot-domestic"></i>MiniMax-M2</td>
+            <td class="right num" data-k="in" data-v="2.60">2.60</td>
+            <td class="right num m-sub" data-k="cache" data-v="0.65">0.65</td>
+            <td class="right num" data-k="out" data-v="9.00">9.00</td>
+            <td class="right num" data-k="blend" data-v="4.20"><b>¥4.20</b></td>
+            <td class="right num" data-k="intel" data-v="44">44</td>
+            <td class="right num" data-k="value" data-v="0.095">0.095</td>
+            <td class="right num" data-k="ch" data-v="2">2</td>
+          </tr>
+          <tr data-tags="domestic">
+            <td data-k="name"><i class="dot dot-domestic"></i>Step-3</td>
+            <td class="right num" data-k="in" data-v="3.40">3.40</td>
+            <td class="right num flat" data-k="cache" data-v="">—</td>
+            <td class="right num" data-k="out" data-v="11.40">11.40</td>
+            <td class="right num" data-k="blend" data-v="5.40"><b>¥5.40</b></td>
+            <td class="right num" data-k="intel" data-v="">—</td>
+            <td class="right num" data-k="value" data-v="">—</td>
+            <td class="right num" data-k="ch" data-v="1">1</td>
+          </tr>
+          <tr data-tags="overseas intel">
+            <td data-k="name"><i class="dot dot-overseas"></i>Gemini-4-Flash</td>
+            <td class="right num" data-k="in" data-v="4.20">4.20</td>
+            <td class="right num m-sub" data-k="cache" data-v="1.05">1.05</td>
+            <td class="right num" data-k="out" data-v="14.60">14.60</td>
+            <td class="right num" data-k="blend" data-v="6.80"><b>¥6.80</b></td>
+            <td class="right num" data-k="intel" data-v="60">60</td>
+            <td class="right num" data-k="value" data-v="0.113">0.113</td>
+            <td class="right num" data-k="ch" data-v="2">2</td>
+          </tr>
+          <tr data-tags="overseas intel">
+            <td data-k="name"><i class="dot dot-overseas"></i>GPT-5.2</td>
+            <td class="right num" data-k="in" data-v="12.00">12.00</td>
+            <td class="right num m-sub" data-k="cache" data-v="3.00">3.00</td>
+            <td class="right num" data-k="out" data-v="38.40">38.40</td>
+            <td class="right num" data-k="blend" data-v="18.60"><b>¥18.60</b></td>
+            <td class="right num" data-k="intel" data-v="66">66</td>
+            <td class="right num" data-k="value" data-v="0.282">0.282</td>
+            <td class="right num" data-k="ch" data-v="3">3</td>
+          </tr>
+          <tr data-tags="overseas intel">
+            <td data-k="name"><i class="dot dot-overseas"></i>Grok-5</td>
+            <td class="right num" data-k="in" data-v="15.00">15.00</td>
+            <td class="right num m-sub" data-k="cache" data-v="4.50">4.50</td>
+            <td class="right num" data-k="out" data-v="51.00">51.00</td>
+            <td class="right num" data-k="blend" data-v="24.00"><b>¥24.00</b></td>
+            <td class="right num" data-k="intel" data-v="62">62</td>
+            <td class="right num" data-k="value" data-v="0.387">0.387</td>
+            <td class="right num" data-k="ch" data-v="1">1</td>
+          </tr>
+          <tr data-tags="overseas intel">
+            <td data-k="name"><i class="dot dot-overseas"></i>Claude-Opus-5.5</td>
+            <td class="right num" data-k="in" data-v="28.00">28.00</td>
+            <td class="right num m-sub" data-k="cache" data-v="7.00">7.00</td>
+            <td class="right num" data-k="out" data-v="84.00">84.00</td>
+            <td class="right num" data-k="blend" data-v="42.00"><b>¥42.00</b></td>
+            <td class="right num" data-k="intel" data-v="71">71</td>
+            <td class="right num" data-k="value" data-v="0.592">0.592</td>
+            <td class="right num" data-k="ch" data-v="2">2</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="toolbar" style="margin-top:8px">
+      <span class="filter" data-expand>展开全部 13 个</span>
+    </div>
+  </div>
+
+  <details class="gloss">
+    <summary>价格口径说明（点击展开）</summary>
+    <p><b>3:1 混合价</b> ＝（3 × 输入价 ＋ 1 × 输出价）÷ 4，单位 ¥ / 百万 tokens。取「3 份输入配 1 份输出」这一典型对话用量做加权，让不同输入输出比的模型能用一个数字横向比较。缓存读价单独列出，不计入混合价。</p>
+    <p><b>价格来源</b>：表中输入 / 缓存读 / 输出取该模型<b>最低价渠道</b>的标准档报价；想看某家渠道的具体价格，点模型名进详情页。</p>
+    <p class="limit">已排除批量推理、闲时折扣、长上下文溢价等不可复现档位；海外模型按央行人民币汇率中间价折算；能力指数来自第三方评测机构，未收录不代表能力差。</p>
+  </details>
+
+  <p class="footnote">原型仅用于验证信息架构与页面层级，数字为示意值。</p>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">ModelsMark · 结构原型 · 每周一 06:00 自动抓取并重新发布</div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

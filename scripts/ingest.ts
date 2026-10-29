@@ -404,6 +404,16 @@ const fromBaidu = (): Collector => () => {
     let curModel = '';
     let curVersion = '';
     let curUnit = '千';
+    /*
+     * 单位必须是 tokens 计价。千帆同一批表里混着非 token 计价的行：
+     *   PaddleOCR-VL / PP-StructureV3 → 「元/页」0.18
+     *   视频生成 MuseSteamer        → 「积分」
+     *   搜索增强                     → 「元/次」
+     * 若不过滤，0.18 元/页 会被折算成 ¥180/百万 tokens 的假价。
+     */
+    let curUnitOk = true;
+    // 当前档位（上下文长度档 / 高峰空闲档），由模型行与档位续行设定，续行沿用
+    let curSeg = '';
 
     // 档位键 → 累积的价格
     const buckets = new Map<string, {
@@ -424,46 +434,86 @@ const fromBaidu = (): Collector => () => {
 
     for (const r of rows.slice(1)) {
       const c = r.map((x) => (x || '').trim());
+
+      /*
+       * 「推理服务 输入Token数：（32k，200k]」这类行是**档位续行**——
+       * 模型名单元格被 rowspan 合并掉了，行首落在「服务内容」列上。
+       * 旧逻辑把它当成新模型行，curModel 被写成这句说明，
+       * 于是解析出 token-32k-200k / token-128k-256 这类假 slug 且 input 恒为 null。
+       * 正确做法：识别为档位行，只提取档位说明，不更新 curModel。
+       */
+      const isTierRow = /^推理服务/.test(c[0] || '');
       // 模型行：含「模型名称/版本名称/服务内容/子项/价格…」
-      const isModelRow = c.length >= 5 && c[0] !== '' && !/^输入|^输出|^命中缓存/.test(c[0]);
+      const isModelRow =
+        !isTierRow && c.length >= 5 && c[0] !== '' && !/^输入|^输出|^命中缓存/.test(c[0]);
+
+      /*
+       * 档位说明「输入Token数：[0,128k]」：
+       *   模型行 → 在「服务内容」列（c[2]）
+       *   档位续行 → 在行首（c[0]）
+       */
+      const tierSrc = isTierRow ? c[0] || '' : isModelRow ? c[2] || '' : '';
+      const tm0 = tierSrc.match(/输入Token数[：:]\s*(.+)$/);
+      const segBase = tm0 ? tm0[1].trim() : '';
+
       if (isModelRow) {
         curModel = c[0] || curModel;
         curVersion = c[1] || '';
-        curUnit = /千/.test(c[6] || '') ? '千' : /百万/.test(c[6] || '') ? '百万' : curUnit;
+        curSeg = segBase;
+      } else if (isTierRow) {
+        curSeg = segBase || curSeg;
       }
 
       // 取「子项」与「在线推理价」
       let sub: string;
       let priceTxt: string;
-      let unitCell = '';
       if (isModelRow) {
         sub = c[3] || '';
         priceTxt = c[4] || '';
-        unitCell = c[6] || '';
+      } else if (isTierRow) {
+        // 档位续行少了「模型名称/版本名称」两列，下标整体前移 2
+        sub = c[1] || '';
+        priceTxt = c[2] || '';
       } else if (c.length >= 3) {
         sub = c[0] || '';
         priceTxt = c[1] || '';
-        unitCell = c[3] || '';
       } else {
         continue;
       }
       if (!sub) continue;
       // 「搜索增强」等按次计费的附加项，不属于 token 单价
       if (/元\/次|搜索增强/.test(sub)) continue;
-      if (unitCell) curUnit = /千/.test(unitCell) ? '千' : /百万/.test(unitCell) ? '百万' : curUnit;
+
+      /*
+       * 单位：从本行里找「元/…」单元格，不能写死下标——
+       * 各表列数不同（主表 7 列、OCR 表 6 列、批量表 9 列），
+       * 写死 c[6] 会在列数少的表上取到空串，沿用上一行的单位。
+       */
+      const unitInRow = c.find((x) => /^元\//.test(x)) || '';
+      if (unitInRow) {
+        curUnit = /百万/.test(unitInRow) ? '百万' : '千';
+        curUnitOk = /tokens/i.test(unitInRow);
+      }
+      if (!curUnitOk) continue;
 
       const v = parseTokenPrice(priceTxt, curUnit);
       if (v == null) continue;
 
-      // 档位键：取括号内的时段/上下文说明；无括号则用空串
+      /*
+       * 档位键：优先取子项括号里的说明；括号里没有（如 Qwen3.5 的「输出」续行）
+       * 就沿用 curSeg——否则 (128k,256] 档的输出价会串进 [0,128k] 档，
+       * 把 7.2 覆盖成 18。
+       */
       const seg = sub.match(/[（(]([^）)]*)[）)]/);
-      let segText = seg ? seg[1] : '';
+      const segRaw = seg ? seg[1] : '';
       // 百度千帆的空闲时段只标注在「输出」「命中缓存」行上，输入行仍写「高峰时段」，
       // 直接按括号分桶会导致空闲档的输入价丢失（input=null）。
       // 这里把「空闲时段」显式识别出来，与「高峰时段」区分成两个档。
-      if (/空闲时段/.test(segText)) segText = '空闲时段';
-      else if (/高峰时段/.test(segText)) segText = '高峰时段';
-      const tierLabel = detectBaiduTier(sub);
+      if (/空闲时段/.test(segRaw)) curSeg = '空闲时段';
+      else if (/高峰时段/.test(segRaw)) curSeg = '高峰时段';
+      else if (segRaw) curSeg = segRaw;
+      const segText = segRaw || curSeg;
+      const tierLabel = segRaw || curSeg || detectBaiduTier(sub) || null;
       const key = `${curModel}||${curVersion}||${segText}`;
 
       const b = bucketFor(key);
@@ -474,7 +524,7 @@ const fromBaidu = (): Collector => () => {
       if (/缓存|命中/.test(sub)) b.cacheRead = v;
       else if (/输出/.test(sub)) b.output = v;
       else if (/输入/.test(sub)) b.input = v;
-      b.quotes.push(`${sub} ${priceTxt}${unitCell ? ' ' + unitCell : ''}`);
+      b.quotes.push(`${sub} ${priceTxt}${unitInRow ? ' ' + unitInRow : ''}`);
     }
 
     /*

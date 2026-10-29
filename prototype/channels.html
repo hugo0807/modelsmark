@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>渠道榜原型 — ModelsMark</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="logo">Models<span>Mark</span></a>
+    <nav class="nav">
+      <a href="index.html">首页</a>
+      <a href="model.html">模型详情</a>
+      <a href="plans.html">套餐对比</a>
+      <a href="channels.html" class="on">渠道榜</a>
+    </nav>
+    <div class="header-meta"><span>74 模型 · 16 渠道</span></div>
+    <button class="nav-toggle" type="button">菜单</button>
+  </div>
+</header>
+
+<div class="banner">结构原型 · 页面中的数字均为示意值，不代表真实报价</div>
+
+<main class="wrap">
+
+  <h1 class="sr-only">渠道榜</h1>
+
+  <div class="formula" style="margin-top:20px">
+    <b>平均混合价</b> ＝ 该渠道上架模型的 3:1 混合价算术平均
+    <span class="eg">3:1 混合价 ＝（3 × 输入价 ＋ 1 × 输出价）÷ 4</span>
+    <span class="why">平均价差 = 各模型「本渠道价 ÷ 全渠道最低价」的平均</span>
+  </div>
+
+  <!-- 三个渠道榜 -->
+  <div class="boards">
+    <div class="board">
+      <h3>均价最低 <span class="unit">¥ / M tokens</span></h3>
+      <table class="data"><tbody>
+        <tr><td class="rank">1</td><td>硅基流动</td><td class="right num">2.10</td></tr>
+        <tr><td class="rank">2</td><td>七牛云</td><td class="right num">2.45</td></tr>
+        <tr><td class="rank">3</td><td>火山方舟</td><td class="right num">2.80</td></tr>
+        <tr><td class="rank">4</td><td>PPIO 派欧云</td><td class="right num">3.05</td></tr>
+        <tr><td class="rank">5</td><td>腾讯云 TokenHub</td><td class="right num">3.40</td></tr>
+      </tbody></table>
+    </div>
+    <div class="board">
+      <h3>覆盖模型最多 <span class="unit">个</span></h3>
+      <table class="data"><tbody>
+        <tr><td class="rank">1</td><td>阿里云百炼</td><td class="right num">42</td></tr>
+        <tr><td class="rank">2</td><td>火山方舟</td><td class="right num">38</td></tr>
+        <tr><td class="rank">3</td><td>腾讯云 TokenHub</td><td class="right num">31</td></tr>
+        <tr><td class="rank">4</td><td>硅基流动</td><td class="right num">29</td></tr>
+        <tr><td class="rank">5</td><td>百度智能云千帆</td><td class="right num">26</td></tr>
+      </tbody></table>
+    </div>
+    <div class="board">
+      <h3>平均价差最大 <span class="unit">倍</span></h3>
+      <table class="data"><tbody>
+        <tr><td class="rank">1</td><td>移动云</td><td class="right num">2.4×</td></tr>
+        <tr><td class="rank">2</td><td>联通云</td><td class="right num">2.1×</td></tr>
+        <tr><td class="rank">3</td><td>金山云星流</td><td class="right num">1.9×</td></tr>
+        <tr><td class="rank">4</td><td>百度智能云千帆</td><td class="right num">1.8×</td></tr>
+        <tr><td class="rank">5</td><td>七牛云</td><td class="right num">1.7×</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+
+  <!-- 渠道全表 -->
+  <div class="section-title">全部渠道 <span class="sub">可搜索、点表头排序</span></div>
+  <div data-table>
+    <div class="toolbar">
+      <input data-search placeholder="搜索渠道" />
+      <span class="filter on" data-f="all">全部</span>
+      <span class="filter" data-f="cloud">云厂商</span>
+      <span class="filter" data-f="carrier">运营商</span>
+      <span class="filter" data-f="third">第三方</span>
+      <span class="count" data-count></span>
+    </div>
+    <div class="card table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th data-key="name">渠道</th>
+            <th class="nosort">类型</th>
+            <th class="right" data-key="cov">覆盖模型</th>
+            <th class="right" data-key="avg">平均混合价</th>
+            <th class="right" data-key="spread">平均价差</th>
+            <th class="nosort hide-sm">最便宜的模型</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-tags="cloud">
+            <td data-k="name">阿里云百炼</td><td><span class="badge">云厂商</span></td>
+            <td class="right num" data-k="cov" data-v="42">42</td>
+            <td class="right num" data-k="avg" data-v="4.20">¥4.20</td>
+            <td class="right num" data-k="spread" data-v="1.6">1.6×</td>
+            <td class="m-sub hide-sm">Qwen3.8-Max ¥2.80</td>
+          </tr>
+          <tr data-tags="cloud">
+            <td data-k="name">火山方舟</td><td><span class="badge">云厂商</span></td>
+            <td class="right num" data-k="cov" data-v="38">38</td>
+            <td class="right num" data-k="avg" data-v="2.80">¥2.80</td>
+            <td class="right num" data-k="spread" data-v="1.4">1.4×</td>
+            <td class="m-sub hide-sm">豆包 Seed ¥3.20</td>
+          </tr>
+          <tr data-tags="third">
+            <td data-k="name">硅基流动</td><td><span class="badge">第三方</span></td>
+            <td class="right num" data-k="cov" data-v="29">29</td>
+            <td class="right num" data-k="avg" data-v="2.10">¥2.10</td>
+            <td class="right num" data-k="spread" data-v="1.3">1.3×</td>
+            <td class="m-sub hide-sm">DeepSeek-V4.1-Flash ¥1.10</td>
+          </tr>
+          <tr data-tags="third">
+            <td data-k="name">七牛云</td><td><span class="badge">第三方</span></td>
+            <td class="right num" data-k="cov" data-v="18">18</td>
+            <td class="right num" data-k="avg" data-v="2.45">¥2.45</td>
+            <td class="right num" data-k="spread" data-v="1.7">1.7×</td>
+            <td class="m-sub hide-sm">DeepSeek-V4.1-Flash ¥1.31</td>
+          </tr>
+          <tr data-tags="cloud">
+            <td data-k="name">腾讯云 TokenHub</td><td><span class="badge">云厂商</span></td>
+            <td class="right num" data-k="cov" data-v="31">31</td>
+            <td class="right num" data-k="avg" data-v="3.40">¥3.40</td>
+            <td class="right num" data-k="spread" data-v="1.5">1.5×</td>
+            <td class="m-sub hide-sm">混元 HY3 ¥3.60</td>
+          </tr>
+          <tr data-tags="cloud">
+            <td data-k="name">百度智能云千帆</td><td><span class="badge">云厂商</span></td>
+            <td class="right num" data-k="cov" data-v="26">26</td>
+            <td class="right num" data-k="avg" data-v="3.90">¥3.90</td>
+            <td class="right num" data-k="spread" data-v="1.8">1.8×</td>
+            <td class="m-sub hide-sm">文心 5.0 ¥4.10</td>
+          </tr>
+          <tr data-tags="carrier">
+            <td data-k="name">移动云</td><td><span class="badge">运营商</span></td>
+            <td class="right num" data-k="cov" data-v="12">12</td>
+            <td class="right num" data-k="avg" data-v="5.10">¥5.10</td>
+            <td class="right num" data-k="spread" data-v="2.4">2.4×</td>
+            <td class="m-sub hide-sm">混元 HY3 ¥4.40</td>
+          </tr>
+          <tr data-tags="carrier">
+            <td data-k="name">联通云</td><td><span class="badge">运营商</span></td>
+            <td class="right num" data-k="cov" data-v="9">9</td>
+            <td class="right num" data-k="avg" data-v="4.80">¥4.80</td>
+            <td class="right num" data-k="spread" data-v="2.1">2.1×</td>
+            <td class="m-sub hide-sm">GLM-5.3 ¥2.10</td>
+          </tr>
+          <tr data-tags="third">
+            <td data-k="name">PPIO 派欧云</td><td><span class="badge">第三方</span></td>
+            <td class="right num" data-k="cov" data-v="15">15</td>
+            <td class="right num" data-k="avg" data-v="3.05">¥3.05</td>
+            <td class="right num" data-k="spread" data-v="1.5">1.5×</td>
+            <td class="m-sub hide-sm">Kimi-K3.1-Pro ¥2.60</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <details class="gloss">
+    <summary>口径说明（点击展开）</summary>
+    <p>平均混合价 = 该渠道上架模型的 3:1 混合价的算术平均；平均价差 = 该渠道内各模型「本渠道价 ÷ 全渠道最低价」的平均。</p>
+    <p class="limit">只统计标准档报价，排除批量、闲时、长上下文溢价档。渠道覆盖模型数随快照变化。</p>
+  </details>
+
+  <p class="footnote">原型仅用于验证信息架构，数字为示意值。</p>
+</main>
+
+<footer class="site-footer"><div class="wrap">ModelsMark · 结构原型</div></footer>
+<script src="app.js"></script>
+</body>
+</html>
