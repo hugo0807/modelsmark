@@ -146,10 +146,33 @@ export function loadDataset(): Dataset {
 export function getModelDetail(slug: string) {
   const ds = loadDataset();
   const agg = ds.aggregates.find((a) => a.model.id === slug);
-  if (!agg) return null;
+  const model = ds.models.find((m) => m.id === slug);
+  // 模型表里有、但还没采到任何价格的模型（如 Gemini 4 Argon、混元 Hy3）
+  // 也要能出页面 —— 否则用户点进去是 404，CI 的模型页巡检也会失败。
+  if (!agg && !model) return null;
 
   const channelMap = new Map(ds.channels.map((c) => [c.id, c]));
   const benchmarkMap = new Map(ds.benchmarks.map((b) => [b.id, b]));
+
+  if (!agg) {
+    // 无报价的模型：给一个空壳，页面渲染「暂无可比报价」
+    return {
+      model: model!,
+      paygPrices: [],
+      packagePrices: [],
+      officialBlendedCny: null,
+      cloudAvgCny: null,
+      cloudCount: 0,
+      lowestBlendedCny: null,
+      highestBlendedCny: null,
+      priceSpread: null,
+      lowestChannelName: null,
+      intelligence: ds.intelligence.find((i) => i.modelId === slug) ?? null,
+      scores: ds.scores
+        .filter((s) => s.modelId === slug)
+        .map((s) => ({ ...s, benchmark: benchmarkMap.get(s.benchmarkId) })),
+    };
+  }
 
   return {
     ...agg,
@@ -159,9 +182,18 @@ export function getModelDetail(slug: string) {
   };
 }
 
-/** 供静态导出枚举路由 */
+/**
+ * 供静态导出枚举路由。
+ *
+ * 必须覆盖模型种子表里的**每一个**模型，而不是只取有价格记录的。
+ *
+ * 原因：模型表会收录「有智能指数 / 跑分但还没采到价格」的模型
+ * （如 Gemini 4 Argon、混元 Hy3）。若只按 aggregates 枚举，
+ * 这些模型不会生成页面 —— 用户点进 /models/xxx-argon 得到 404，
+ * CI 的模型页巡检也会失败（线上巡检遍历的正是模型表全量）。
+ */
 export function getAllModelSlugs(): string[] {
-  return loadDataset().aggregates.map((a) => a.model.id);
+  return loadDataset().models.map((m) => m.id);
 }
 
 /** 渠道索引 */

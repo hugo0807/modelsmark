@@ -239,6 +239,19 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
             </tr>
           </thead>
           <tbody>
+            {/*
+             * 无报价模型：本站收录了它的能力数据，但暂未采到任何渠道的
+             * 按量计费价（多见于刚发布或仅私有化交付的模型）。
+             * 空表头配空表体会让人以为是页面坏了，这里明确说清楚。
+             */}
+            {paygPrices.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="flat" style={{ padding: '18px 14px' }}>
+                  暂无可比报价 —— 本站已收录该模型的能力数据，但未从任何渠道
+                  采到按量计费的公开定价。
+                </td>
+              </tr>
+            ) : null}
             {groups.map((g) => {
               // 本组最低只取标准档：批量/低优/闲时等折扣档不参与，避免误导性低价
               const stdRows = g.rows.filter((r) => isStandardTier(r));
