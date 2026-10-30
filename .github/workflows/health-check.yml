@@ -79,9 +79,10 @@ jobs:
           echo ""
           echo "=== 首页关键内容校验 ==="
           curl -s --max-time 30 "${BASE}/" -o /tmp/home.html || true
-          # 关键词与首页表格当前列名对应：
-          # 速览表列 = 模型 / 厂商 / 最低价 / 最高价 / 价差 / 智能指数 / 可选渠道
-          for kw in "ModelsMark" "性价比" "最低价" "最高价" "价差" "智能指数"; do
+          # 关键词与改版后首页的区块 / 列名对应：
+          # 可信度条（在售渠道）· 结论三卡（先看结论）· 矩阵（性价比矩阵）
+          # · 三个 Top5 榜（能力指数）· 全量表（3:1 混合价）
+          for kw in "ModelsMark" "先看结论" "性价比矩阵" "能力指数" "3:1 混合价" "在售渠道"; do
             CNT=$(grep -o "${kw}" /tmp/home.html 2>/dev/null | wc -l)
             echo "  ${kw}: ${CNT} 次"
             if [ "${CNT}" -eq 0 ]; then
@@ -91,17 +92,25 @@ jobs:
           done
 
           echo ""
-          echo "=== 首页模型数量校验 ==="
-          # 线上模型行数不得明显少于仓库模型表 —— 防止数据被部分覆盖后悄悄变少。
-          # 速览表只列「有按量报价」的模型，因此行数会略少于模型表（差几个属正常）。
+          echo "=== 首页模型规模校验 ==="
+          # 改版后主表默认折叠（首屏只渲染 12 行，其余由客户端展开），
+          # 因此不能再靠数 <tr> 判断数据是否被覆盖 —— 改用两个更准的信号：
+          #   1) 可信度条里的模型总数必须与模型表完全一致
+          #   2) 首页出现的模型链接数（结论卡 + 三榜 + 主表）不得低于下限
           EXPECTED=$(node -e "
             const list = require('./data/seeds/models.json');
             console.log(list.length);
           " 2>/dev/null || echo 0)
-          ACTUAL=$(grep -o '<tr>' /tmp/home.html 2>/dev/null | wc -l)
-          echo "  模型表 ${EXPECTED} 个 / 首页表格 ${ACTUAL} 行"
-          if [ "${EXPECTED}" -gt 20 ] && [ "${ACTUAL}" -lt $((EXPECTED * 8 / 10)) ]; then
-            echo "  ::error::首页模型行数 ${ACTUAL} 不足模型表 ${EXPECTED} 的 80%，数据可能被部分覆盖"
+          DECLARED=$(grep -o "<b>${EXPECTED}</b>个模型" /tmp/home.html 2>/dev/null | wc -l)
+          echo "  模型表 ${EXPECTED} 个 / 首页可信度条声明匹配 ${DECLARED} 次"
+          if [ "${EXPECTED}" -gt 0 ] && [ "${DECLARED}" -eq 0 ]; then
+            echo "  ::error::首页声明的模型数与模型表 ${EXPECTED} 不一致，数据可能被部分覆盖"
+            FAILED=1
+          fi
+          LINKS=$(grep -o 'href="/models/[^\"]*/"' /tmp/home.html 2>/dev/null | sort -u | wc -l)
+          echo "  首页出现的模型链接: ${LINKS} 个"
+          if [ "${LINKS}" -lt 15 ]; then
+            echo "  ::error::首页模型链接仅 ${LINKS} 个，疑似数据丢失或表格未渲染"
             FAILED=1
           fi
 

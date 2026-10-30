@@ -114,13 +114,13 @@ export default function PlansPage() {
 
   return (
     <>
-      <div className="page-head">
-        <h1>套餐对比</h1>
-        <p className="sub">
-          各渠道的 Token Plan、资源包与 Agent Plan 横向对比。额度、周期、价格均取自官方页面，
-          折合单价统一按「¥ / 百万 tokens」口径计算，与按量刊例价可直接比较。
-        </p>
-      </div>
+      {/*
+       * 删掉原来的大标题区：导航已经写明这是哪个页面，
+       * 上面再复述一遍「套餐对比 —— 各渠道的 Token Plan…」属于纯占位文字。
+       * 这个页面用户只看一件事：套餐划不划算。
+       * h1 用 sr-only 保留，只为无障碍与 SEO，不占版面。
+       */}
+      <h1 className="sr-only">套餐对比</h1>
 
       {/* ── 指标卡 ── */}
       <div className="metrics">
