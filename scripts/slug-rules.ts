@@ -78,7 +78,9 @@ export const SLUG_PATTERNS: Array<[RegExp, string]> = [
   [/hy4/i, 'hunyuan-hy4'],
   [/hy3/i, 'hunyuan-hy3'],
   [/ernie[\s\-.]*5[\s\-.]*1/i, 'ernie-5-1'],
-  [/ernie[\s\-.]*5(?!\.)/i, 'ernie-5-0'],
+  // ERNIE 5.0 的版本列同时列出 4 个型号（ERNIE-5.0 / -Thinking-Preview / -Latest / -Exp），
+  // 它们在千帆上同价同档，因此统一归到 ernie-5-0 这一个模型条目。
+  [/ernie[\s\-.]*5[\s\-.]*0/i, 'ernie-5-0'],
   // ERNIE 4.5 Turbo 的三个规格价格不同，必须细分 —— 顺序在通配规则之前
   [/ernie[\s\-.]*4[\s\-.]*5[\s\-.]*turbo[\s\-.]*vl/i, 'ernie-4-5-turbo-vl-32k'],
   [/ernie[\s\-.]*4[\s\-.]*5[\s\-.]*turbo[\s\-.]*128k/i, 'ernie-4-5-turbo-128k-preview'],

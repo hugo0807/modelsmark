@@ -121,19 +121,27 @@ export function round(n: number, digits = 6): number {
   return Math.round(n * f) / f;
 }
 
-/** 清洗 HTML 标签与多余空白 */
+/**
+ * 清洗 HTML 标签与多余空白
+ *
+ * 注意：标签正则必须要求 '<' 后面紧跟字母或 '/'，
+ * 否则正文里的字面 '<'（如百度千帆的「输入（输入=<32k）」）会被当成标签起始，
+ * 把到下一个 '>' 为止的内容整段吞掉 —— 结果是「输入」子项被截断成「输入（输入=」。
+ */
 export function stripTags(html: string): string {
-  return html
-    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&')
-    .replace(/&#\d+;/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
+  return (
+    html
+      .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<\/?[a-zA-Z][^>]*>/g, ' ')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/&#\d+;/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  );
 }
 
 /**
@@ -272,6 +280,107 @@ export function extractTables(html: string): string[][][] {
       const tds = tr.match(/<t[dh][^>]*>[\s\S]*?<\/t[dh]>/gi) || [];
       return tds.map((td) => stripTags(td));
     });
+  });
+}
+
+/**
+ * 同 extractTables，但会把 rowspan / colspan 展开成规整矩形，
+ * 并把跨行单元格的内容「继承」到它覆盖的每一行。
+ *
+ * 为什么需要：百度千帆的计费表用 rowspan 做「模型名 / 版本名 / 服务内容」跨行：
+ *   <td rowspan="12">ERNIE 4.5 Turbo</td>
+ *   <td rowspan="4">ERNIE-4.5-Turbo-128K-Preview</td>
+ *   <td rowspan="3">推理服务</td>
+ *   <td>输入</td> <td>0.0008</td> ...
+ * 续行只剩 3 格（子项 | 在线推理 | 批量推理）。
+ * 若不展开，每行都会「列左移」——本该是「输入 | 0.0008 | 0.00032 | 元/千tokens」
+ * 的四格会被读成 c[0]=子项、c[1]=在线推理、c[2]=批量推理、c[3]=单位，
+ * 于是输入价被整段丢弃（模型详情页出现「输入价 —」）。
+ *
+ * 继承还有一个好处：模型名 / 版本名 / 单位会出现在每一个续行上，
+ * 解析器不必再维护「当前模型是哪个」的状态。
+ *
+ * 已知边界：百度原表里部分 rowspan 声明值比实际覆盖行数少 1
+ * （如「推理服务」声明 rowspan=3 却覆盖 4 行）。
+ * 浏览器渲染时会容错补齐，我们把短行按「后续同组行」补空格即可。
+ */
+export function extractTablesExpanded(html: string): string[][][] {
+  const tables = html.match(/<table[\s\S]*?<\/table>/gi) || [];
+  return tables.map((t) => {
+    const trs = t.match(/<tr[\s\S]*?<\/tr>/gi) || [];
+
+    /*
+     * active[col] = 该列被上方单元格跨行占据 { text, remaining }
+     * remaining = 还需被「后续多少行」继承（不含放置它的那一行）
+     *
+     * 关键：继承与释放在不同阶段完成。
+     *   · 本行开始时，remaining > 0 的列 → 继承内容，且本行算作「被占用」
+     *     （放置本行自己的单元格时必须跳过这些列）
+     *   · 本行放置完成后，才把 remaining 减 1；减到 0 时释放列
+     *
+     * 若在继承的同时就释放列，跨行的最后一行的内容会抢占该列，
+     * 导致整行左移一列（「输出」子项被当成「服务内容」）。
+     */
+    const active: Array<{ text: string; remaining: number } | null> = [];
+    const rows: string[][] = [];
+
+    for (const tr of trs) {
+      const tds = tr.match(/<t[dh][^>]*>[\s\S]*?<\/t[dh]>/gi) || [];
+      const row: string[] = [];
+      let col = 0;
+
+      // ① 继承：本行被上方 rowspan 覆盖的列
+      const inherited: boolean[] = [];
+      for (let c = 0; c < active.length; c++) {
+        const a = active[c];
+        if (a && a.remaining > 0) {
+          row[c] = a.text;
+          inherited[c] = true;
+        }
+      }
+
+      // ② 按 HTML 规则放置本行的单元格（跳过本行被 rowspan 覆盖的列）
+      for (const td of tds) {
+        while (col < active.length && active[col] && active[col].remaining > 0) col += 1;
+
+        const rowspan = Number(td.match(/rowspan\s*=\s*"?(\d+)/i)?.[1] || 1);
+        const colspan = Number(td.match(/colspan\s*=\s*"?(\d+)/i)?.[1] || 1);
+        const text = stripTags(td);
+
+        for (let k = 0; k < colspan; k++) {
+          const c = col + k;
+          row[c] = text;
+          active[c] = rowspan > 1 ? { text, remaining: rowspan - 1 } : null;
+        }
+        col += colspan;
+      }
+
+      // ③ 本行处理完，跨行单元格的剩余覆盖次数减一；归零则释放该列
+      for (let c = 0; c < active.length; c++) {
+        const a = active[c];
+        if (a && a.remaining > 0) {
+          a.remaining -= 1;
+          if (a.remaining === 0) active[c] = null;
+        }
+      }
+
+      rows.push(row);
+    }
+
+    // ④ 补齐短行：原表 rowspan 声明不准时会有行比表头短
+    const width = Math.max(...rows.map((r) => r.length));
+    for (let i = 0; i < rows.length; i++) {
+      if (rows[i].length >= width) continue;
+      const missing = width - rows[i].length;
+      for (let j = i + 1; j < rows.length && j < i + 8; j++) {
+        if (rows[j].length < width) continue;
+        rows[i] = rows[i].concat(rows[j].slice(width - missing, width));
+        break;
+      }
+      if (rows[i].length < width) rows[i] = rows[i].concat(new Array(width - rows[i].length).fill(''));
+    }
+
+    return rows;
   });
 }
 

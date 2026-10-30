@@ -12,7 +12,7 @@ import fs from 'node:fs';
 import { guessSlug } from './slug-rules';
 import path from 'node:path';
 import type { PriceRecord } from '../src/lib/types';
-import { extractTables, parseCompactPriceCell, parseTableRows, stripTags } from './parse-pricing-table';
+import { extractTables, extractTablesExpanded, parseCompactPriceCell, parseTableRows, stripTags } from './parse-pricing-table';
 
 const ROOT = process.cwd();
 /**
@@ -378,13 +378,24 @@ const fromTencent = (): Collector => () => {
   return out;
 };
 
-/** 百度千帆：.probe/baidu_qianfan_price.html
+/** 百度千帆：data/snapshots/baidu_qianfan_price.html
  *  形态：模型名称 | 版本名称 | 服务内容 | 子项 | 在线推理 | 批量推理 | 单位
- *  续行（rowspan）只有 3 格：子项 | 在线推理 | 批量推理
  *  单位统一是「元/千tokens」，需 ×1000 折算为元/百万 tokens
+ *
+ * 关键：必须用 extractTablesExpanded（rowspan 展开 + 内容继承）。
+ * 百度表大量使用 rowspan 跨行，不展开会让续行整体左移，
+ * 导致「输入」行被当成「批量推理」列而整段丢弃 —— 模型页出现「输入价 —」。
  */
 const fromBaidu = (): Collector => () => {
   const html = fs.readFileSync(snapPath('baidu_qianfan_price.html'), 'utf8');
+  /*
+   * 用扁平行（extractTables，不做 rowspan 展开），而不是展开后的规整矩形。
+   *
+   * 展开版在「组边界」上会整体左移：百度的 rowspan 声明并不总与实际覆盖行数一致，
+   * 展开后一行常常同时混进下一行的内容（如某行首出现「--」占位符）。
+   * 扁平行每行只有自己的单元格，模型名不出现在续行上，
+   * 于是只需用「上一行的模型名」做回退 —— 不会再出现跨行污染。
+   */
   const tables = extractTables(html);
   const out: PriceRecord[] = [];
 
@@ -401,19 +412,17 @@ const fromBaidu = (): Collector => () => {
      */
     if (/单位规格|预付费价格|TPM/.test(head)) continue;
 
-    let curModel = '';
-    let curVersion = '';
-    let curUnit = '千';
     /*
-     * 单位必须是 tokens 计价。千帆同一批表里混着非 token 计价的行：
-     *   PaddleOCR-VL / PP-StructureV3 → 「元/页」0.18
-     *   视频生成 MuseSteamer        → 「积分」
-     *   搜索增强                     → 「元/次」
-     * 若不过滤，0.18 元/页 会被折算成 ¥180/百万 tokens 的假价。
+     * 非对话类模型整表跳过：Embedding / Reranker / 语音 / OCR。
+     * 它们的计量口径与聊天模型不同（有的按次、有的按字符），
+     * 放进比价表只会污染「每百万 tokens」口径，且与本站的对话模型对比对象不一致。
      */
-    let curUnitOk = true;
-    // 当前档位（上下文长度档 / 高峰空闲档），由模型行与档位续行设定，续行沿用
-    let curSeg = '';
+    const NON_CHAT = /embedding|reranker|重排|向量|bge|ocr|tao|语音|cosyvoice|sensevoice/i;
+    // 上一行解析到的模型名 / 版本名，用于「输出」行等分组边界处的回退
+    let lastModel = '';
+    let lastVersion = '';
+    // 服务内容列的上下文区间（rowspan 会让它跨行生效，需要跨行记住）
+    let lastCtx = '';
 
     // 档位键 → 累积的价格
     const buckets = new Map<string, {
@@ -422,11 +431,10 @@ const fromBaidu = (): Collector => () => {
       tierLabel: string | null; quotes: string[];
     }>();
 
-    const bucketFor = (key: string) => {
+    const bucketFor = (key: string, model: string, version: string, unit: string) => {
       let b = buckets.get(key);
       if (!b) {
-        b = { model: curModel, version: curVersion, unit: curUnit,
-              input: null, output: null, cacheRead: null, tierLabel: null, quotes: [] };
+        b = { model, version, unit, input: null, output: null, cacheRead: null, tierLabel: null, quotes: [] };
         buckets.set(key, b);
       }
       return b;
@@ -436,95 +444,185 @@ const fromBaidu = (): Collector => () => {
       const c = r.map((x) => (x || '').trim());
 
       /*
-       * 「推理服务 输入Token数：（32k，200k]」这类行是**档位续行**——
-       * 模型名单元格被 rowspan 合并掉了，行首落在「服务内容」列上。
-       * 旧逻辑把它当成新模型行，curModel 被写成这句说明，
-       * 于是解析出 token-32k-200k / token-128k-256 这类假 slug 且 input 恒为 null。
-       * 正确做法：识别为档位行，只提取档位说明，不更新 curModel。
+       * 取值采用「内容定位优先，固定列兜底」：
+       *
+       * 百度原表的 rowspan 声明并不总准确（「推理服务」声明 rowspan=3 却覆盖 4 行），
+       * 展开后仍可能整体左移一列。因此这里不信任列位置，改为在行内按内容找：
+       *   · 子项     —— 以「输入 / 输出 / 命中缓存」开头的格子
+       *   · 价格     —— 子项右侧第一个纯数字
+       *   · 单位     —— 行内出现「元/千tokens」「元/百万tokens」的格子
+       *   · 模型名   —— 行内最左侧、且不是「服务内容 / 子项 / 单位」的那一格
+       *   · 版本名   —— 模型名右侧、且不含「服务内容」字样的那一格
        */
-      const isTierRow = /^推理服务/.test(c[0] || '');
-      // 模型行：含「模型名称/版本名称/服务内容/子项/价格…」
-      const isModelRow =
-        !isTierRow && c.length >= 5 && c[0] !== '' && !/^输入|^输出|^命中缓存/.test(c[0]);
+      const subIdx = c.findIndex((t) => /^输入|^输出|^命中缓存/.test(t));
+      if (subIdx < 0) continue;
+      const sub = c[subIdx];
 
-      /*
-       * 档位说明「输入Token数：[0,128k]」：
-       *   模型行 → 在「服务内容」列（c[2]）
-       *   档位续行 → 在行首（c[0]）
-       */
-      const tierSrc = isTierRow ? c[0] || '' : isModelRow ? c[2] || '' : '';
-      const tm0 = tierSrc.match(/输入Token数[：:]\s*(.+)$/);
-      const segBase = tm0 ? tm0[1].trim() : '';
-
-      if (isModelRow) {
-        curModel = c[0] || curModel;
-        curVersion = c[1] || '';
-        curSeg = segBase;
-      } else if (isTierRow) {
-        curSeg = segBase || curSeg;
-      }
-
-      // 取「子项」与「在线推理价」
-      let sub: string;
-      let priceTxt: string;
-      if (isModelRow) {
-        sub = c[3] || '';
-        priceTxt = c[4] || '';
-      } else if (isTierRow) {
-        // 档位续行少了「模型名称/版本名称」两列，下标整体前移 2
-        sub = c[1] || '';
-        priceTxt = c[2] || '';
-      } else if (c.length >= 3) {
-        sub = c[0] || '';
-        priceTxt = c[1] || '';
-      } else {
-        continue;
-      }
-      if (!sub) continue;
       // 「搜索增强」等按次计费的附加项，不属于 token 单价
-      if (/元\/次|搜索增强/.test(sub)) continue;
+      if (/搜索增强/.test(sub)) continue;
+
+      // 价格：子项右侧第一个纯数字（'-' 表示该档无价）
+      let priceTxt = '';
+      for (let k = subIdx + 1; k < c.length; k++) {
+        const t = c[k];
+        if (t === '') continue;
+        if (t === '-') break;
+        if (/^\d+(\.\d+)?$/.test(t)) {
+          priceTxt = t;
+          break;
+        }
+        break;
+      }
+
+      // 单位：行内任意位置
+      const unitCell = c.find((t) => /元\/(千|百万)tokens/.test(t)) || '';
 
       /*
-       * 单位：从本行里找「元/…」单元格，不能写死下标——
-       * 各表列数不同（主表 7 列、OCR 表 6 列、批量表 9 列），
-       * 写死 c[6] 会在列数少的表上取到空串，沿用上一行的单位。
+       * 模型名 / 版本名：取行内最靠左的两个「名称类」单元格。
+       * 名称类 = 非空、不以数字开头（价格）、不含「元/」（单位）、
+       * 不是「推理服务 / 触发 / -」这类状态词、且不以子项关键字开头。
+       *
+       * 「输出」常落在分组边界，此时 rowspan 继承刚好用尽、行内取不到名称，
+       * 因此这里保留上一行的名称作为回退（同组内模型名/版本名必然相同）。
        */
-      const unitInRow = c.find((x) => /^元\//.test(x)) || '';
-      if (unitInRow) {
-        curUnit = /百万/.test(unitInRow) ? '百万' : '千';
-        curUnitOk = /tokens/i.test(unitInRow);
+      /*
+       * 「占位符」必须排除。
+       * 百度表里「--」「-」表示「该列无此价格」，出现在展开后的行首时，
+       * 旧逻辑会把「--」当成模型名，于是同一档被拆成两个桶：
+       *   一行只有输入价、另一行只有输出价 —— 表现为「有输入没输出」。
+       */
+      const isNameCell = (t: string) =>
+        t !== '' &&
+        !/^输入|^输出|^命中缓存/.test(t) &&
+        !/^[-—–]+$/.test(t) &&
+        !/^推理服务$|^触发$|^服务内容$|^子项$|^在线推理$|^批量推理$|^单位$/.test(t) &&
+        !/推理服务|Token数|日程|限时|即.?将下线|折扣/.test(t) &&
+        !/^\d/.test(t) &&
+        !/元\//.test(t);
+
+      /*
+       * 名称识别前先剥掉括号备注，否则带备注的单元格会被整格丢弃。
+       * 百度的备注有两类，都会落在名称列里：
+       *   · 「Kimi-K2.6（即将下线）」—— 状态备注
+       *   · 「DeepSeek-V4-Pro（命中缓存限时价格生效日期：9月9日-…）」—— 促销备注
+       * 备注里的时间会污染分档判断，名称里也不该出现。
+       */
+      const flat = c.map((t) =>
+        t.replace(/[（(][^）)]*[）)]/g, '').replace(/\s+/g, ' ').trim()
+      );
+      const nameCells = flat.filter(isNameCell);
+
+      let curModel: string;
+      let curVersion: string;
+      if (nameCells.length >= 2) {
+        curModel = nameCells[0];
+        curVersion = nameCells[1];
+      } else if (nameCells.length === 1) {
+        /*
+         * 只有一个名称格时有两种可能：
+         *   · 新模型行但官网没给版本列
+         *   · 模型名跨行、本行只是换了版本号
+         * 版本号必然带型号特征（连字符+数字、参数规格 xxB / AxxB），据此区分。
+         */
+        const one = nameCells[0];
+        if (lastModel && /[-–]\s*\d|\d+\.?\d*[Bb]|[Aa]\d+[Bb]/.test(one)) {
+          curModel = lastModel;
+          curVersion = one;
+        } else {
+          curModel = one;
+          // 换了模型就不能再沿用上一个模型的版本号，否则 A 的价格会挂到 B 名下
+          curVersion = '';
+        }
+      } else {
+        curModel = lastModel;
+        curVersion = lastVersion;
       }
-      if (!curUnitOk) continue;
+      lastModel = curModel;
+      lastVersion = curVersion;
+
+      if (NON_CHAT.test(curModel) || NON_CHAT.test(curVersion)) continue;
+
+      if (unitCell) curUnit = /千/.test(unitCell) ? '千' : /百万/.test(unitCell) ? '百万' : curUnit;
+
+      /*
+       * 「服务内容」列里的上下文区间。
+       * 百度把 GLM / Qwen 的上下文分档写在服务内容列（如「推理服务 输入Token数：[0,32k)」），
+       * 子项列只有裸的「输入 / 输出 / 命中缓存」。
+       * 不读这一列的话，同一模型的两档会塌成一行，丢掉一整套价格。
+       */
+      /*
+       * 区间写法不能靠「找成对括号」：官方用的是半开区间（如 [0,32k)、（32k，200k]），
+       * 左右括号并不成对，按括号配对匹配会整体失配。
+       * 直接取「输入Token数：」之后的整段文本。
+       */
+      /*
+       * 「服务内容」在本行出现就意味着一次新分组：
+       * 带 Token 数区间（GLM / Qwen 的上下文分档）→ 更新档位；
+       * 只是普通「推理服务」→ 说明上一个模型的区间档已经结束，必须清空，
+       * 否则上一条区分区间会顺延到下一个模型身上（Kimi 会被标成「（32k，200k]」）。
+       */
+      const ctx = c.find((t) => /^推理服务/.test(t)) || '';
+      if (/输入Token数/.test(ctx)) {
+        const range = ctx.match(/输入Token数\s*[:：]?\s*(.+?)\s*$/);
+        if (range) lastCtx = range[1].replace(/\s+/g, '');
+      } else if (ctx) {
+        lastCtx = '';
+      }
 
       const v = parseTokenPrice(priceTxt, curUnit);
       if (v == null) continue;
 
       /*
-       * 档位键：优先取子项括号里的说明；括号里没有（如 Qwen3.5 的「输出」续行）
-       * 就沿用 curSeg——否则 (128k,256] 档的输出价会串进 [0,128k] 档，
-       * 把 7.2 覆盖成 18。
+       * 分桶键必须只含「档位标识」，不能含子项名。
+       *
+       * 百度表的输入行与输出行括号里写的是同一档但措辞不同：
+       *   输入（输入<=32k）  /  输出（输入<=32k）      → 同一档
+       *   输入（32k<输入<=128k） / 输出（32k<输入<=128k） → 同一档
+       * 若直接用括号原文做键，输入与输出会落进不同的桶，
+       * 结果是「有输出价没输入价」或「有输入价没输出价」的半截记录。
+       *
+       * 这里归一化出档位标识：
+       *   · 含「空闲时段」→ 空闲时段
+       *   · 含「高峰时段」→ 高峰时段
+       *   · 括号里是上下文长度区间 → 归一到区间本身
        */
       const seg = sub.match(/[（(]([^）)]*)[）)]/);
-      const segRaw = seg ? seg[1] : '';
-      // 百度千帆的空闲时段只标注在「输出」「命中缓存」行上，输入行仍写「高峰时段」，
-      // 直接按括号分桶会导致空闲档的输入价丢失（input=null）。
-      // 这里把「空闲时段」显式识别出来，与「高峰时段」区分成两个档。
-      if (/空闲时段/.test(segRaw)) curSeg = '空闲时段';
-      else if (/高峰时段/.test(segRaw)) curSeg = '高峰时段';
-      else if (segRaw) curSeg = segRaw;
-      const segText = segRaw || curSeg;
-      const tierLabel = segRaw || curSeg || detectBaiduTier(sub) || null;
-      const key = `${curModel}||${curVersion}||${segText}`;
+      let segText = seg ? seg[1] : '';
+      if (/空闲时段/.test(segText)) segText = '空闲时段';
+      else if (/高峰时段/.test(segText)) segText = '高峰时段';
+      else if (/输入/.test(segText)) {
+        /*
+         * 上下文区间写法有三类，符号都是「<」加「=」两个字符：
+         *   输入<=32k / 32k<输入<=128k / 输入=<32k / 32k<输入=<128k
+         * 归一化成统一形式，保证输入行与输出行落到同一档。
+         * 只影响分桶键，不影响展示用的 tierLabel。
+         */
+        const range = segText.match(
+          /(\d+\s*k\s*[<≤=]+\s*输入\s*[<≤=]+\s*\d+\s*k|输入\s*[<≤=]+\s*\d+\s*k)/i
+        );
+        segText = range
+          ? range[1]
+              .replace(/\s+/g, '')
+              .replace(/[<≤=]+/g, '≤')
+          : '按上下文';
+      }
+      if (!segText && lastCtx) segText = `上下文${lastCtx}`;
 
-      const b = bucketFor(key);
-      b.model = curModel;
-      b.version = curVersion;
-      b.unit = curUnit;
+      const tierLabel = detectBaiduTier(sub) ?? (lastCtx ? `输入 ${lastCtx}` : null);
+      /*
+       * 模型名要剥掉括号备注后再做键。
+       * 官网在模型名后追加促销说明（如「DeepSeek-V4-Pro（命中缓存限时价格生效日期：9月9日-…）」），
+       * 备注里的时间会被当成分档信号，导致同一模型被拆成多个桶。
+       */
+      const modelKey = curModel.replace(/[（(][^）)]*[）)]/g, '').replace(/\s+/g, ' ').trim();
+      const key = `${modelKey}||${curVersion}||${segText}`;
+
+      const b = bucketFor(key, modelKey, curVersion, curUnit);
       b.tierLabel = tierLabel;
       if (/缓存|命中/.test(sub)) b.cacheRead = v;
       else if (/输出/.test(sub)) b.output = v;
       else if (/输入/.test(sub)) b.input = v;
-      b.quotes.push(`${sub} ${priceTxt}${unitInRow ? ' ' + unitInRow : ''}`);
+      b.quotes.push(`${sub} ${priceTxt}${unitCell ? ' ' + unitCell : ''}`);
     }
 
     /*
@@ -586,7 +684,25 @@ const fromBaidu = (): Collector => () => {
       });
     }
   }
-  return out;
+
+  /*
+   * 同一模型在同一渠道会产出多行：多版本并存、官网多个表格重复刊载同一模型。
+   * 本站按「模型 × 渠道 × 档位」展示，重复行只会让人看到两行同名同价。
+   * 保留规则：(modelId, tierLabel) 相同时取混合价（3:1）最低的一行，
+   * 与本站「比价取最低」的口径一致；缺输入或缺输出的半截行一律丢弃。
+   */
+  const merged = new Map<string, PriceRecord>();
+  const rank = (r: PriceRecord) => {
+    const both = r.input != null && r.output != null;
+    return ((r.input ?? 0) * 3 + (r.output ?? 0)) + (both ? 0 : 1e6);
+  };
+  for (const r of out) {
+    if (r.input == null && r.output == null) continue;
+    const k = `${r.modelId}||${r.tierLabel ?? ''}`;
+    const prev = merged.get(k);
+    if (!prev || rank(r) < rank(prev)) merged.set(k, r);
+  }
+  return [...merged.values()];
 
   function parseTokenPrice(txt: string, unit: string): number | null {
     if (!txt || txt === '-') return null;
@@ -599,9 +715,12 @@ const fromBaidu = (): Collector => () => {
   }
 
   function detectBaiduTier(sub: string): string | null {
-    const m = sub.match(/(高峰时段[^）]*|空闲时段[^）]*|输入\s*[<>=]+\s*\d+k?)/i);
-    if (m) return m[1].trim();
-    return null;
+    const m = sub.match(
+      /(高峰时段[^）]*|空闲时段[^）]*|(\d+\s*k\s*[<≤=]+\s*输入\s*[<≤=]+\s*\d+\s*k|输入\s*[<≤=]+\s*\d+\s*k))/i
+    );
+    if (!m) return null;
+    // 展示用标签保留官网原文，只去掉多余空格
+    return m[1].replace(/\s+/g, '').trim();
   }
 };
 

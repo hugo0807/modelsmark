@@ -92,10 +92,7 @@ a { color: inherit; text-decoration: none; }
 .verdict .go { font-size: 12px; color: var(--accent); margin-top: 10px; display: inline-block; }
 
 /* ── 榜 ── */
-/* 价格榜有 5 列（输入/缓存读/输出/混合价），给它更宽的栅格 */
-.boards { display: grid; grid-template-columns: 1fr 1.7fr 1fr; gap: 12px; }
-.board table.data td, .board table.data th { padding: 7px 8px; font-size: 12px; }
-.board-price table.data td:first-child + td, .board-price table.data th:nth-child(2) { text-align: left; }
+.boards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .board { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .board h3 { margin: 0; padding: 10px 14px; font-size: 13px; font-weight: 600; border-bottom: 1px solid var(--border); background: var(--bg-subtle); display: flex; align-items: baseline; gap: 8px; }
 .board h3 .unit { font-size: 11px; font-weight: 400; color: var(--text-tertiary); margin-left: auto; }
