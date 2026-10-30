@@ -100,7 +100,7 @@ export default function PlansPage() {
     return p.packageIncludes ?? modelName(p.modelId);
   };
 
-  // 折合对照表：所有能折算出 ¥/M tokens 的套餐
+  // 折合对照：能折算出 ¥/M tokens 的套餐，按「折合价 ÷ 官方刊例价」升序（越划算越靠前）
   const comparable = packages
     .filter((p) => p.packageBlendedCny != null)
     .map((p) => {
@@ -111,6 +111,36 @@ export default function PlansPage() {
     .sort((a, b) => (a.p.packageBlendedCny ?? 0) - (b.p.packageBlendedCny ?? 0));
 
   const lowestBlend = comparable.length ? comparable[0].p.packageBlendedCny! : null;
+
+  /**
+   * Token 口径套餐表按「相对官方刊例价」排序，而不是按采集顺序。
+   *
+   * 原来这张表后面还挂了一张「折合单价对照」表，列的是同样的折合价与倍率，
+   * 只多一句结论 —— 同一组数字印两遍。现在把结论并进主表、按划算程度排序，
+   * 重复的那张表整张删掉。
+   */
+  const tokenRows = tokenPlans
+    .map((p) => {
+      const list = officialPrice.get(p.modelId);
+      const ratio = list && p.packageBlendedCny ? p.packageBlendedCny / list : null;
+      return { p, list, ratio };
+    })
+    .sort((a, b) => {
+      if (a.ratio == null && b.ratio == null)
+        return (a.p.packageBlendedCny ?? 0) - (b.p.packageBlendedCny ?? 0);
+      if (a.ratio == null) return 1;
+      if (b.ratio == null) return -1;
+      return a.ratio - b.ratio;
+    });
+
+  /** 一句话结论：这个套餐相对刊例价到底划不划算 */
+  const verdictText = (ratio: number | null): string => {
+    if (ratio == null) return '无官方价可对照';
+    if (ratio <= 0.5) return '约为刊例价一半，明显更划算';
+    if (ratio <= 0.9) return '低于刊例价，值得考虑';
+    if (ratio <= 1) return '与刊例价持平';
+    return '高于刊例价，不建议用套餐替代按量';
+  };
 
   return (
     <>
@@ -164,7 +194,8 @@ export default function PlansPage() {
 
       {/* ── 表 1：Token 口径套餐 ── */}
       <div className="section-title">
-        Token 口径套餐 <span className="sub">额度以 tokens 计，可直接折算 ¥/M tokens</span>
+        Token 口径套餐{' '}
+        <span className="sub">按「折合价 ÷ 官方刊例价」升序，越靠前越划算</span>
       </div>
       <div className="table-scroll table-wide card">
         <table className="data">
@@ -179,14 +210,13 @@ export default function PlansPage() {
               <th className="right nw">价格</th>
               <th className="right nw">折合 ¥/M tokens</th>
               <th className="right nw">对比刊例价</th>
+              <th className="nw">结论</th>
               <th className="nw">条件</th>
               <th className="nw">来源</th>
             </tr>
           </thead>
           <tbody>
-            {tokenPlans.map((p, i) => {
-              const list = officialPrice.get(p.modelId);
-              const ratio = list && p.packageBlendedCny ? p.packageBlendedCny / list : null;
+            {tokenRows.map(({ p, ratio }, i) => {
               return (
                 <tr key={`${p.modelId}-${p.channelId}-${i}`}>
                   <td>{p.channel?.name}</td>
@@ -219,6 +249,7 @@ export default function PlansPage() {
                       <span className="up num">+{Math.round((ratio - 1) * 100)}%</span>
                     )}
                   </td>
+                  <td className="m-sub nw">{verdictText(ratio)}</td>
                   <td className="m-sub nw">{p.note ? p.note.slice(0, 60) : '—'}</td>
                   <td>
                     <a
@@ -360,61 +391,12 @@ export default function PlansPage() {
         </>
       ) : null}
 
-      {/* ── 表 4：折合单价对照 ── */}
-      <div className="section-title">
-        折合单价对照 <span className="sub">套餐折合价 vs 该模型官方刊例价，倍率越低越划算</span>
-      </div>
-      <div className="table-scroll table-wide card">
-        <table className="data">
-          <thead>
-            <tr>
-              <th className="nw">渠道</th>
-              <th className="nw">套餐</th>
-              <th className="nw">适用模型</th>
-              <th className="right nw">套餐折合 ¥/M</th>
-              <th className="right nw">官方刊例价 ¥/M</th>
-              <th className="right nw">相当于</th>
-              <th className="nw">结论</th>
-            </tr>
-          </thead>
-          <tbody>
-            {comparable.map(({ p, list, ratio }) => (
-              <tr key={`${p.modelId}-${p.channelId}-${p.packageTierName}`}>
-                <td>{p.channel?.name}</td>
-                <td className="pkg-name">{p.packageTierName ?? '—'}</td>
-                <td className="m-sub">{modelName(p.modelId)}</td>
-                <td className="right num" style={{ fontWeight: 600 }}>
-                  <Num v={p.packageBlendedCny} dec={3} prefix="¥" />
-                </td>
-                <td className="right num">
-                  <Num v={list} prefix="¥" />
-                </td>
-                <td className="right num">
-                  {ratio == null ? (
-                    '—'
-                  ) : (
-                    <span className={ratio <= 1 ? 'down num' : 'up num'}>
-                      {(ratio * 100).toFixed(0)}%
-                    </span>
-                  )}
-                </td>
-                <td className="m-sub">
-                  {ratio == null
-                    ? '无官方价可对照'
-                    : ratio <= 0.5
-                      ? '约为刊例价一半，明显更划算'
-                      : ratio <= 0.9
-                        ? '低于刊例价，值得考虑'
-                        : ratio <= 1
-                          ? '与刊例价持平'
-                          : '高于刊例价，不建议用套餐替代按量'}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
+      {/*
+       * 原「折合单价对照」表整张删除。
+       * 它列的折合价与倍率和上面 Token 口径套餐表的最后两列完全重复，
+       * 只多一句结论 —— 同一组数字印两遍，用户要滚两次才能确认自己没看错。
+       * 结论已并进主表「结论」列，主表同时改为按划算程度排序。
+       */}
       <div className="footnote">
         <p>
           <strong>口径说明</strong>
