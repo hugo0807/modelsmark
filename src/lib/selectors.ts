@@ -10,6 +10,7 @@
  */
 
 import type { Channel, Dataset, ModelAggregate, NormalizedPrice } from './types';
+import type { TableRow } from '../components/common/DataTable';
 import { blendedPrice, isStandardTier, round2, round4 } from './compute';
 
 // ───────────────────────────────────────────
@@ -78,6 +79,30 @@ function lowestStandardRow(a: ModelAggregate): NormalizedPrice | null {
 
 function countChannels(prices: NormalizedPrice[]): number {
   return new Set(prices.map((p) => p.channelId)).size;
+}
+
+/**
+ * 转成 DataTable 的行格式。
+ *
+ * 为什么需要这一跳：ModelRow 是 interface（没有隐式索引签名），
+ * 而 DataTable 的列是按 key 动态取值的，要求行对象有索引签名。
+ * 显式映射一次，也顺带明确了「表格只需要这 11 个字段」，
+ * 不会把domains内部的聚合对象漏到客户端组件里 —— 静态导出下这条边界很重要。
+ */
+export function toTableRows(rows: ModelRow[]): TableRow[] {
+  return rows.map((r) => ({
+    id: r.id,
+    name: r.name,
+    vendor: r.vendor,
+    tags: r.tags,
+    input: r.input,
+    cacheRead: r.cacheRead,
+    output: r.output,
+    blended: r.blended,
+    index: r.index,
+    value: r.value,
+    channels: r.channels,
+  }));
 }
 
 // ───────────────────────────────────────────
