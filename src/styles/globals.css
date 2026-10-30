@@ -1336,3 +1336,229 @@ a.filter:hover {
     display: none;
   }
 }
+
+/* ───────────────────────────────────────────
+   模型页四项关键基准：横向柱图 + 点击展开的口径
+   ─────────────────────────────────────────── */
+
+.bars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 24px;
+}
+.bar-row {
+  position: relative;
+}
+.bar-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.bar-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+.bar-score {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.bar-q {
+  margin-left: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+.bar-q:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+.bar-track {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--bg-tertiary);
+  overflow: hidden;
+}
+.bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent);
+}
+/* 同基准全站均值的参照线 */
+.bar-avg {
+  position: absolute;
+  top: -2px;
+  width: 1px;
+  height: 12px;
+  background: var(--text-tertiary);
+  opacity: 0.7;
+}
+.bar-foot {
+  margin-top: 5px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+.bar-pop {
+  position: absolute;
+  z-index: 20;
+  top: 22px;
+  left: 0;
+  width: min(92%, 360px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.14);
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+.bar-pop-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.bar-pop-line b {
+  color: var(--text);
+  font-weight: 600;
+}
+.bar-pop a {
+  color: var(--accent);
+}
+
+@media (max-width: 600px) {
+  .bars {
+    grid-template-columns: 1fr;
+  }
+  .bar-pop {
+    width: min(96%, 320px);
+  }
+}
+
+/* ───────────────────────────────────────────
+   模型页四项关键基准：横向柱图 + 点击展开的口径
+   ─────────────────────────────────────────── */
+
+.bars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 24px;
+}
+.bar-row {
+  position: relative;
+}
+.bar-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.bar-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+}
+.bar-score {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.bar-q {
+  margin-left: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+.bar-q:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+.bar-track {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--bg-tertiary);
+  overflow: hidden;
+}
+.bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--accent);
+}
+/* 同基准全站均值的参照线 */
+.bar-avg {
+  position: absolute;
+  top: -2px;
+  width: 1px;
+  height: 12px;
+  background: var(--text-tertiary);
+  opacity: 0.7;
+}
+.bar-foot {
+  margin-top: 5px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+.bar-pop {
+  position: absolute;
+  z-index: 20;
+  top: 22px;
+  left: 0;
+  width: min(92%, 360px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.14);
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+.bar-pop-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.bar-pop-line b {
+  color: var(--text);
+  font-weight: 600;
+}
+.bar-pop a {
+  color: var(--accent);
+}
+
+@media (max-width: 600px) {
+  .bars {
+    grid-template-columns: 1fr;
+  }
+  .bar-pop {
+    width: min(96%, 320px);
+  }
+}

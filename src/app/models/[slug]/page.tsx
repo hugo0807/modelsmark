@@ -1,8 +1,10 @@
 import { Fragment } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { getAllModelSlugs, getModelDetail } from '../../../lib/data';
-import { cacheDiscount, formatDiscount, isStandardTier } from '../../../lib/compute';
+import { getAllModelSlugs, getModelDetail, loadDataset } from '../../../lib/data';
+import { isStandardTier } from '../../../lib/compute';
+import type { Benchmark, Score } from '../../../lib/types';
+import BenchmarkBars, { type BarItem } from '../../../components/model/BenchmarkBars';
 import {
   CHANNEL_TYPE_DESC,
   CHANNEL_TYPE_LABEL,
@@ -96,6 +98,60 @@ function MetricCard({
   );
 }
 
+/** 详情页重点画的四项基准：知识推理 / 写代码 / 长程工程 / 真实办公与行业场景 */
+const KEY_BENCHMARKS = ['hle-full-tools', 'terminal-bench-4', 'swe-marathon', 'gdpval-aa-v2-1'];
+
+/**
+ * 选出四项关键基准 + 计算同级参照（全站最高 / 平均），剩下的分数原样返回。
+ *
+ * 为什么要分层：柱图再有信息量，也只能承担 4 项，画 14 项等于没画。
+ * 但其余分数不能因此丢掉 —— 采购方往往需要查某一项具体基准，
+ * 所以拆成「四个柱图 + 一张完整表」，而不是二选一。
+ */
+function buildBars<T extends Score>(own: T[], all: Score[], benchmarks: Benchmark[]) {
+  const meta = new Map(benchmarks.map((b) => [b.id, b]));
+  const stats = new Map<string, { best: number; sum: number; n: number }>();
+  for (const s of all) {
+    const cur = stats.get(s.benchmarkId) ?? { best: -Infinity, sum: 0, n: 0 };
+    cur.best = Math.max(cur.best, s.value);
+    cur.sum += s.value;
+    cur.n += 1;
+    stats.set(s.benchmarkId, cur);
+  }
+
+  const ownIds = own.map((s) => s.benchmarkId);
+  // 预设四项优先，缺哪个就由剩余基准补位 —— 每个模型收录的基准并不完全一样
+  const ordered = [
+    ...KEY_BENCHMARKS.filter((id) => ownIds.includes(id)),
+    ...ownIds.filter((id) => !KEY_BENCHMARKS.includes(id)),
+  ];
+  const picked = ordered.slice(0, 4);
+
+  const bars: BarItem[] = picked.map((id) => {
+    const s = own.find((x) => x.benchmarkId === id)!;
+    const m = meta.get(id);
+    const st = stats.get(id);
+    return {
+      id,
+      name: m?.name ?? id,
+      value: s.value,
+      scale: m?.scale ?? '百分比',
+      scoring: m?.scoring ?? '',
+      summary: m?.summary ?? '',
+      explanation: m?.explanation ?? '',
+      useCase: m?.useCase ?? '',
+      peerBest: st?.best ?? null,
+      peerAvg: st && st.n > 0 ? st.sum / st.n : null,
+      source: s.source ?? null,
+      measuredAt: s.measuredAt ?? null,
+      sourceUrl: s.sourceUrl ?? null,
+      vendorOwned: m?.vendorOwned ?? false,
+    };
+  });
+
+  return { bars, rest: own.filter((s) => !picked.includes(s.benchmarkId)) };
+}
+
 export default async function ModelPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const detail = getModelDetail(slug);
@@ -115,6 +171,9 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
 
   const withBlend = paygPrices.filter((p) => p.blendedCny != null);
   const lowest = withBlend.length ? withBlend[0] : null;
+
+  // 柱图需要「同基准全站分布」才知道这根柱子该画多长
+  const { bars, rest: restScores } = buildBars(scores, loadDataset().scores, loadDataset().benchmarks);
 
   return (
     <>
@@ -355,62 +414,60 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
         </div>
       ) : null}
 
-      {/* ── 能力基准 ── */}
-      {scores.length > 0 ? (
+      {/* ── 能力基准：四项柱图 + 其余完整表 ── */}
+      {bars.length > 0 ? (
         <>
           <div className="section-title">
-            能力基准 <span className="sub">每项标注评测机构与快照日期</span>
+            四项关键基准{' '}
+            <span className="sub">
+              点「?」看这项测什么、什么时候该看它 · 虚线为同基准全站均值
+            </span>
           </div>
-          <div className="card" style={{ marginBottom: 12 }}>
-            <table className="data">
-              <thead>
-                <tr>
-                  <th>基准</th>
-                  <th className="right">分数</th>
-                  <th className="right">量纲</th>
-                  <th className="right">缓存折扣</th>
-                  <th>来源</th>
-                  <th>口径标注</th>
-                </tr>
-              </thead>
-              <tbody>
-                {scores.map((s) => (
-                  <tr key={s.benchmarkId}>
-                    <td>
-                      <Link href={`/about#${s.benchmarkId}`} style={{ color: 'var(--accent)' }}>
-                        {s.benchmark?.name ?? s.benchmarkId}
-                      </Link>
-                    </td>
-                    <td className="right num" style={{ fontWeight: 600 }}>
-                      {s.benchmark?.scale === 'Elo' ? Math.round(s.value) : s.value.toFixed(1)}
-                    </td>
-                    <td className="right" style={{ color: 'var(--text-secondary)' }}>
-                      {s.benchmark?.scale}
-                    </td>
-                    <td className="right num">
-                      {(() => {
-                        const d = cacheDiscount(lowest ?? ({} as never));
-                        return d === null ? (
-                          <span className="flat">—</span>
-                        ) : (
-                          <span style={{ color: 'var(--down)' }}>↓ {formatDiscount(d)}</span>
-                        );
-                      })()}
-                    </td>
-                    <td style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
-                      {s.source}
-                      {s.measuredAt ? ` · ${s.measuredAt}` : ''}
-                    </td>
-                    <td style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
-                      {s.includesFallback && '含 fallback · '}
-                      {s.includesCyberguards && '含 cyberguards · '}
-                      {s.benchmark?.vendorOwned && '厂商自建基准'}
-                    </td>
+          <div className="card card-pad" style={{ marginBottom: 12 }}>
+            <BenchmarkBars items={bars} />
+          </div>
+
+          {restScores.length > 0 ? (
+            <div className="card" style={{ marginBottom: 12 }}>
+              <table className="data">
+                <thead>
+                  <tr>
+                    <th>其余基准</th>
+                    <th className="right">分数</th>
+                    <th className="right">量纲</th>
+                    <th>来源</th>
+                    <th>口径标注</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {restScores.map((s) => (
+                    <tr key={s.benchmarkId}>
+                      <td>
+                        <Link href={`/about#${s.benchmarkId}`} style={{ color: 'var(--accent)' }}>
+                          {s.benchmark?.name ?? s.benchmarkId}
+                        </Link>
+                      </td>
+                      <td className="right num" style={{ fontWeight: 600 }}>
+                        {s.benchmark?.scale === 'Elo' ? Math.round(s.value) : s.value.toFixed(1)}
+                      </td>
+                      <td className="right" style={{ color: 'var(--text-secondary)' }}>
+                        {s.benchmark?.scale}
+                      </td>
+                      <td style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
+                        {s.source}
+                        {s.measuredAt ? ` · ${s.measuredAt}` : ''}
+                      </td>
+                      <td style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
+                        {s.includesFallback && '含 fallback · '}
+                        {s.includesCyberguards && '含 cyberguards · '}
+                        {s.benchmark?.vendorOwned && '厂商自建基准'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : null}
         </>
       ) : null}
 
