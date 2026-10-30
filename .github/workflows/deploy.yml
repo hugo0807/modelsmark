@@ -48,6 +48,16 @@ jobs:
           fi
           echo "Token 已配置"
 
+      # 部署前先在本地构建并校验产物。
+      # Vercel 只负责发布，不看产物对不对；这里挡住「资源路径相对层级算错」
+      # 这类问题 —— 它的表现是页面白成裸 HTML，但 HTTP 仍然是 200，
+      # 线上巡检要等部署完才发现，已经来不及了。
+      - name: 本地构建并校验产物可移植性
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+          npm run check:portable
+
       - name: 拉取 Vercel 项目配置
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

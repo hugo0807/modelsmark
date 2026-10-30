@@ -115,6 +115,28 @@ jobs:
           fi
 
           echo ""
+          echo "=== 样式表可达性校验 ==="
+          # 产物为兼容 file:// 直接打开，资源引用改成了相对路径。
+          # 一旦相对层级算错，页面 HTML 仍是 200（SSR 内容还在），
+          # 但样式表会 404 —— 页面白成裸 HTML，必须单独验样式表能不能取到。
+          CSS_HREF=$(grep -o 'href="[^"]*\.css"' /tmp/home.html 2>/dev/null | head -1 | sed 's/href="//; s/"$//')
+          echo "  首页引用的样式表: ${CSS_HREF:-<未找到>}"
+          if [ -z "${CSS_HREF}" ]; then
+            echo "  ::error::首页没有引用样式表，产物可能构建异常"
+            FAILED=1
+          else
+            # 相对路径按站点根解析
+            CSS_URL="${BASE}/${CSS_HREF#./}"
+            CSS_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "${CSS_URL}" || echo "000")
+            CSS_SIZE=$(curl -s --max-time 30 "${CSS_URL}" -o /tmp/site.css 2>/dev/null; wc -c < /tmp/site.css 2>/dev/null || echo 0)
+            echo "  样式表响应: HTTP ${CSS_CODE} | ${CSS_SIZE} bytes"
+            if [ "${CSS_CODE}" != "200" ] || [ "${CSS_SIZE}" -lt 1000 ]; then
+              echo "  ::error::样式表不可达（HTTP ${CSS_CODE}, ${CSS_SIZE} bytes），站点会掉样式"
+              FAILED=1
+            fi
+          fi
+
+          echo ""
           echo "=== 套餐对比页数据校验 ==="
           # 架构冻结后价格榜已并入模型详情页，独立页改为「套餐对比」
           curl -s --max-time 30 "${BASE}/plans/" -o /tmp/plans.html || true

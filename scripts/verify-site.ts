@@ -160,8 +160,6 @@ async function main() {
     await ctx.close();
   }
 
-  await browser.close();
-
   console.log('════════ 正式站验证 ════════\n');
   for (const p of report.pages) {
     console.log(`${p.name.padEnd(12)} HTTP ${p.status}  错误 ${p.errors.length}`);
@@ -178,6 +176,80 @@ async function main() {
   console.log(`矩阵标签重叠: ${report.matrixIssues[0]?.overlaps.length ?? 0} / ${report.matrixIssues[0]?.count ?? 0} 个标签`);
 
   fs.writeFileSync(path.join(OUT, 'live-verify.json'), JSON.stringify(report, null, 2), 'utf8');
+
+  await verifyFileProtocol(browser);
+  await browser.close();
+}
+
+/**
+ * file:// 直接打开的回归检查。
+ *
+ * 背景：静态导出产物里资源是站点根绝对路径（/_next/...），
+ * 直接双击 out/index.html 时会被解析成文件系统根，全部 404，
+ * 表现为「样式乱掉 + 点子页没反应」。
+ * make-portable.mjs 已把资源改相对并注入 file:// 兜底，这里守住成果。
+ */
+async function verifyFileProtocol(browser: any) {
+  const outDir = path.join(process.cwd(), 'out');
+  if (!fs.existsSync(outDir)) {
+    console.log('\n[file://] 未找到 out/，跳过');
+    return;
+  }
+
+  console.log('\n════════ file:// 直接打开 ════════\n');
+  const idx = path.join(outDir, 'index.html');
+  const fileUrl = 'file:///' + idx.replace(/\\/g, '/');
+
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  const page = await ctx.newPage();
+  const failed: string[] = [];
+  page.on('requestfailed', (r: any) => failed.push(r.url().slice(-60)));
+  page.on('response', (r: any) => {
+    if (r.status() >= 400) failed.push(`${r.status()} ${r.url().slice(-60)}`);
+  });
+
+  await page.goto(fileUrl, { waitUntil: 'load', timeout: 40000 });
+  await page.waitForTimeout(1500);
+
+  const style = await page.evaluate(() => {
+    const v = document.querySelector('.verdicts');
+    const vc = v ? getComputedStyle(v) : null;
+    return {
+      sheets: document.styleSheets.length,
+      verdictsDisplay: vc?.display ?? 'none',
+      navCount: document.querySelectorAll('.nav a').length,
+      rows: document.querySelectorAll('table tr').length,
+    };
+  });
+
+  console.log(`样式表: ${style.sheets} 张 | 结论卡布局: ${style.verdictsDisplay}`);
+  console.log(`导航项: ${style.navCount} | 表格行: ${style.rows}`);
+  console.log(`失败请求: ${failed.length}`);
+  failed.slice(0, 5).forEach((f) => console.log(`  ❌ ${f}`));
+
+  // 点导航，验证能真的跳到子页
+  await page.click('.nav a[href="/channels/"]');
+  await page.waitForTimeout(2000);
+  const after = await page.evaluate(() => ({
+    url: location.pathname,
+    title: document.title,
+    rows: document.querySelectorAll('table tr').length,
+    sheets: document.styleSheets.length,
+  }));
+  console.log(`点击「渠道对比」后: ${after.url.replace(/^.*\/out\//, 'out/')}`);
+  console.log(`目标页标题: ${after.title} | 表格行: ${after.rows} | 样式表: ${after.sheets} 张`);
+
+  const ok =
+    style.sheets > 0 &&
+    style.verdictsDisplay === 'grid' &&
+    failed.length === 0 &&
+    after.title.includes('渠道对比') &&
+    after.rows > 0 &&
+    after.sheets > 0;
+  console.log(ok ? '✅ file:// 直接打开正常' : '❌ file:// 直接打开有问题');
+  if (!ok) process.exitCode = 1;
+
+  await ctx.close();
 }
 
 main();
