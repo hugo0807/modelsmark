@@ -3,6 +3,7 @@
  * 检查：零 JS 报错、无死链、表头与数据对齐、矩阵标签不重叠、渠道分组完整
  */
 import fs from 'node:fs';
+import http from 'node:http';
 import path from 'node:path';
 import { chromium } from 'playwright';
 
@@ -177,79 +178,176 @@ async function main() {
 
   fs.writeFileSync(path.join(OUT, 'live-verify.json'), JSON.stringify(report, null, 2), 'utf8');
 
-  await verifyFileProtocol(browser);
+  await verifyDeployShapes(browser);
   await browser.close();
 }
 
 /**
- * file:// 直接打开的回归检查。
+ * 三种部署形态的回归检查。
  *
- * 背景：静态导出产物里资源是站点根绝对路径（/_next/...），
- * 直接双击 out/index.html 时会被解析成文件系统根，全部 404，
- * 表现为「样式乱掉 + 点子页没反应」。
- * make-portable.mjs 已把资源改相对并注入 file:// 兜底，这里守住成果。
+ * 背景：静态导出产物最初把资源和路由写成站点根绝对路径
+ * （/_next/...、/channels/），只在「站点正好挂在域名根」时成立。
+ * 实际有三种形态都会坏：
+ *
+ *   a) 双击 out/index.html —— file:// 协议，路径被解析成文件系统根；
+ *   b) 挂在子路径下（预览面板是 /static-html/<hash>/）——
+ *      /channels/ 会跳出挂载前缀，打到站点根 404；
+ *   c) 目录式 URL 在部分静态服务器上不解析 index.html。
+ *
+ * make-portable.mjs 已把两类路径都改成相对 + index.html，
+ * 并禁用了 Next 客户端路由（它按自己的 basePath 解析，子路径下必坏）。
+ * 这里三种形态逐一验证，守住成果。
  */
-async function verifyFileProtocol(browser: any) {
+async function verifyDeployShapes(browser: any) {
   const outDir = path.join(process.cwd(), 'out');
   if (!fs.existsSync(outDir)) {
-    console.log('\n[file://] 未找到 out/，跳过');
+    console.log('\n[部署形态] 未找到 out/，跳过');
     return;
   }
 
-  console.log('\n════════ file:// 直接打开 ════════\n');
+  console.log('\n════════ 部署形态兼容性 ════════\n');
+
+  const MIME: Record<string, string> = {
+    '.html': 'text/html; charset=utf-8',
+    '.css': 'text/css; charset=utf-8',
+    '.js': 'text/javascript; charset=utf-8',
+    '.txt': 'text/plain; charset=utf-8',
+  };
+
+  /** 起一个静态服务器；prefix 非空时只服务该前缀，且只认 index.html */
+  const serve = (prefix: string) => (req: any, res: any) => {
+    const url = decodeURIComponent((req.url || '/').split('?')[0]);
+    const inPrefix = !prefix || url.startsWith(prefix);
+    const rel = inPrefix ? url.slice(prefix.length).replace(/^\/+/, '') : '';
+    let file = rel ? path.join(outDir, rel) : '';
+    try {
+      if (file && fs.existsSync(file) && fs.statSync(file).isDirectory()) {
+        file = path.join(file, 'index.html');
+      }
+    } catch {
+      file = '';
+    }
+    if (!file || !fs.existsSync(file)) {
+      res.writeHead(404);
+      res.end('404');
+      return;
+    }
+    res.writeHead(200, { 'Content-Type': MIME[path.extname(file).toLowerCase()] || 'application/octet-stream' });
+    fs.createReadStream(file).pipe(res);
+  };
+
+  const rootSrv = http.createServer(serve(''));
+  const subSrv = http.createServer(serve('/static-html/testhash'));
+  const ROOT_PORT = 3411;
+  const SUB_PORT = 3412;
+
+  await new Promise<void>((r) => rootSrv.listen(ROOT_PORT, '127.0.0.1', r));
+  await new Promise<void>((r) => subSrv.listen(SUB_PORT, '127.0.0.1', r));
+
   const idx = path.join(outDir, 'index.html');
-  const fileUrl = 'file:///' + idx.replace(/\\/g, '/');
+  const shapes = [
+    { label: '站点根 http://host/', url: `http://127.0.0.1:${ROOT_PORT}/index.html` },
+    {
+      label: '子路径 http://host/p/',
+      url: `http://127.0.0.1:${SUB_PORT}/static-html/testhash/index.html`,
+    },
+    { label: 'file:// 双击', url: 'file:///' + idx.replace(/\\/g, '/') },
+  ];
 
-  const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
-  const page = await ctx.newPage();
-  const failed: string[] = [];
-  page.on('requestfailed', (r: any) => failed.push(r.url().slice(-60)));
-  page.on('response', (r: any) => {
-    if (r.status() >= 400) failed.push(`${r.status()} ${r.url().slice(-60)}`);
-  });
+  let allOk = true;
 
-  await page.goto(fileUrl, { waitUntil: 'load', timeout: 40000 });
-  await page.waitForTimeout(1500);
+  for (const shape of shapes) {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    const page = await ctx.newPage();
+    const failed: string[] = [];
+    page.on('requestfailed', (r: any) => failed.push(r.url().slice(-55)));
+    page.on('response', (r: any) => {
+      if (r.status() >= 400) failed.push(`${r.status()} ${r.url().slice(-55)}`);
+    });
+    const consoleErrors: string[] = [];
+    page.on('console', (m: any) => {
+      if (m.type() === 'error') consoleErrors.push(m.text().slice(0, 90));
+    });
 
-  const style = await page.evaluate(() => {
-    const v = document.querySelector('.verdicts');
-    const vc = v ? getComputedStyle(v) : null;
-    return {
-      sheets: document.styleSheets.length,
-      verdictsDisplay: vc?.display ?? 'none',
-      navCount: document.querySelectorAll('.nav a').length,
-      rows: document.querySelectorAll('table tr').length,
-    };
-  });
+    await page.goto(shape.url, { waitUntil: 'load', timeout: 40000 });
+    await page.waitForTimeout(1800);
 
-  console.log(`样式表: ${style.sheets} 张 | 结论卡布局: ${style.verdictsDisplay}`);
-  console.log(`导航项: ${style.navCount} | 表格行: ${style.rows}`);
-  console.log(`失败请求: ${failed.length}`);
-  failed.slice(0, 5).forEach((f) => console.log(`  ❌ ${f}`));
+    const style = await page.evaluate(() => {
+      const v = document.querySelector('.verdicts');
+      const vc = v ? getComputedStyle(v) : null;
+      return {
+        sheets: document.styleSheets.length,
+        verdictsDisplay: vc?.display ?? 'none',
+        navCount: document.querySelectorAll('.nav a').length,
+      };
+    });
 
-  // 点导航，验证能真的跳到子页
-  await page.click('.nav a[href="/channels/"]');
-  await page.waitForTimeout(2000);
-  const after = await page.evaluate(() => ({
-    url: location.pathname,
-    title: document.title,
-    rows: document.querySelectorAll('table tr').length,
-    sheets: document.styleSheets.length,
-  }));
-  console.log(`点击「渠道对比」后: ${after.url.replace(/^.*\/out\//, 'out/')}`);
-  console.log(`目标页标题: ${after.title} | 表格行: ${after.rows} | 样式表: ${after.sheets} 张`);
+    // 逐个导航项点一遍，验证每个子页都能打开
+    // 断言用「解析后的目标 URL」比对，而不是只看标题 —— 标题相同（比如点首页）
+    // 或停在原页都会被错判为通过。
+    const navs: string[] = await page.evaluate(() =>
+      [...document.querySelectorAll('.nav a')].map((a) => a.getAttribute('href') as string)
+    );
+    const navResults: string[] = [];
+    let navOpened = 0;
+    for (const href of navs) {
+      await page.goto(shape.url, { waitUntil: 'load', timeout: 40000 });
+      await page.waitForTimeout(900);
+      const expected = new URL(href, shape.url);
+      await page.click(`.nav a[href="${href}"]`);
+      await page.waitForTimeout(1600);
+      const r = await page.evaluate(() => ({
+        url: location.href,
+        title: document.title,
+        sheets: document.styleSheets.length,
+      }));
+      const samePath = new URL(r.url).pathname === expected.pathname;
+      const landed = samePath && r.title.includes('ModelsMark') && r.sheets > 0;
+      if (landed) navOpened++;
+      navResults.push(
+        `${expected.pathname.replace(/^.*\/out\//, 'out/')} → ${r.title.replace(' — ModelsMark', '')}${landed ? '' : '  ❌未打开'}`
+      );
+    }
 
-  const ok =
-    style.sheets > 0 &&
-    style.verdictsDisplay === 'grid' &&
-    failed.length === 0 &&
-    after.title.includes('渠道对比') &&
-    after.rows > 0 &&
-    after.sheets > 0;
-  console.log(ok ? '✅ file:// 直接打开正常' : '❌ file:// 直接打开有问题');
-  if (!ok) process.exitCode = 1;
+    // 客户端组件交互（表格搜索）
+    await page.goto(shape.url, { waitUntil: 'load', timeout: 40000 });
+    await page.waitForTimeout(1600);
+    const rowsBefore = await page.evaluate(
+      () => document.querySelectorAll('table tbody tr').length
+    );
+    await page.fill('.dt-search', 'Claude');
+    await page.waitForTimeout(1000);
+    const rowsAfter = await page.evaluate(
+      () => document.querySelectorAll('table tbody tr').length
+    );
 
-  await ctx.close();
+    const ok =
+      style.sheets > 0 &&
+      style.verdictsDisplay === 'grid' &&
+      failed.length === 0 &&
+      consoleErrors.length === 0 &&
+      navResults.length === 6 &&
+      navOpened === navResults.length &&
+      rowsAfter < rowsBefore;
+
+    console.log(`[${shape.label}]`);
+    console.log(`  样式表 ${style.sheets} 张 | 结论卡 ${style.verdictsDisplay} | 导航 ${style.navCount} 项`);
+    console.log(`  失败请求 ${failed.length} | 控制台错误 ${consoleErrors.length}`);
+    failed.slice(0, 4).forEach((f) => console.log(`    ❌ ${f}`));
+    consoleErrors.slice(0, 4).forEach((e) => console.log(`    ❌ ${e}`));
+    navResults.forEach((r) => console.log(`    ${r}`));
+    console.log(`  搜索交互: ${rowsBefore} → ${rowsAfter} 行`);
+    console.log(ok ? '  ✅ 正常' : '  ❌ 有问题');
+    if (!ok) allOk = false;
+
+    await ctx.close();
+  }
+
+  rootSrv.close();
+  subSrv.close();
+
+  console.log(allOk ? '\n✅ 三种部署形态全部正常' : '\n❌ 存在部署形态问题');
+  if (!allOk) process.exitCode = 1;
 }
 
 main();

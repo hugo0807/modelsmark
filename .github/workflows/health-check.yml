@@ -107,7 +107,9 @@ jobs:
             echo "  ::error::首页声明的模型数与模型表 ${EXPECTED} 不一致，数据可能被部分覆盖"
             FAILED=1
           fi
-          LINKS=$(grep -o 'href="/models/[^\"]*/"' /tmp/home.html 2>/dev/null | sort -u | wc -l)
+          # 站内链接已改相对路径 + index.html（三种部署形态通吃），
+          # 所以这里匹配的是 models/xxx/index.html 这种形态，不再是 /models/xxx/
+          LINKS=$(grep -o 'href="[^"]*models/[^"]*index\.html"' /tmp/home.html 2>/dev/null | sort -u | wc -l)
           echo "  首页出现的模型链接: ${LINKS} 个"
           if [ "${LINKS}" -lt 15 ]; then
             echo "  ::error::首页模型链接仅 ${LINKS} 个，疑似数据丢失或表格未渲染"

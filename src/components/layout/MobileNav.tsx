@@ -16,9 +16,21 @@ export interface NavItem {
  * 手机上整站没有导航，从首页进去就出不来 —— 这是最严重的可访问性问题。
  * 这里补汉堡菜单，与桌面导航共用同一份导航项。
  */
+
+/**
+ * 归一化路径，用于判断「当前页」。
+ *
+ * 产物把站内链接改成了 index.html 形式（为了 file:// 与子路径部署都能用），
+ * 于是 pathname 会是 /channels/index.html 这种，直接和 /channels 比会永远不等。
+ */
+function normalizePath(p: string): string {
+  const s = (p || '/').replace(/\/index\.html?$/i, '').replace(/\/+$/, '');
+  return s || '/';
+}
+
 export default function MobileNav({ items }: { items: NavItem[] }) {
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
+  const pathname = normalizePath(usePathname());
 
   return (
     <div className="mnav">
@@ -42,7 +54,7 @@ export default function MobileNav({ items }: { items: NavItem[] }) {
             <Link
               key={it.href}
               href={it.href}
-              className={`mnav-item${pathname === it.href ? ' on' : ''}`}
+              className={`mnav-item${pathname === normalizePath(it.href) ? ' on' : ''}`}
             >
               {it.label}
             </Link>
