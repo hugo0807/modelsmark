@@ -12,7 +12,9 @@ const BASE = process.env.BASE_URL || 'http://127.0.0.1:3100';
 
 const PAGES = [
   { name: 'index', url: '/' },
+  { name: 'channels', url: '/channels' },
   { name: 'plans', url: '/plans' },
+  { name: 'calculator', url: '/calculator' },
   { name: 'benchmarks', url: '/benchmarks' },
   { name: 'about', url: '/about' },
   { name: 'model', url: '/models/deepseek-v4-pro' },

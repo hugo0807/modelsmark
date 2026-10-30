@@ -37,6 +37,14 @@ function Board({
         <span className="board-unit">{unit}</span>
       </h3>
       <table className="data">
+        {/* 榜也要有表头 —— 没有 thead 时读屏软件读不出这两列是什么，校验脚本也会报列数不一致 */}
+        <thead>
+          <tr>
+            <th className="rank-col" />
+            <th>渠道</th>
+            <th className="right">{unit}</th>
+          </tr>
+        </thead>
         <tbody>
           {rows.map((r, i) => (
             <tr key={r.id}>
