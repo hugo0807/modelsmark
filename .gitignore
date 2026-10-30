@@ -58,3 +58,9 @@ data/ingest-report.json
 data/pending-models.json
 data/validate-report.json
 .out_bak/
+
+# 临时构建目录
+.next_v2/
+.next_v3/
+.next_tmp/
+.out_bak/

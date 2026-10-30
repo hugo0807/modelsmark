@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 const NAV = [
   { href: '/', label: '首页' },
+  { href: '/channels', label: '渠道对比' },
   { href: '/plans', label: '套餐对比' },
   { href: '/benchmarks', label: '能力榜' },
   { href: '/about', label: '说明' },
