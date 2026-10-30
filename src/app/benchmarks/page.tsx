@@ -1,8 +1,19 @@
-import { loadDataset } from '../../lib/data';
-import { BenchCard } from '../../components/BenchCard';
-import type { BenchmarkCategory } from '../../lib/types';
+import type { Metadata } from 'next';
 
-export const metadata = { title: '能力榜 — ModelsMark' };
+import { loadDataset } from '../../lib/data';
+import type { BenchmarkCategory } from '../../lib/types';
+import { fmtInt } from '../../lib/format';
+import {
+  BenchmarkBrowser,
+  type CategoryChip,
+} from '../../components/bench/BenchmarkBrowser';
+import type { BenchItem } from '../../components/bench/BenchCard';
+
+export const metadata: Metadata = {
+  title: '能力榜 — ModelsMark',
+  description:
+    '按基准看模型排名：编码、Agent、知识推理、文档办公、图形图表、垂直行业。可只看国内或只看海外。',
+};
 
 const CATEGORY_LABEL: Record<BenchmarkCategory, string> = {
   coding: '编码工程',
@@ -13,80 +24,102 @@ const CATEGORY_LABEL: Record<BenchmarkCategory, string> = {
   industry: '垂直行业',
 };
 
+const CATEGORY_ORDER: BenchmarkCategory[] = [
+  'coding',
+  'agent',
+  'knowledge',
+  'document',
+  'chart',
+  'industry',
+];
+
+/**
+ * 能力榜只回答一个问题：**谁在什么能力上强**。
+ *
+ * 排名按分数降序，颜色区分归属地而不是能力优劣；
+ * 每项基准的解释放在卡片内展开，不跳页。
+ */
 export default function BenchmarksPage() {
   const ds = loadDataset();
 
-  // 有跑分数据的模型才进榜
-  const scoredModelIds = new Set(ds.scores.map((s) => s.modelId));
-  const models = ds.models.filter((m) => scoredModelIds.has(m.id));
-
-  const grouped = new Map<BenchmarkCategory, typeof ds.benchmarks>();
-  for (const b of ds.benchmarks) {
-    if (!grouped.has(b.category)) grouped.set(b.category, []);
-    grouped.get(b.category)!.push(b);
+  const modelById = new Map(ds.models.map((m) => [m.id, m]));
+  const rowsByBench = new Map<string, BenchItem['rows']>();
+  for (const s of ds.scores) {
+    const m = modelById.get(s.modelId);
+    if (!m) continue;
+    const list = rowsByBench.get(s.benchmarkId) ?? [];
+    list.push({
+      modelId: m.id,
+      name: m.name,
+      vendor: m.vendor,
+      origin: m.origin,
+      value: s.value,
+    });
+    rowsByBench.set(s.benchmarkId, list);
   }
+
+  const items: BenchItem[] = ds.benchmarks
+    .map((b) => ({
+      id: b.id,
+      name: b.name,
+      category: b.category,
+      scale: b.scale,
+      vendorOwned: b.vendorOwned,
+      url: b.url,
+      summary: b.summary,
+      explanation: b.explanation,
+      useCase: b.useCase,
+      scoring: b.scoring,
+      rows: (rowsByBench.get(b.id) ?? []).sort((x, y) => y.value - x.value),
+    }))
+    .sort((a, b) => {
+      const d = CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category);
+      return d !== 0 ? d : a.name.localeCompare(b.name);
+    });
+
+  const chips: CategoryChip[] = [
+    { key: 'all', label: '全部', count: items.length },
+    ...CATEGORY_ORDER.filter((c) => items.some((b) => b.category === c)).map((c) => ({
+      key: c,
+      label: CATEGORY_LABEL[c],
+      count: items.filter((b) => b.category === c).length,
+    })),
+  ];
+
+  const scoreCount = ds.scores.length;
+  const scoredModels = new Set(ds.scores.map((s) => s.modelId)).size;
 
   return (
     <>
-      <section className="page-head">
-        <h1>能力榜</h1>
-        <p>
-          {ds.benchmarks.length} 项基准 × {models.length} 个模型。所有模型推理档位拉满。
-          分数来自第三方评测机构，ModelsMark 不自行跑分。
-        </p>
-      </section>
+      <h1 className="sr-only">能力榜</h1>
 
-      <div className="filters">
-        <span className="filter on">全部 {ds.benchmarks.length}</span>
-        {[...grouped.entries()].map(([cat, list]) => (
-          <span key={cat} className="filter">
-            {CATEGORY_LABEL[cat]} {list.length}
-          </span>
-        ))}
-        <span style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--text-tertiary)' }}>
-          颜色区分归属地，不代表能力优劣
+      <div className="trustbar">
+        <span>
+          <b>{fmtInt(items.length)}</b>项基准
         </span>
+        <span>
+          <b>{fmtInt(scoreCount)}</b>条分数
+        </span>
+        <span>
+          <b>{fmtInt(scoredModels)}</b>个模型参评
+        </span>
+        <span className="stamp">分数来自第三方机构 · 本站不自行跑分</span>
       </div>
 
-      {[...grouped.entries()].map(([cat, list]) => (
-        <div key={cat} style={{ marginBottom: 28 }}>
-          <div
-            style={{
-              fontSize: 13,
-              fontWeight: 600,
-              marginBottom: 10,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-            }}
-          >
-            {CATEGORY_LABEL[cat]}
-            <span style={{ fontWeight: 400, fontSize: 12, color: 'var(--text-tertiary)' }}>
-              {list.map((b) => b.name).join(' · ')}
-            </span>
-          </div>
-          <div className="bench-grid">
-            {list.map((b) => (
-              <BenchCard
-                key={b.id}
-                benchmark={b}
-                models={models}
-                scores={ds.scores}
-                showExplanation
-              />
-            ))}
-          </div>
-        </div>
-      ))}
+      <div className="section-title">
+        谁在什么能力上强 <span className="sub">点卡片右上角看这项基准到底测什么</span>
+      </div>
 
-      <div className="card card-pad" style={{ marginTop: 12 }}>
-        <div className="card-title">口径声明</div>
-        <p className="card-sub" style={{ margin: 0, lineHeight: 1.8 }}>
-          所有模型推理档位均拉满；Claude 系列分数可能包含回退调用（fallback），GPT
-          系列可能计入内容安全拦截（cyberguards）。分数取自第三方评测机构，ModelsMark
-          只做聚合与可视化，不自行跑分，因此无法保证与厂商自测完全一致。
-          <br />
-          Kimi Code Bench 3.0 为月之暗面自建基准，其余 13 项为第三方机构评测。
+      <BenchmarkBrowser items={items} categories={chips} />
+
+      <div className="footnote">
+        <p>
+          <strong>怎么读</strong>：所有模型推理档位统一拉满；颜色只区分国内 / 海外，不代表能力优劣。
+          Claude 系列分数可能含回退调用（fallback），GPT 系列可能计入内容安全拦截（cyberguards）。
+        </p>
+        <p>
+          <strong>别只看一项</strong>：单一基准不能代表综合能力。选模型时请回到首页的性价比矩阵，
+          把「能力指数」与「3:1 混合价」一起看。
         </p>
       </div>
     </>

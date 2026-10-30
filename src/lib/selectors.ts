@@ -352,4 +352,87 @@ export function estimateByUsage(
   return round2(inputCny * inputMillion + outputCny * outputMillion);
 }
 
+// ───────────────────────────────────────────
+// 用量成本估算 —— 成本计算器
+// ───────────────────────────────────────────
+
+export interface UsageParams {
+  /** 月总用量（百万 tokens，输入 + 输出合计） */
+  totalMillion: number;
+  /** 输入占总用量的比例，0–1（3:1 负载 = 0.75） */
+  inputShare: number;
+  /** 缓存命中率，0–1 */
+  cacheHit: number;
+}
+
+export interface UsageEstimate {
+  id: string;
+  name: string;
+  vendor: string;
+  origin: ModelRow['origin'];
+  index: number | null;
+  /** 月成本（元） */
+  monthly: number;
+  /** 年成本（元） */
+  yearly: number;
+  /** 月成本拆分，用于解释这个数是怎么来的 */
+  parts: { input: number; cache: number; output: number };
+  /** 折算后的实际单价 ¥ / 百万 tokens（含缓存命中后的等效价） */
+  effective: number;
+  /** 缓存价缺失、按输入价保守计的标记 */
+  cacheAssumed: boolean;
+}
+
+/**
+ * 按用户自己的用量结构估算月成本。
+ *
+ * 为什么不能只给混合价 × 月用量：
+ * 缓存命中率对成本的影响极大（命中部分通常只有输入价的 1～3 折），
+ * 而输入输出配比在不同业务里能差 10 倍 —— 固定 3:1 会误导长文生成这类负载。
+ *
+ * 缓存读价缺失时按输入价计（保守偏高），并在结果里标记出来，
+ * 不假装这家渠道没有缓存。
+ */
+export function estimateUsage(rows: ModelRow[], p: UsageParams): UsageEstimate[] {
+  const total = Number.isFinite(p.totalMillion) ? p.totalMillion : 0;
+  const share = Math.min(Math.max(p.inputShare, 0), 1);
+  const hit = Math.min(Math.max(p.cacheHit, 0), 1);
+  if (total <= 0) return [];
+
+  const inM = total * share;
+  const outM = total * (1 - share);
+
+  return rows
+    .map((r) => {
+      const unitIn = r.input;
+      const unitOut = r.output;
+      if (unitIn == null || unitOut == null) return null;
+      // 缓存读价缺失时按输入价计 —— 保守，不会低估成本
+      const cacheAssumed = r.cacheRead == null;
+      const unitCache = r.cacheRead ?? unitIn;
+      const inputCost = inM * (1 - hit) * unitIn;
+      const cacheCost = inM * hit * unitCache;
+      const outputCost = outM * unitOut;
+      const monthly = inputCost + cacheCost + outputCost;
+      return {
+        id: r.id,
+        name: r.name,
+        vendor: r.vendor,
+        origin: r.origin,
+        index: r.index,
+        monthly: round2(monthly),
+        yearly: round2(monthly * 12),
+        parts: {
+          input: round2(inputCost),
+          cache: round2(cacheCost),
+          output: round2(outputCost),
+        },
+        effective: round2(monthly / total),
+        cacheAssumed,
+      };
+    })
+    .filter((x): x is UsageEstimate => x != null)
+    .sort((a, b) => a.monthly - b.monthly);
+}
+
 export { blendedPrice };

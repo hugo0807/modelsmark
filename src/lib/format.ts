@@ -84,3 +84,14 @@ export function fmtMoney(n: number | null | undefined): string {
   if (n == null || Number.isNaN(n)) return NA;
   return Math.round(n).toLocaleString('zh-CN');
 }
+
+/**
+ * 带货币符号的金额，超过 1 万折算成「¥1.2 万」。
+ * 成本表的数字常常跨 4 个数量级，全用千分位反而扫不出大小关系。
+ */
+export function fmtMoneyCny(n: number | null | undefined): string {
+  if (n == null || Number.isNaN(n)) return NA;
+  const abs = Math.abs(n);
+  if (abs >= 10_000) return `¥${(n / 10_000).toFixed(abs >= 100_000 ? 0 : 1)} 万`;
+  return `¥${fmtMoney(n)}`;
+}

@@ -64,7 +64,7 @@ jobs:
             return 1
           }
 
-          for path in "/" "/plans/" "/benchmarks/" "/about/" "/models/glm-5-3/"; do
+          for path in "/" "/channels/" "/plans/" "/calculator/" "/benchmarks/" "/about/" "/models/glm-5-3/"; do
             RESULT=$(probe "${BASE}${path}" /tmp/page.html) || true
             CODE=$(echo "$RESULT" | awk '{print $1}')
             SIZE=$(echo "$RESULT" | awk '{print $2}')
@@ -129,6 +129,30 @@ jobs:
             echo "  ${kw}: ${CNT} 次"
             if [ "${CNT}" -eq 0 ]; then
               echo "  ::error::套餐页缺少关键词 ${kw}，疑似 404 页"
+              FAILED=1
+            fi
+          done
+
+          echo ""
+          echo "=== 渠道页 / 成本估算页关键词校验 ==="
+          # 这两个页都是改版后新增的，一旦路由或数据链路断了会静默变 404 壳，
+          # 光看 HTTP 200 看不出来，必须落到关键词上。
+          curl -s --max-time 30 "${BASE}/channels/" -o /tmp/channels.html || true
+          for kw in "覆盖最广" "平均溢价" "怎么读溢价"; do
+            CNT=$(grep -o "${kw}" /tmp/channels.html 2>/dev/null | wc -l)
+            echo "  channels ${kw}: ${CNT} 次"
+            if [ "${CNT}" -eq 0 ]; then
+              echo "  ::error::渠道页缺少关键词 ${kw}，疑似 404 页"
+              FAILED=1
+            fi
+          done
+
+          curl -s --max-time 30 "${BASE}/calculator/" -o /tmp/calc.html || true
+          for kw in "月成本" "缓存命中率" "输入 : 输出"; do
+            CNT=$(grep -o "${kw}" /tmp/calc.html 2>/dev/null | wc -l)
+            echo "  calculator ${kw}: ${CNT} 次"
+            if [ "${CNT}" -eq 0 ]; then
+              echo "  ::error::成本估算页缺少关键词 ${kw}，疑似 404 页"
               FAILED=1
             fi
           done
