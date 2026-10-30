@@ -72,6 +72,29 @@ function buildRawNames(prices: any[], pending: any[] = []): Map<string, string> 
 }
 
 /**
+ * 展示名清洗：把采集侧的「同名重复拼接」收敛成一个名字。
+ *
+ * 百度千帆的定价表里「模型系列」与「模型版本」是相邻的两列，
+ * 而这两列常常是同一个名字的两种写法（"ERNIE-4.5-Turbo-VL" 与
+ * "ERNIE-4.5-Turbo-VL-32K"）。采集时若把它们当 model + version 拼起来，
+ * 展示名会变成 "ERNIE-4.5-Turbo-VL ERNIE-4.5-Turbo-VL-32K" ——
+ * 表格里一眼看去像是同一个模型录了两遍，且和真身重名。
+ *
+ * 规则：两个空格分隔的片段若互为前缀，取更具体的（更长的）那个。
+ */
+function sanitizeDisplayName(name: string): string {
+  const parts = (name || '').trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 2) {
+    const [a, b] = parts;
+    const na = a.replace(/[\s\-–—]+$/, '').toLowerCase();
+    const nb = b.replace(/[\s\-–—]+$/, '').toLowerCase();
+    if (na && nb && nb.startsWith(na)) return b;
+    if (na && nb && na.startsWith(nb)) return a;
+  }
+  return (name || '').trim();
+}
+
+/**
  * slug → 可读展示名的兜底规则。
  * 把 "hunyuan-embedding" 变成 "Hunyuan Embedding"、"ernie-4-5-turbo-32k" 变成
  * "ERNIE 4.5 Turbo 32K"。用于采集原始名不可用（缺失或全小写）的情况。
@@ -167,10 +190,13 @@ const DISPLAY_NAMES: Record<string, string> = {
   'hunyuan-hy4-preview': '混元 Hy4 Preview',
   'ernie-5-1': 'ERNIE 5.1',
   'ernie-5-0': 'ERNIE 5.0',
-  'ernie-4-5-turbo': 'ERNIE 4.5 Turbo',
-  'ernie-4-5-turbo-32k': 'ERNIE 4.5 Turbo 32K',
-  'ernie-4-5-turbo-128k-preview': 'ERNIE 4.5 Turbo 128K Preview',
-  'ernie-4-5-turbo-vl-32k': 'ERNIE 4.5 Turbo VL 32K',
+  // 千帆把 4.5 Turbo 拆成多个规格行（32K / 128K-Preview / 20260402 / VL-32K），
+  // 前三个同价、VL 版价格完全不同，因此展示名必须带上规格后缀，
+  // 否则表格里会出现「同名不同价」，看起来像同一模型被录了两遍。
+  'ernie-4-5-turbo': 'ERNIE-4.5-Turbo-20260402',
+  'ernie-4-5-turbo-32k': 'ERNIE-4.5-Turbo-32K',
+  'ernie-4-5-turbo-128k-preview': 'ERNIE-4.5-Turbo-128K-Preview',
+  'ernie-4-5-turbo-vl-32k': 'ERNIE-4.5-Turbo-VL-32K',
   'ernie-x1-1-preview': 'ERNIE X1.1 Preview',
   'gpt-6-1-sol': 'GPT-6.1 Sol',
   'gpt-6-1': 'GPT-6.1',
@@ -273,7 +299,7 @@ function main() {
         : prev.name === prev.id
           ? rawNames.get(id) ?? DISPLAY_NAMES[id] ?? humanizeSlug(id)
           : prev.name;
-      kept.push({ ...prev, name: betterName });
+      kept.push({ ...prev, name: sanitizeDisplayName(betterName) });
       continue;
     }
     // 推导厂商
@@ -290,7 +316,7 @@ function main() {
       id,
       // 展示名优先级：官网原始模型名 > 人工映射表 > slug
       // 官网原始名（如 "Qwen3.5-27B"、"DeepSeek-V4.1-Flash"）是各渠道真实写法，最可靠
-      name: rawNames.get(id) ?? DISPLAY_NAMES[id] ?? humanizeSlug(id),
+      name: sanitizeDisplayName(rawNames.get(id) ?? DISPLAY_NAMES[id] ?? humanizeSlug(id)),
       vendor,
       origin,
       openWeights: false,

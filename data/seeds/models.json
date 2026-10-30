@@ -197,7 +197,7 @@
   },
   {
     "id": "ernie-4-5-turbo",
-    "name": "ERNIE-4.5-Turbo-VL ERNIE-4.5-Turbo-VL-32K",
+    "name": "ERNIE-4.5-Turbo-20260402",
     "vendor": "百度",
     "origin": "domestic",
     "openWeights": false,
@@ -239,7 +239,7 @@
   },
   {
     "id": "ernie-4-5-turbo-vl-32k",
-    "name": "ERNIE-4.5-Turbo-VL ERNIE-4.5-Turbo-VL-32K",
+    "name": "ERNIE-4.5-Turbo-VL-32K",
     "vendor": "百度",
     "origin": "domestic",
     "openWeights": false,
