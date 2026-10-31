@@ -6,6 +6,9 @@
   "outputDirectory": "out",
   "trailingSlash": true,
   "cleanUrls": false,
+  "env": {
+    "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD": "1"
+  },
   "headers": [
     {
       "source": "/_next/static/(.*)",
