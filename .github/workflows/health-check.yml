@@ -6,7 +6,16 @@ on:
     paths:
       - 'src/**'
       - 'data/**'
+      - 'db/**'
+      - 'public/**'
+      - 'docs/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'next.config.mjs'
       - 'vercel.json'
+      - '.github/workflows/deploy.yml'
+      - '.github/workflows/pages.yml'
       - '.github/workflows/health-check.yml'
   workflow_dispatch:
   schedule:
@@ -19,8 +28,8 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
-    # 150s 部署等待 + 74 个模型页巡检 + 失败重试，15 分钟不够用
-    timeout-minutes: 25
+    # 240s 部署等待 + 两个站点 × (74 个模型页巡检 + 失败重试)，15 分钟不够用
+    timeout-minutes: 35
 
     env:
       # 用于核对线上部署版本（可选，缺失时跳过该检查）
@@ -33,26 +42,35 @@ jobs:
         with:
           node-version: '22'
 
-      - name: 等待 Vercel 部署生效
-        # 本工作流与 deploy 由同一次 push 并行触发。直接开查会打到上一版线上站，
+      - name: 等待部署生效
+        # 本工作流与 deploy / pages 由同一次 push 并行触发。直接开查会打到上一版线上站，
         # 新加的模型页必然 404 —— 曾因此误报过一轮。这里先等部署窗口过去。
+        # 两个站点都要等：Vercel 和 GitHub Pages 是并行的构建与发布。
         if: github.event_name == 'push'
         run: |
-          echo "等待 150s，让 Vercel 完成本次部署…"
-          sleep 150
+          echo "等待 240s，让 Vercel 与 GitHub Pages 完成本次部署…"
+          sleep 240
 
-      - name: 检查生产站点各页面
+      - name: 巡检两个线上站点
+        # 两个站点部署的是同一个 commit、同一套构建脚本（npm run build → make-portable
+        # → check:portable），产物本应一致。但「产物一致」是推理，线上实际表现是事实 ——
+        # 而且两个站点的服务器行为不同（Vercel 走 trailingSlash 重定向，
+        # GitHub Pages 走目录 index 解析），必须各自实测。
+        #
+        # GitHub Pages 是国内主入口（modelsmark-sigma.vercel.app 被 SNI 阻断），
+        # 之前完全没有线上巡检 —— 真出问题也没人知道。这里补上。
         run: |
           set -u
-          BASE="https://modelsmark-sigma.vercel.app"
           FAILED=0
 
           # 带重试的抓取：3 次机会，间隔 20s。
           # 部署窗口内边缘节点可能短暂返回旧内容或 404，单次抓取会把瞬时态判成故障。
+          # 加 -L 跟随重定向：巡检的目的是「用户能不能打开」，
+          # GitHub Pages 对某些路径会 301 到 index.html，那是正常行为不该算故障。
           probe() {
             local url="$1" out="$2" i code size
             for i in 1 2 3; do
-              code=$(curl -s -o "$out" -w "%{http_code}" --max-time 30 "$url" || echo "000")
+              code=$(curl -sL -o "$out" -w "%{http_code}" --max-time 30 "$url" || echo "000")
               size=$(wc -c < "$out" 2>/dev/null || echo 0)
               if [ "$code" = "200" ] && [ "$size" -ge 5000 ]; then
                 echo "$code $size"
@@ -64,139 +82,11 @@ jobs:
             return 1
           }
 
-          for path in "/" "/channels/" "/plans/" "/calculator/" "/benchmarks/" "/about/" "/models/glm-5-3/"; do
-            RESULT=$(probe "${BASE}${path}" /tmp/page.html) || true
-            CODE=$(echo "$RESULT" | awk '{print $1}')
-            SIZE=$(echo "$RESULT" | awk '{print $2}')
-            TITLE=$(grep -o '<title>[^<]*</title>' /tmp/page.html 2>/dev/null | head -1 | sed 's/<[^>]*>//g')
-            echo "${path} -> HTTP ${CODE} | ${SIZE} bytes | ${TITLE}"
-            if [ "${CODE}" != "200" ] || [ "${SIZE}" -lt 5000 ]; then
-              echo "  ::error::${path} 响应异常（HTTP ${CODE}, ${SIZE} bytes）"
-              FAILED=1
-            fi
-          done
-
-          echo ""
-          echo "=== 首页关键内容校验 ==="
-          curl -s --max-time 30 "${BASE}/" -o /tmp/home.html || true
-          # 关键词与改版后首页的区块 / 列名对应：
-          # 可信度条（在售渠道）· 结论三卡（先看结论）· 矩阵（性价比矩阵）
-          # · 三个 Top5 榜（能力指数）· 全量表（3:1 混合价）
-          for kw in "ModelsMark" "先看结论" "性价比矩阵" "能力指数" "3:1 混合价" "在售渠道"; do
-            CNT=$(grep -o "${kw}" /tmp/home.html 2>/dev/null | wc -l)
-            echo "  ${kw}: ${CNT} 次"
-            if [ "${CNT}" -eq 0 ]; then
-              echo "  ::error::首页缺少关键词 ${kw}，疑似 404 页"
-              FAILED=1
-            fi
-          done
-
-          echo ""
-          echo "=== 首页模型规模校验 ==="
-          # 改版后主表默认折叠（首屏只渲染 12 行，其余由客户端展开），
-          # 因此不能再靠数 <tr> 判断数据是否被覆盖 —— 改用两个更准的信号：
-          #   1) 可信度条里的模型总数必须与模型表完全一致
-          #   2) 首页出现的模型链接数（结论卡 + 三榜 + 主表）不得低于下限
-          EXPECTED=$(node -e "
-            const list = require('./data/seeds/models.json');
-            console.log(list.length);
-          " 2>/dev/null || echo 0)
-          DECLARED=$(grep -o "<b>${EXPECTED}</b>个模型" /tmp/home.html 2>/dev/null | wc -l)
-          echo "  模型表 ${EXPECTED} 个 / 首页可信度条声明匹配 ${DECLARED} 次"
-          if [ "${EXPECTED}" -gt 0 ] && [ "${DECLARED}" -eq 0 ]; then
-            echo "  ::error::首页声明的模型数与模型表 ${EXPECTED} 不一致，数据可能被部分覆盖"
-            FAILED=1
-          fi
-          # 站内链接已改相对路径 + index.html（三种部署形态通吃），
-          # 所以这里匹配的是 models/xxx/index.html 这种形态，不再是 /models/xxx/
-          LINKS=$(grep -o 'href="[^"]*models/[^"]*index\.html"' /tmp/home.html 2>/dev/null | sort -u | wc -l)
-          echo "  首页出现的模型链接: ${LINKS} 个"
-          if [ "${LINKS}" -lt 15 ]; then
-            echo "  ::error::首页模型链接仅 ${LINKS} 个，疑似数据丢失或表格未渲染"
-            FAILED=1
-          fi
-
-          echo ""
-          echo "=== 样式表可达性校验 ==="
-          # 产物为兼容 file:// 直接打开，资源引用改成了相对路径。
-          # 一旦相对层级算错，页面 HTML 仍是 200（SSR 内容还在），
-          # 但样式表会 404 —— 页面白成裸 HTML，必须单独验样式表能不能取到。
-          CSS_HREF=$(grep -o 'href="[^"]*\.css"' /tmp/home.html 2>/dev/null | head -1 | sed 's/href="//; s/"$//')
-          echo "  首页引用的样式表: ${CSS_HREF:-<未找到>}"
-          if [ -z "${CSS_HREF}" ]; then
-            echo "  ::error::首页没有引用样式表，产物可能构建异常"
-            FAILED=1
-          else
-            # 相对路径按站点根解析
-            CSS_URL="${BASE}/${CSS_HREF#./}"
-            CSS_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "${CSS_URL}" || echo "000")
-            CSS_SIZE=$(curl -s --max-time 30 "${CSS_URL}" -o /tmp/site.css 2>/dev/null; wc -c < /tmp/site.css 2>/dev/null || echo 0)
-            echo "  样式表响应: HTTP ${CSS_CODE} | ${CSS_SIZE} bytes"
-            if [ "${CSS_CODE}" != "200" ] || [ "${CSS_SIZE}" -lt 1000 ]; then
-              echo "  ::error::样式表不可达（HTTP ${CSS_CODE}, ${CSS_SIZE} bytes），站点会掉样式"
-              FAILED=1
-            fi
-          fi
-
-          echo ""
-          echo "=== 套餐对比页数据校验 ==="
-          # 架构冻结后价格榜已并入模型详情页，独立页改为「套餐对比」
-          curl -s --max-time 30 "${BASE}/plans/" -o /tmp/plans.html || true
-          PSIZE=$(wc -c < /tmp/plans.html 2>/dev/null || echo 0)
-          echo "  plans 页大小: ${PSIZE} bytes（正常应 > 20KB）"
-          if [ "${PSIZE}" -lt 20000 ]; then
-            echo "  ::error::plans 页体积异常，疑似返回了 404 页"
-            FAILED=1
-          fi
-          for kw in "Token Plan" "Agent Plan" "折合"; do
-            CNT=$(grep -o "${kw}" /tmp/plans.html 2>/dev/null | wc -l)
-            echo "  ${kw}: ${CNT} 次"
-            if [ "${CNT}" -eq 0 ]; then
-              echo "  ::error::套餐页缺少关键词 ${kw}，疑似 404 页"
-              FAILED=1
-            fi
-          done
-
-          echo ""
-          echo "=== 渠道页 / 成本估算页关键词校验 ==="
-          # 这两个页都是改版后新增的，一旦路由或数据链路断了会静默变 404 壳，
-          # 光看 HTTP 200 看不出来，必须落到关键词上。
-          curl -s --max-time 30 "${BASE}/channels/" -o /tmp/channels.html || true
-          for kw in "覆盖最广" "平均溢价" "怎么读溢价"; do
-            CNT=$(grep -o "${kw}" /tmp/channels.html 2>/dev/null | wc -l)
-            echo "  channels ${kw}: ${CNT} 次"
-            if [ "${CNT}" -eq 0 ]; then
-              echo "  ::error::渠道页缺少关键词 ${kw}，疑似 404 页"
-              FAILED=1
-            fi
-          done
-
-          curl -s --max-time 30 "${BASE}/calculator/" -o /tmp/calc.html || true
-          for kw in "月成本" "缓存命中率" "输入 : 输出"; do
-            CNT=$(grep -o "${kw}" /tmp/calc.html 2>/dev/null | wc -l)
-            echo "  calculator ${kw}: ${CNT} 次"
-            if [ "${CNT}" -eq 0 ]; then
-              echo "  ::error::成本估算页缺少关键词 ${kw}，疑似 404 页"
-              FAILED=1
-            fi
-          done
-
-          echo ""
-          echo "=== 模型详情页全量巡检 ==="
-          # 从仓库的 data/seeds/models.json 取出全部模型 slug（id 即 slug），逐个访问详情页，
-          # 确保不是只有个别页面正常（曾出现过首页正常但部分模型页 404 的情况）。
-          MODEL_SLUGS=$(node -e "
-            const list = require('./data/seeds/models.json');
-            const slugs = [...new Set(list.map(m => m.id).filter(Boolean))];
-            console.log(slugs.join(' '));
-          " 2>/dev/null || echo "")
-          MODEL_COUNT=0
-          MODEL_BAD=0
           # 模型页数量多，用更短的重试窗口，避免最坏情况下拖到超时
           probe_fast() {
             local url="$1" out="$2" i code size
             for i in 1 2; do
-              code=$(curl -s -o "$out" -w "%{http_code}" --max-time 20 "$url" || echo "000")
+              code=$(curl -sL -o "$out" -w "%{http_code}" --max-time 20 "$url" || echo "000")
               size=$(wc -c < "$out" 2>/dev/null || echo 0)
               if [ "$code" = "200" ] && [ "$size" -ge 5000 ]; then
                 echo "$code $size"
@@ -208,49 +98,197 @@ jobs:
             return 1
           }
 
-          for slug in ${MODEL_SLUGS}; do
-            RESULT=$(probe_fast "${BASE}/models/${slug}/" /tmp/m.html) || true
-            CODE=$(echo "$RESULT" | awk '{print $1}')
-            SIZE=$(echo "$RESULT" | awk '{print $2}')
-            MODEL_COUNT=$((MODEL_COUNT + 1))
-            if [ "${CODE}" != "200" ] || [ "${SIZE}" -lt 5000 ]; then
-              echo "  ::error::模型页 ${slug} 异常（HTTP ${CODE}, ${SIZE} bytes）"
-              MODEL_BAD=$((MODEL_BAD + 1))
+          check_site() {
+            local BASE="$1"
+            local LABEL="$2"
+
+            echo ""
+            echo "════════ 巡检 ${LABEL}（${BASE}）════════"
+
+            echo "=== 各页面响应 ==="
+            for path in "/" "/channels/" "/plans/" "/calculator/" "/benchmarks/" "/about/" "/models/glm-5-3/"; do
+              RESULT=$(probe "${BASE}${path}" /tmp/page.html) || true
+              CODE=$(echo "$RESULT" | awk '{print $1}')
+              SIZE=$(echo "$RESULT" | awk '{print $2}')
+              TITLE=$(grep -o '<title>[^<]*</title>' /tmp/page.html 2>/dev/null | head -1 | sed 's/<[^>]*>//g')
+              echo "  ${path} -> HTTP ${CODE} | ${SIZE} bytes | ${TITLE}"
+              if [ "${CODE}" != "200" ] || [ "${SIZE}" -lt 5000 ]; then
+                echo "  ::error::[${LABEL}] ${path} 响应异常（HTTP ${CODE}, ${SIZE} bytes）"
+                FAILED=1
+              fi
+            done
+
+            echo ""
+            echo "=== 首页关键内容校验 ==="
+            curl -sL --max-time 30 "${BASE}/" -o /tmp/home.html || true
+            # 关键词与改版后首页的区块 / 列名对应：
+            # 可信度条（在售渠道）· 结论三卡（先看结论）· 矩阵（性价比矩阵）
+            # · 三个 Top5 榜（能力指数）· 全量表（3:1 混合价）
+            for kw in "ModelsMark" "先看结论" "性价比矩阵" "能力指数" "3:1 混合价" "在售渠道"; do
+              CNT=$(grep -o "${kw}" /tmp/home.html 2>/dev/null | wc -l)
+              echo "  ${kw}: ${CNT} 次"
+              if [ "${CNT}" -eq 0 ]; then
+                echo "  ::error::[${LABEL}] 首页缺少关键词 ${kw}，疑似 404 页"
+                FAILED=1
+              fi
+            done
+
+            echo ""
+            echo "=== 首页模型规模校验 ==="
+            # 改版后主表默认折叠（首屏只渲染 12 行，其余由客户端展开），
+            # 因此不能再靠数 <tr> 判断数据是否被覆盖 —— 改用两个更准的信号：
+            #   1) 可信度条里的模型总数必须与模型表完全一致
+            #   2) 首页出现的模型链接数（结论卡 + 三榜 + 主表）不得低于下限
+            EXPECTED=$(node -e "
+              const list = require('./data/seeds/models.json');
+              console.log(list.length);
+            " 2>/dev/null || echo 0)
+            DECLARED=$(grep -o "<b>${EXPECTED}</b>个模型" /tmp/home.html 2>/dev/null | wc -l)
+            echo "  模型表 ${EXPECTED} 个 / 首页可信度条声明匹配 ${DECLARED} 次"
+            if [ "${EXPECTED}" -gt 0 ] && [ "${DECLARED}" -eq 0 ]; then
+              echo "  ::error::[${LABEL}] 首页声明的模型数与模型表 ${EXPECTED} 不一致，数据可能被部分覆盖"
               FAILED=1
             fi
-          done
-          echo "  已巡检 ${MODEL_COUNT} 个模型详情页，异常 ${MODEL_BAD} 个"
-          if [ "${MODEL_COUNT}" -eq 0 ]; then
-            echo "  ::error::未能解析模型列表，巡检覆盖度存疑"
-            FAILED=1
-          fi
+            # 站内链接已改相对路径 + index.html（三种部署形态通吃），
+            # 所以这里匹配的是 models/xxx/index.html 这种形态，不再是 /models/xxx/
+            LINKS=$(grep -o 'href="[^"]*models/[^"]*index\.html"' /tmp/home.html 2>/dev/null | sort -u | wc -l)
+            echo "  首页出现的模型链接: ${LINKS} 个"
+            if [ "${LINKS}" -lt 15 ]; then
+              echo "  ::error::[${LABEL}] 首页模型链接仅 ${LINKS} 个，疑似数据丢失或表格未渲染"
+              FAILED=1
+            fi
 
-          echo ""
-          echo "=== 线上部署版本核对 ==="
-          if [ -n "${VERCEL_TOKEN}" ]; then
-            DEPLOY_JSON=$(curl -s --max-time 30 \
-              -H "Authorization: Bearer ${VERCEL_TOKEN}" \
-              "https://api.vercel.com/v6/deployments?projectId=prj_spk2JAmo033slq7ARiqyI54Mkith&target=production&limit=1" \
-              || echo "")
-            DEPLOY_STATE=$(echo "${DEPLOY_JSON}" | node -e "
-              let s=''; process.stdin.on('data',d=>s+=d).on('end',()=>{
-                try {
-                  const j = JSON.parse(s);
-                  const list = j.deployments || j;
-                  const d = list[0] || {};
-                  console.log((d.state||d.readyState||'?') + '|' + (d.meta && d.meta.githubCommitSha ? d.meta.githubCommitSha.slice(0,8) : 'n/a'));
-                } catch(e) { console.log('PARSE_ERROR|n/a'); }
-              });
-            ")
-            echo "  最新生产部署: ${DEPLOY_STATE}"
-          else
-            echo "  (未配置 VERCEL_TOKEN，跳过部署版本核对)"
-          fi
+            echo ""
+            echo "=== 样式表可达性校验 ==="
+            # 产物为兼容 file:// 直接打开，资源引用改成了相对路径。
+            # 一旦相对层级算错，页面 HTML 仍是 200（SSR 内容还在），
+            # 但样式表会 404 —— 页面白成裸 HTML，必须单独验样式表能不能取到。
+            # 这项对 GitHub Pages 尤其关键：它挂在 /modelsmark/ 子路径下，
+            # 相对层级算错就是整站掉样式。
+            CSS_HREF=$(grep -o 'href="[^"]*\.css"' /tmp/home.html 2>/dev/null | head -1 | sed 's/href="//; s/"$//')
+            echo "  首页引用的样式表: ${CSS_HREF:-<未找到>}"
+            if [ -z "${CSS_HREF}" ]; then
+              echo "  ::error::[${LABEL}] 首页没有引用样式表，产物可能构建异常"
+              FAILED=1
+            else
+              # 相对路径按站点根解析
+              CSS_URL="${BASE}/${CSS_HREF#./}"
+              CSS_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "${CSS_URL}" || echo "000")
+              CSS_SIZE=$(curl -sL --max-time 30 "${CSS_URL}" -o /tmp/site.css 2>/dev/null; wc -c < /tmp/site.css 2>/dev/null || echo 0)
+              echo "  样式表响应: HTTP ${CSS_CODE} | ${CSS_SIZE} bytes"
+              if [ "${CSS_CODE}" != "200" ] || [ "${CSS_SIZE}" -lt 1000 ]; then
+                echo "  ::error::[${LABEL}] 样式表不可达（HTTP ${CSS_CODE}, ${CSS_SIZE} bytes），站点会掉样式"
+                FAILED=1
+              fi
+            fi
+
+            echo ""
+            echo "=== 套餐对比页数据校验 ==="
+            # 架构冻结后价格榜已并入模型详情页，独立页改为「套餐对比」
+            curl -sL --max-time 30 "${BASE}/plans/" -o /tmp/plans.html || true
+            PSIZE=$(wc -c < /tmp/plans.html 2>/dev/null || echo 0)
+            echo "  plans 页大小: ${PSIZE} bytes（正常应 > 20KB）"
+            if [ "${PSIZE}" -lt 20000 ]; then
+              echo "  ::error::[${LABEL}] plans 页体积异常，疑似返回了 404 页"
+              FAILED=1
+            fi
+            for kw in "Token Plan" "Agent Plan" "折合"; do
+              CNT=$(grep -o "${kw}" /tmp/plans.html 2>/dev/null | wc -l)
+              echo "  ${kw}: ${CNT} 次"
+              if [ "${CNT}" -eq 0 ]; then
+                echo "  ::error::[${LABEL}] 套餐页缺少关键词 ${kw}，疑似 404 页"
+                FAILED=1
+              fi
+            done
+
+            echo ""
+            echo "=== 渠道页 / 成本估算页关键词校验 ==="
+            # 这两个页都是改版后新增的，一旦路由或数据链路断了会静默变 404 壳，
+            # 光看 HTTP 200 看不出来，必须落到关键词上。
+            curl -sL --max-time 30 "${BASE}/channels/" -o /tmp/channels.html || true
+            for kw in "覆盖最广" "平均溢价" "怎么读溢价"; do
+              CNT=$(grep -o "${kw}" /tmp/channels.html 2>/dev/null | wc -l)
+              echo "  channels ${kw}: ${CNT} 次"
+              if [ "${CNT}" -eq 0 ]; then
+                echo "  ::error::[${LABEL}] 渠道页缺少关键词 ${kw}，疑似 404 页"
+                FAILED=1
+              fi
+            done
+
+            curl -sL --max-time 30 "${BASE}/calculator/" -o /tmp/calc.html || true
+            for kw in "月成本" "缓存命中率" "输入 : 输出"; do
+              CNT=$(grep -o "${kw}" /tmp/calc.html 2>/dev/null | wc -l)
+              echo "  calculator ${kw}: ${CNT} 次"
+              if [ "${CNT}" -eq 0 ]; then
+                echo "  ::error::[${LABEL}] 成本估算页缺少关键词 ${kw}，疑似 404 页"
+                FAILED=1
+              fi
+            done
+
+            echo ""
+            echo "=== 模型详情页全量巡检 ==="
+            # 从仓库的 data/seeds/models.json 取出全部模型 slug（id 即 slug），逐个访问详情页，
+            # 确保不是只有个别页面正常（曾出现过首页正常但部分模型页 404 的情况）。
+            MODEL_SLUGS=$(node -e "
+              const list = require('./data/seeds/models.json');
+              const slugs = [...new Set(list.map(m => m.id).filter(Boolean))];
+              console.log(slugs.join(' '));
+            " 2>/dev/null || echo "")
+            MODEL_COUNT=0
+            MODEL_BAD=0
+            for slug in ${MODEL_SLUGS}; do
+              RESULT=$(probe_fast "${BASE}/models/${slug}/" /tmp/m.html) || true
+              CODE=$(echo "$RESULT" | awk '{print $1}')
+              SIZE=$(echo "$RESULT" | awk '{print $2}')
+              MODEL_COUNT=$((MODEL_COUNT + 1))
+              if [ "${CODE}" != "200" ] || [ "${SIZE}" -lt 5000 ]; then
+                echo "  ::error::[${LABEL}] 模型页 ${slug} 异常（HTTP ${CODE}, ${SIZE} bytes）"
+                MODEL_BAD=$((MODEL_BAD + 1))
+                FAILED=1
+              fi
+            done
+            echo "  已巡检 ${MODEL_COUNT} 个模型详情页，异常 ${MODEL_BAD} 个"
+            if [ "${MODEL_COUNT}" -eq 0 ]; then
+              echo "  ::error::[${LABEL}] 未能解析模型列表，巡检覆盖度存疑"
+              FAILED=1
+            fi
+          }
+
+          # 两个站点各巡检一遍。顺序：先 Vercel（部署更快，先出结果），
+          # 再 GitHub Pages（子路径挂载，是国内主入口）。
+          check_site "https://modelsmark-sigma.vercel.app" "Vercel"
+          check_site "https://hugo0807.github.io/modelsmark" "GitHub Pages"
 
           echo ""
           if [ "${FAILED}" -eq 0 ]; then
-            echo "✅ 线上站点全部正常"
+            echo "✅ 两个线上站点全部正常"
           else
             echo "❌ 线上站点存在异常，见上方 ::error:: 标注"
             exit 1
           fi
+
+      - name: 线上部署版本核对
+        # 只对 Vercel 有意义（Pages 没有对应的版本 API）。
+        # 目的是确认线上跑的是本次 push 的 commit，而不是上一版。
+        if: always()
+        run: |
+          if [ -z "${VERCEL_TOKEN}" ]; then
+            echo "(未配置 VERCEL_TOKEN，跳过部署版本核对)"
+            exit 0
+          fi
+          DEPLOY_JSON=$(curl -s --max-time 30 \
+            -H "Authorization: Bearer ${VERCEL_TOKEN}" \
+            "https://api.vercel.com/v6/deployments?projectId=prj_spk2JAmo033slq7ARiqyI54Mkith&target=production&limit=1" \
+            || echo "")
+          DEPLOY_STATE=$(echo "${DEPLOY_JSON}" | node -e "
+            let s=''; process.stdin.on('data',d=>s+=d).on('end',()=>{
+              try {
+                const j = JSON.parse(s);
+                const list = j.deployments || j;
+                const d = list[0] || {};
+                console.log((d.state||d.readyState||'?') + '|' + (d.meta && d.meta.githubCommitSha ? d.meta.githubCommitSha.slice(0,8) : 'n/a'));
+              } catch(e) { console.log('PARSE_ERROR|n/a'); }
+            });
+          ")
+          echo "最新生产部署: ${DEPLOY_STATE}"
+          echo "仓库 HEAD: $(git rev-parse HEAD 2>/dev/null | cut -c1-8)"
