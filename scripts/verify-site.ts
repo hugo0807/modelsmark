@@ -350,4 +350,17 @@ async function verifyDeployShapes(browser: any) {
   if (!allOk) process.exitCode = 1;
 }
 
-main();
+// --shapes-only：只跑三形态回归（自带服务器，不依赖 BASE_URL）
+// 用于「部署前本地把关」这种场景 —— 不想另起一个 BASE_URL 服务。
+if (process.argv.includes('--shapes-only')) {
+  (async () => {
+    for (const k of ['HTTP_PROXY', 'HTTPS_PROXY', 'http_proxy', 'https_proxy']) {
+      delete process.env[k];
+    }
+    const browser = await chromium.launch({ headless: true });
+    await verifyDeployShapes(browser);
+    await browser.close();
+  })();
+} else {
+  main();
+}
