@@ -53,6 +53,24 @@ async function api(endpoint) {
   return res.json();
 }
 
+/**
+ * 带重试的 GET。
+ * 网络抖动在长流程里很常见 —— 一次 fetch failed 就让整条推送/对齐中断，
+ * 前面几十次调用全白费。4xx 是确定性错误（权限、校验），重试没意义。
+ */
+async function apiRetry(endpoint, attempt = 0) {
+  const MAX = 4;
+  try {
+    return await api(endpoint);
+  } catch (e) {
+    if (/\b(4\d\d)\b/.test(e.message) || attempt >= MAX - 1) throw e;
+    const wait = 800 * (attempt + 1);
+    console.log(`  ↻ ${endpoint.slice(0, 60)} 第 ${attempt + 1} 次失败，${wait}ms 后重试`);
+    await new Promise((r) => setTimeout(r, wait));
+    return apiRetry(endpoint, attempt + 1);
+  }
+}
+
 /** 本地是否已有这个 commit 对象 */
 function existsLocally(sha) {
   try {
@@ -113,7 +131,7 @@ function writeRemoteStyleCommit({ tree, parents, authorLine, committerLine, mess
 }
 
 export async function align({ repo = REPO, branch = BRANCH } = {}) {
-  const list = await api(
+  const list = await apiRetry(
     `/repos/${OWNER}/${REPO_NAME}/commits?sha=${branch}&per_page=100`
   );
   const remote = list.slice().reverse(); // 旧 → 新
@@ -134,7 +152,7 @@ export async function align({ repo = REPO, branch = BRANCH } = {}) {
   for (const c of remote) {
     if (existsLocally(c.sha)) continue; // 本地已有
 
-    const detail = await api(`/repos/${OWNER}/${REPO_NAME}/git/commits/${c.sha}`);
+    const detail = await apiRetry(`/repos/${OWNER}/${REPO_NAME}/git/commits/${c.sha}`);
     const tree = detail.tree.sha;
     const message = detail.message; // API 返回的即远端存储格式（无尾部换行）
 

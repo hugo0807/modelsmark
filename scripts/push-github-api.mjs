@@ -64,6 +64,25 @@ async function api(method, endpoint, body) {
   return text ? JSON.parse(text) : null;
 }
 
+/**
+ * 带重试的 API 调用。
+ * 网络抖动（fetch failed / ECONNRESET）在长流程里很常见 ——
+ * 一次失败就整条推送中断，前面几十次 API 调用全白费。
+ */
+async function apiRetry(method, endpoint, body, attempt = 0) {
+  const MAX = 4;
+  try {
+    return await api(method, endpoint, body);
+  } catch (e) {
+    // 4xx 是确定性错误（权限、校验），重试没有意义
+    if (/\b(4\d\d)\b/.test(e.message) || attempt >= MAX - 1) throw e;
+    const wait = 800 * (attempt + 1);
+    console.log(`  ↻ ${endpoint} 第 ${attempt + 1} 次失败（${e.message.slice(0, 60)}），${wait}ms 后重试`);
+    await new Promise((r) => setTimeout(r, wait));
+    return apiRetry(method, endpoint, body, attempt + 1);
+  }
+}
+
 /** 执行 git 命令，返回 stdout 字符串 */
 function git(...args) {
   return execFileSync('git', args, { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024 });
@@ -236,7 +255,7 @@ async function main() {
   const finalSha = shaMap.get(localHead) || parentForNext;
 
   // 4. 更新分支引用
-  await api('PATCH', `/repos/${OWNER}/${REPO_NAME}/git/refs/heads/${BRANCH}`, {
+  await apiRetry('PATCH', `/repos/${OWNER}/${REPO_NAME}/git/refs/heads/${BRANCH}`, {
     sha: finalSha,
     force: false,
   });
