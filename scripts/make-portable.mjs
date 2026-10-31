@@ -97,6 +97,56 @@ function runtimeScript() {
     return '';
   };
 
+  // ── 查询参数继承 ──────────────────────────────────────────────
+  //
+  // 有些部署入口带鉴权参数（分享链接 ?sharecode=xxx 就是这种）。
+  // 站内链接是相对路径，跳转后参数不会自动带上 —— 子页面拿不到凭证，
+  // 服务端就返回「链接不完整」。表现是：首页好好的，点任何子页都坏。
+  //
+  // 所以把当前页面的查询串继承给站内链接。
+  var currentSearch = location.search || '';
+
+  /** 给绝对 URL 补上当前页面的查询串（目标本身已有查询串则不动） */
+  var withSearch = function (url) {
+    if (!currentSearch) return url;
+    try {
+      var u = new URL(url, location.href);
+      if (!u.search) u.search = currentSearch;
+      return u.href;
+    } catch (err) {
+      return url;
+    }
+  };
+
+  /**
+   * 把查询串写进 DOM 里站内链接的 href。
+   * 用相对形式拼接，不改路径本身 —— 相对路径是三形态通用的关键，
+   * 换成根绝对路径会让 file:// 和子路径部署直接崩。
+   */
+  var propagateSearch = function () {
+    if (!currentSearch) return;
+    var links = document.querySelectorAll('a[href]');
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#') continue;
+      if (/^[a-z][a-z0-9+.-]*:/i.test(href)) continue; // 外链协议
+      if (href.indexOf('?') >= 0) continue;             // 已有查询串
+      var hash = '';
+      var base = href;
+      var hi = href.indexOf('#');
+      if (hi >= 0) { base = href.slice(0, hi); hash = href.slice(hi); }
+      var sep = base.indexOf('?') >= 0 ? '&' : '?';
+      try {
+        var u = new URL(a.href, location.href);
+        if (u.origin !== location.origin) continue; // 跨域链接不动
+      } catch (err) {
+        continue;
+      }
+      a.setAttribute('href', base + sep + currentSearch.slice(1) + hash);
+    }
+  };
+
   // polyfills 的 core-js 用 defineProperty 给 globalThis.fetch 装了 getter，
   // 直接赋值会被静默忽略，必须重定义属性描述符。
   if (OrigRequest) {
@@ -155,8 +205,35 @@ function runtimeScript() {
     if (!/\\.[a-z0-9]+$/i.test(url.pathname)) {
       url.pathname = url.pathname.replace(/\\/*$/, '/') + 'index.html';
     }
-    location.href = url.href;
+    location.href = withSearch(url.href);
   }, true);
+
+  // 把查询串写回站内链接的 href —— 这样「右键复制链接 / 新标签打开 /
+  // 中键」也带着凭证，而不只是左键点击这一条路径。
+  //
+  // React 渲染和 hydration 会重写 href，所以要持续观察 DOM 变化。
+  var pending = false;
+  var schedule = function () {
+    if (pending) return;
+    pending = true;
+    setTimeout(function () {
+      pending = false;
+      propagateSearch();
+    }, 60);
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', schedule);
+  } else {
+    schedule();
+  }
+  if (typeof MutationObserver !== 'undefined' && document.documentElement) {
+    new MutationObserver(schedule).observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['href'],
+    });
+  }
 
   // 把 Next 客户端路由改成硬导航。
   //
@@ -172,7 +249,7 @@ function runtimeScript() {
       if (!/\\.[a-z0-9]+$/i.test(u.pathname)) {
         u.pathname = u.pathname.replace(/\\/*$/, '/') + 'index.html';
       }
-      return u.href;
+      return withSearch(u.href);
     };
     r.push = function (url) { location.href = toHref(url); return Promise.resolve(true); };
     r.replace = function (url) { location.href = toHref(url); return Promise.resolve(true); };
