@@ -15,10 +15,14 @@ on:
     paths:
       - 'src/**'
       - 'data/**'
+      - 'db/**'
+      - 'public/**'
+      - 'docs/**'
       - 'scripts/**'
       - 'package.json'
       - 'package-lock.json'
       - 'next.config.mjs'
+      - 'vercel.json'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
 

@@ -6,6 +6,9 @@ on:
     paths:
       - 'src/**'
       - 'data/**'
+      - 'db/**'
+      - 'public/**'
+      - 'docs/**'
       - 'scripts/**'
       - 'package.json'
       - 'package-lock.json'
