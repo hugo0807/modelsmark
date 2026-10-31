@@ -54,7 +54,11 @@ jobs:
       - name: 校验产物可移植性
         run: npm run check:portable
 
+      # enablement: 仓库还没启用 Pages 时，尝试自动启用。
+      # 没有这一步，工作流会卡在 configure-pages 报 404（Pages 站点不存在）。
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: 上传产物
         uses: actions/upload-pages-artifact@v3
