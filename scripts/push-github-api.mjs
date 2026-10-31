@@ -8,9 +8,20 @@
  * Git 的 SHA-1 内容寻址 —— 本地算出的 blob/tree SHA 就是 GitHub 上需要的 SHA。
  *
  * 所以这里的做法是：把本地对象「搬运」到 GitHub，逐个重建 commit，
- * 并保持 parent 链完整（历史不丢）。因为传入了原始 author/committer
- * 与时区偏移，生成的 commit SHA 与本地完全一致 —— 推送后本地
- * `git log` 和 GitHub 上的历史是同一条线。
+ * 并保持 parent 链完整（历史不丢）。
+ *
+ * 关于 commit SHA：
+ *   blob / tree 的 SHA 与本地完全一致（内容寻址）。
+ *   但 commit 的 SHA 必然不同 —— GitHub API 会把 message 的尾部换行
+ *   strip 掉（实测：传 "x\n" 和传 "x"，存储结果都是 "x"），而本地
+ *   git commit 的 message 永远以 \n 结尾。message 是 commit SHA 的
+ *   计算输入，所以差这一个字节。
+ *   时区不是原因：GitHub 保留了原始时区偏移（API 只是把 date
+ *   显示成 UTC，别被这点误导）。
+ *
+ *   因此推送完成后会自动调用 align-github.mjs：在本地按远端的字节
+ *   格式重建 commit 对象，把本地 refs 指到远端 HEAD —— 两边就成为
+ *   同一条历史线，后续 git push / git fetch 正常互操作。
  *
  * 用法：
  *   GITHUB_TOKEN=<pat> node scripts/push-github-api.mjs [owner/repo] [branch]
@@ -79,7 +90,9 @@ function parseCommit(raw) {
   const sep = raw.indexOf('\n\n');
   const header = raw.slice(0, sep);
   let body = raw.slice(sep + 2);
-  // Git 存储的 message 总是以 \n 结尾；GitHub API 会自己补回，所以去掉尾 \n
+  // Git 存储的 message 总是以 \n 结尾；GitHub API 会 strip 尾部换行，
+  // 所以这里去掉尾 \n —— 传什么它都存成「无尾换行」版本（实测：
+  // 传 "x\n" 和传 "x"，存储结果都是 "x"）。
   body = body.replace(/\n+$/, '');
   const info = { tree: null, parents: [], author: null, committer: null };
   for (const line of header.split('\n')) {
@@ -216,7 +229,7 @@ async function main() {
     const same = r.sha === c;
     console.log(
       `  [${i + 1}/${commits.length}] ${c.slice(0, 8)} → ${r.sha.slice(0, 8)} ` +
-        `${same ? '✅ SHA 一致' : '⚠️ SHA 不同（内容已同步）'}  ${info.message.split('\n')[0].slice(0, 46)}`
+        `${same ? '✅ SHA 一致' : '⚠️ SHA 不同（API 会 strip message 尾换行，属预期）'}  ${info.message.split('\n')[0].slice(0, 46)}`
     );
   }
 
@@ -231,14 +244,24 @@ async function main() {
   console.log(`\n✅ ${BRANCH} 已更新到 ${finalSha}`);
   console.log(`   API 调用 ${apiCalls} 次`);
 
-  // 5. 复核
+  // 5. 本地对齐
+  //    GitHub API 存的 message 没有尾部换行，本地 git commit 有 ——
+  //    所以 API 推出来的 commit SHA 必然与本地不同。这不是 bug，
+  //    是 API 的存储规则。对齐脚本会在本地按远端格式重建 commit 对象，
+  //    把本地 refs 指到远端 HEAD，之后两边就是同一条历史线。
+  console.log('\n── 本地对齐 ──');
+  const { align } = await import('./align-github.mjs');
+  await align({ repo: REPO, branch: BRANCH });
+
+  // 6. 复核
   const head = await api('GET', `/repos/${OWNER}/${REPO_NAME}/commits/${BRANCH}`);
-  console.log(`   远端 HEAD: ${head.sha}  ${head.commit.message.split('\n')[0]}`);
-  console.log(`   本地 HEAD: ${localHead}`);
+  const nowHead = git('rev-parse', 'HEAD').trim();
+  console.log(`\n   远端 HEAD: ${head.sha}  ${head.commit.message.split('\n')[0]}`);
+  console.log(`   本地 HEAD: ${nowHead}`);
   console.log(
-    head.sha === localHead
+    head.sha === nowHead
       ? '   🎉 本地与 GitHub 历史完全一致（可直接 git push / git fetch 互操作）'
-      : '   本地与远端 SHA 不同，但历史与内容一致（可用 git fetch 后 reset 对齐）'
+      : '   ⚠️ 仍未对齐'
   );
 }
 
