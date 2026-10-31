@@ -1,0 +1,72 @@
+name: 部署到 GitHub Pages（国内可访问）
+
+# 为什么单独加一条 Pages 流水线：
+#   vercel.app 在国内被 DNS 污染 + IP 段阻断，浏览器打不开；
+#   但 github.io 这个域名是通的，所以同一份产物多一个国内入口。
+#
+# 注意：必须走 Actions 发布，不能走 GitHub Pages 的 Jekyll 模式 ——
+#   Jekyll 会忽略以 _ 开头的目录，而 Next.js 的资源目录正是 out/_next/，
+#   走 Jekyll 的话样式和脚本全丢，页面变成裸 HTML。
+#   actions/upload-pages-artifact 直接把 out/ 原样发布，没有这个问题。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'data/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'next.config.mjs'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+# Pages 发布需要这两项权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 安装依赖并构建
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+
+      # 与 Vercel 流水线同款把关：挡住「相对层级算错」这类问题。
+      # 它的表现是页面 200 但样式全丢，线上才发现就晚了。
+      - name: 校验产物可移植性
+        run: npm run check:portable
+
+      - uses: actions/configure-pages@v5
+
+      - name: 上传产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
