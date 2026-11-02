@@ -1,14 +1,14 @@
 {
   "source": "Artificial Analysis LLM Leaderboard",
   "sourceUrl": "https://artificialanalysis.ai/leaderboards/models",
-  "fetchedAt": "2026-10-28",
+  "fetchedAt": "2026-11-02",
   "columns": [
     "Model",
     "Context Window",
     "Creator",
     "License",
     "Artificial Analysis Intelligence Index",
-    "Artificial Analysis Omniscience Index",
+    "AA-Omniscience Net Score",
     "AA-Briefcase v1.1 Agentic knowledge work, Elo",
     "AA-Omniscience v1.1 Accuracy Knowledge",
     "AA-Omniscience v1.1 Non-Hallucination Rate 1 - hallucination rate",
@@ -66,6 +66,17 @@
   ],
   "rows": [
     {
+      "name": "Gemini 4 Carbon (high)",
+      "creator": "Google",
+      "context": "1M",
+      "license": "Proprietary",
+      "index": 59,
+      "costPerTaskUsd": 7.76,
+      "inputUsd": 4,
+      "outputUsd": 20,
+      "outputTokensPerSec": 92
+    },
+    {
       "name": "Claude Opus 5.5 (max with fallback)",
       "creator": "Anthropic",
       "context": "1M",
@@ -74,7 +85,7 @@
       "costPerTaskUsd": 10.04,
       "inputUsd": 4,
       "outputUsd": 20,
-      "outputTokensPerSec": 98
+      "outputTokensPerSec": 96
     },
     {
       "name": "Claude Opus 5.5 (xhigh with fallback)",
@@ -96,7 +107,7 @@
       "costPerTaskUsd": 6.24,
       "inputUsd": 10,
       "outputUsd": 50,
-      "outputTokensPerSec": 66
+      "outputTokensPerSec": 75
     },
     {
       "name": "GPT-6 Astra (xhigh)",
@@ -107,7 +118,7 @@
       "costPerTaskUsd": 3.66,
       "inputUsd": 10,
       "outputUsd": 50,
-      "outputTokensPerSec": 66
+      "outputTokensPerSec": 70
     },
     {
       "name": "GPT-6 Astra (high)",
@@ -118,7 +129,7 @@
       "costPerTaskUsd": 3.24,
       "inputUsd": 10,
       "outputUsd": 50,
-      "outputTokensPerSec": 62
+      "outputTokensPerSec": 64
     },
     {
       "name": "GPT-6.1 Sol (max)",
@@ -129,7 +140,7 @@
       "costPerTaskUsd": 1.27,
       "inputUsd": 2,
       "outputUsd": 10,
-      "outputTokensPerSec": 79
+      "outputTokensPerSec": 95
     },
     {
       "name": "Claude Sonnet 5.5 (max with fallback)",
@@ -151,7 +162,7 @@
       "costPerTaskUsd": 0.76,
       "inputUsd": 2,
       "outputUsd": 10,
-      "outputTokensPerSec": 70
+      "outputTokensPerSec": 76
     },
     {
       "name": "Claude Opus 5.5 (high with fallback)",
@@ -162,7 +173,7 @@
       "costPerTaskUsd": 3.46,
       "inputUsd": 4,
       "outputUsd": 20,
-      "outputTokensPerSec": 80
+      "outputTokensPerSec": 81
     },
     {
       "name": "GPT-6 Astra (medium)",
@@ -173,7 +184,7 @@
       "costPerTaskUsd": 2.73,
       "inputUsd": 10,
       "outputUsd": 50,
-      "outputTokensPerSec": 62
+      "outputTokensPerSec": 57
     },
     {
       "name": "GPT-6.1 Terra (max)",
@@ -184,7 +195,7 @@
       "costPerTaskUsd": 0.96,
       "inputUsd": 1,
       "outputUsd": 5,
-      "outputTokensPerSec": 91
+      "outputTokensPerSec": 110
     },
     {
       "name": "Gemini 4 Argon (high)",
@@ -192,10 +203,10 @@
       "context": "1M",
       "license": "Proprietary",
       "index": 50,
-      "costPerTaskUsd": 3.84,
-      "inputUsd": 2,
-      "outputUsd": 10,
-      "outputTokensPerSec": 82
+      "costPerTaskUsd": 7.68,
+      "inputUsd": 4,
+      "outputUsd": 20,
+      "outputTokensPerSec": 83
     },
     {
       "name": "GPT-6.1 Sol (high)",
@@ -225,10 +236,10 @@
       "context": "1M",
       "license": "Proprietary",
       "index": 50,
-      "costPerTaskUsd": 10.89,
+      "costPerTaskUsd": 10.85,
       "inputUsd": 10,
       "outputUsd": 50,
-      "outputTokensPerSec": 66
+      "outputTokensPerSec": 63
     },
     {
       "name": "Claude Sonnet 5.5 (xhigh with fallback)",
@@ -239,7 +250,7 @@
       "costPerTaskUsd": 4.09,
       "inputUsd": 2,
       "outputUsd": 10,
-      "outputTokensPerSec": 113
+      "outputTokensPerSec": 111
     },
     {
       "name": "Claude Fable 5.1 (max with fallback)",
@@ -247,10 +258,10 @@
       "context": "1M",
       "license": "Proprietary",
       "index": 49,
-      "costPerTaskUsd": 13.04,
+      "costPerTaskUsd": 12.99,
       "inputUsd": 10,
       "outputUsd": 50,
-      "outputTokensPerSec": 65
+      "outputTokensPerSec": 70
     },
     {
       "name": "Claude Opus 5.5 (medium with fallback)",
@@ -261,7 +272,7 @@
       "costPerTaskUsd": 2.45,
       "inputUsd": 4,
       "outputUsd": 20,
-      "outputTokensPerSec": 82
+      "outputTokensPerSec": 81
     },
     {
       "name": "Claude Fable 5.1 (high with fallback)",
@@ -269,10 +280,10 @@
       "context": "1M",
       "license": "Proprietary",
       "index": 47,
-      "costPerTaskUsd": 7.56,
+      "costPerTaskUsd": 7.54,
       "inputUsd": 10,
       "outputUsd": 50,
-      "outputTokensPerSec": 60
+      "outputTokensPerSec": 58
     },
     {
       "name": "GPT-6.1 Sol (medium)",
@@ -283,7 +294,7 @@
       "costPerTaskUsd": 0.36,
       "inputUsd": 2,
       "outputUsd": 10,
-      "outputTokensPerSec": 59
+      "outputTokensPerSec": 63
     },
     {
       "name": "Kimi K3.1 Pro",
@@ -294,7 +305,7 @@
       "costPerTaskUsd": 3.68,
       "inputUsd": 2,
       "outputUsd": 10,
-      "outputTokensPerSec": 43
+      "outputTokensPerSec": 31
     },
     {
       "name": "GPT-6.1 Terra (xhigh)",
@@ -305,7 +316,7 @@
       "costPerTaskUsd": 0.4,
       "inputUsd": 1,
       "outputUsd": 5,
-      "outputTokensPerSec": 91
+      "outputTokensPerSec": 98
     },
     {
       "name": "Muse Wonder (max)",
@@ -316,7 +327,7 @@
       "costPerTaskUsd": 6.95,
       "inputUsd": 4,
       "outputUsd": 20,
-      "outputTokensPerSec": 197
+      "outputTokensPerSec": 192
     },
     {
       "name": "GPT-6 Astra (low)",
@@ -327,7 +338,7 @@
       "costPerTaskUsd": 1.42,
       "inputUsd": 10,
       "outputUsd": 50,
-      "outputTokensPerSec": 52
+      "outputTokensPerSec": 58
     },
     {
       "name": "Claude Fable 5.1 (medium with fallback)",
@@ -335,10 +346,10 @@
       "context": "1M",
       "license": "Proprietary",
       "index": 43,
-      "costPerTaskUsd": 5.58,
+      "costPerTaskUsd": 5.56,
       "inputUsd": 10,
       "outputUsd": 50,
-      "outputTokensPerSec": 61
+      "outputTokensPerSec": 58
     },
     {
       "name": "GPT-6.1 Terra (high)",
@@ -349,7 +360,7 @@
       "costPerTaskUsd": 0.26,
       "inputUsd": 1,
       "outputUsd": 5,
-      "outputTokensPerSec": 91
+      "outputTokensPerSec": 93
     },
     {
       "name": "Claude Sonnet 5.5 (high with fallback)",
@@ -360,7 +371,7 @@
       "costPerTaskUsd": 1.64,
       "inputUsd": 2,
       "outputUsd": 10,
-      "outputTokensPerSec": 115
+      "outputTokensPerSec": 107
     },
     {
       "name": "Claude Fable 5.1 (low with fallback)",
@@ -368,7 +379,7 @@
       "context": "1M",
       "license": "Proprietary",
       "index": 38,
-      "costPerTaskUsd": 4.49,
+      "costPerTaskUsd": 4.47,
       "inputUsd": 10,
       "outputUsd": 50,
       "outputTokensPerSec": 57
@@ -393,7 +404,7 @@
       "costPerTaskUsd": 0.41,
       "inputUsd": 0.1,
       "outputUsd": 0.5,
-      "outputTokensPerSec": 241
+      "outputTokensPerSec": 236
     },
     {
       "name": "Grok 4.7 (high)",
@@ -404,7 +415,7 @@
       "costPerTaskUsd": 6.18,
       "inputUsd": 2,
       "outputUsd": 6,
-      "outputTokensPerSec": 97
+      "outputTokensPerSec": 78
     },
     {
       "name": "GPT-6.1 Sol (low)",
@@ -415,7 +426,7 @@
       "costPerTaskUsd": 0.16,
       "inputUsd": 2,
       "outputUsd": 10,
-      "outputTokensPerSec": 53
+      "outputTokensPerSec": 62
     },
     {
       "name": "Claude Opus 5.5 (low with fallback)",
@@ -426,7 +437,7 @@
       "costPerTaskUsd": 0.98,
       "inputUsd": 4,
       "outputUsd": 20,
-      "outputTokensPerSec": 81
+      "outputTokensPerSec": 80
     },
     {
       "name": "Claude Haiku 5.5 (xhigh)",
@@ -437,7 +448,7 @@
       "costPerTaskUsd": 0.25,
       "inputUsd": 0.1,
       "outputUsd": 0.5,
-      "outputTokensPerSec": 196
+      "outputTokensPerSec": 199
     },
     {
       "name": "Grok 4.7 (xhigh)",
@@ -448,7 +459,7 @@
       "costPerTaskUsd": 7.51,
       "inputUsd": 2,
       "outputUsd": 6,
-      "outputTokensPerSec": 89
+      "outputTokensPerSec": 87
     },
     {
       "name": "Qwen3.8 Max (0902)",
@@ -459,7 +470,7 @@
       "costPerTaskUsd": 10.02,
       "inputUsd": 2,
       "outputUsd": 6,
-      "outputTokensPerSec": 41
+      "outputTokensPerSec": 40
     },
     {
       "name": "DeepSeek V4.1 Flash 1017 (max)",
@@ -470,7 +481,7 @@
       "costPerTaskUsd": 0.6,
       "inputUsd": 0.3,
       "outputUsd": 1.2,
-      "outputTokensPerSec": 177
+      "outputTokensPerSec": 173
     },
     {
       "name": "GLM-5.3 (max)",
@@ -481,7 +492,7 @@
       "costPerTaskUsd": 5.01,
       "inputUsd": 1.4,
       "outputUsd": 4.4,
-      "outputTokensPerSec": 76
+      "outputTokensPerSec": 89
     },
     {
       "name": "Grok 4.7 (low)",
@@ -492,7 +503,7 @@
       "costPerTaskUsd": 2.92,
       "inputUsd": 2,
       "outputUsd": 6,
-      "outputTokensPerSec": 77
+      "outputTokensPerSec": 75
     },
     {
       "name": "Gemini 3.8 Flash (high)",
@@ -503,7 +514,7 @@
       "costPerTaskUsd": 7.77,
       "inputUsd": 0.75,
       "outputUsd": 3.75,
-      "outputTokensPerSec": 133
+      "outputTokensPerSec": 131
     },
     {
       "name": "GPT-6.1 Terra (non-reasoning)",
@@ -525,7 +536,7 @@
       "costPerTaskUsd": 0.78,
       "inputUsd": 2,
       "outputUsd": 10,
-      "outputTokensPerSec": 109
+      "outputTokensPerSec": 106
     },
     {
       "name": "Gemini 3.8 Flash (medium)",
@@ -547,7 +558,7 @@
       "costPerTaskUsd": 0.26,
       "inputUsd": 0.43,
       "outputUsd": 0.87,
-      "outputTokensPerSec": 58
+      "outputTokensPerSec": 48
     },
     {
       "name": "Claude Haiku 5.5 (high)",
@@ -558,7 +569,7 @@
       "costPerTaskUsd": 0.16,
       "inputUsd": 0.1,
       "outputUsd": 0.5,
-      "outputTokensPerSec": 187
+      "outputTokensPerSec": 182
     },
     {
       "name": "Ling 3.1 Flash 1019",
@@ -586,12 +597,12 @@
       "name": "MiniMax-M3.1-Flash",
       "creator": "MiniMax",
       "context": "1M",
-      "license": "Proprietary",
+      "license": "Open",
       "index": 29,
       "costPerTaskUsd": 0.49,
       "inputUsd": 0.15,
       "outputUsd": 0.6,
-      "outputTokensPerSec": 118
+      "outputTokensPerSec": 136
     },
     {
       "name": "Step 5 Preview",
@@ -602,7 +613,7 @@
       "costPerTaskUsd": 2.35,
       "inputUsd": 1,
       "outputUsd": 2.7,
-      "outputTokensPerSec": 182
+      "outputTokensPerSec": 146
     },
     {
       "name": "GPT-6 Luna (max)",
@@ -613,7 +624,18 @@
       "costPerTaskUsd": 0.15,
       "inputUsd": 0.1,
       "outputUsd": 0.5,
-      "outputTokensPerSec": 122
+      "outputTokensPerSec": 130
+    },
+    {
+      "name": "GLM-5.3-Flash",
+      "creator": "Z AI",
+      "context": "1M",
+      "license": "Open",
+      "index": 28,
+      "costPerTaskUsd": 0.58,
+      "inputUsd": 0.15,
+      "outputUsd": 0.5,
+      "outputTokensPerSec": 75
     },
     {
       "name": "MiMo-V2.6-Flash",
@@ -624,7 +646,18 @@
       "costPerTaskUsd": 0.13,
       "inputUsd": 0.14,
       "outputUsd": 0.28,
-      "outputTokensPerSec": 56
+      "outputTokensPerSec": 40
+    },
+    {
+      "name": "Mistral Large 4 (high)",
+      "creator": "Mistral",
+      "context": "1M",
+      "license": "Open",
+      "index": 26,
+      "costPerTaskUsd": 2.06,
+      "inputUsd": 0.7,
+      "outputUsd": 2.1,
+      "outputTokensPerSec": null
     },
     {
       "name": "Claude Sonnet 5.5 (low with fallback)",
@@ -635,18 +668,7 @@
       "costPerTaskUsd": 0.51,
       "inputUsd": 2,
       "outputUsd": 10,
-      "outputTokensPerSec": 109
-    },
-    {
-      "name": "Mistral Large 4 Preview",
-      "creator": "Mistral",
-      "context": "524k",
-      "license": "Proprietary",
-      "index": 25,
-      "costPerTaskUsd": 5.54,
-      "inputUsd": 1.36,
-      "outputUsd": 4.18,
-      "outputTokensPerSec": 113
+      "outputTokensPerSec": 108
     },
     {
       "name": "Muse Spark Open (xhigh)",
@@ -657,7 +679,7 @@
       "costPerTaskUsd": 2.02,
       "inputUsd": 1.25,
       "outputUsd": 4.25,
-      "outputTokensPerSec": 170
+      "outputTokensPerSec": 188
     },
     {
       "name": "Claude Haiku 5.5 (medium)",
@@ -668,7 +690,7 @@
       "costPerTaskUsd": 0.09,
       "inputUsd": 0.1,
       "outputUsd": 0.5,
-      "outputTokensPerSec": 175
+      "outputTokensPerSec": 176
     },
     {
       "name": "GPT-6 Luna (xhigh)",
@@ -679,7 +701,18 @@
       "costPerTaskUsd": 0.1,
       "inputUsd": 0.1,
       "outputUsd": 0.5,
-      "outputTokensPerSec": 121
+      "outputTokensPerSec": 127
+    },
+    {
+      "name": "Mistral Large 4 (medium)",
+      "creator": "Mistral",
+      "context": "1M",
+      "license": "Open",
+      "index": 23,
+      "costPerTaskUsd": 1.41,
+      "inputUsd": 0.7,
+      "outputUsd": 2.1,
+      "outputTokensPerSec": null
     },
     {
       "name": "DeepSeek V4 Pro 0813 (max)",
@@ -690,7 +723,7 @@
       "costPerTaskUsd": 1.77,
       "inputUsd": 1.32,
       "outputUsd": 3.96,
-      "outputTokensPerSec": 81
+      "outputTokensPerSec": 94
     },
     {
       "name": "GLM-5.3 (low)",
@@ -701,7 +734,7 @@
       "costPerTaskUsd": 1.57,
       "inputUsd": 1.4,
       "outputUsd": 4.4,
-      "outputTokensPerSec": 84
+      "outputTokensPerSec": 82
     },
     {
       "name": "Gemini 3.8 Flash (low)",
@@ -723,7 +756,7 @@
       "costPerTaskUsd": 0.07,
       "inputUsd": 0.1,
       "outputUsd": 0.5,
-      "outputTokensPerSec": 121
+      "outputTokensPerSec": 122
     },
     {
       "name": "Qwen3.8 27B (xhigh)",
@@ -745,7 +778,7 @@
       "costPerTaskUsd": 1.29,
       "inputUsd": 0.3,
       "outputUsd": 1.2,
-      "outputTokensPerSec": 107
+      "outputTokensPerSec": 127
     },
     {
       "name": "Claude Haiku 5.5 (low)",
@@ -756,7 +789,18 @@
       "costPerTaskUsd": 0.04,
       "inputUsd": 0.1,
       "outputUsd": 0.5,
-      "outputTokensPerSec": 185
+      "outputTokensPerSec": 169
+    },
+    {
+      "name": "DeepSeek V4.1 Flash 1017 (non-reasoning)",
+      "creator": "DeepSeek",
+      "context": "1M",
+      "license": "Open",
+      "index": 19,
+      "costPerTaskUsd": 0.43,
+      "inputUsd": 0.3,
+      "outputUsd": 1.2,
+      "outputTokensPerSec": 192
     },
     {
       "name": "GPT-6 Luna (medium)",
@@ -778,7 +822,7 @@
       "costPerTaskUsd": 0,
       "inputUsd": 0,
       "outputUsd": 0,
-      "outputTokensPerSec": 929
+      "outputTokensPerSec": 531
     },
     {
       "name": "Beam 1.0",
@@ -789,7 +833,29 @@
       "costPerTaskUsd": 0.28,
       "inputUsd": 0.4,
       "outputUsd": 1.2,
-      "outputTokensPerSec": 346
+      "outputTokensPerSec": 376
+    },
+    {
+      "name": "Qwen3.8 27B (medium)",
+      "creator": "Alibaba",
+      "context": "256k",
+      "license": "Open",
+      "index": 17,
+      "costPerTaskUsd": 2.16,
+      "inputUsd": 0.5,
+      "outputUsd": 3,
+      "outputTokensPerSec": 48
+    },
+    {
+      "name": "Qwen3.8 27B (low)",
+      "creator": "Alibaba",
+      "context": "256k",
+      "license": "Open",
+      "index": 16,
+      "costPerTaskUsd": 1.91,
+      "inputUsd": 0.5,
+      "outputUsd": 3,
+      "outputTokensPerSec": 47
     },
     {
       "name": "Nemotron 3.5 Super VL",
@@ -797,10 +863,10 @@
       "context": "1M",
       "license": "Open",
       "index": 14,
-      "costPerTaskUsd": 0.56,
-      "inputUsd": 0.23,
-      "outputUsd": 0.57,
-      "outputTokensPerSec": 438
+      "costPerTaskUsd": 0.54,
+      "inputUsd": 0.2,
+      "outputUsd": 0.5,
+      "outputTokensPerSec": 483
     },
     {
       "name": "Inkling Small",
@@ -811,7 +877,7 @@
       "costPerTaskUsd": 0.2,
       "inputUsd": 0.3,
       "outputUsd": 1.2,
-      "outputTokensPerSec": 204
+      "outputTokensPerSec": 230
     },
     {
       "name": "Inkling (xhigh)",
@@ -822,7 +888,7 @@
       "costPerTaskUsd": 1.35,
       "inputUsd": 1,
       "outputUsd": 4.05,
-      "outputTokensPerSec": 218
+      "outputTokensPerSec": 199
     },
     {
       "name": "Nemotron 3 Ultra",
@@ -833,7 +899,7 @@
       "costPerTaskUsd": 2.23,
       "inputUsd": 0.6,
       "outputUsd": 2.7,
-      "outputTokensPerSec": 198
+      "outputTokensPerSec": 159
     },
     {
       "name": "Gemini 3.5 Flash-Lite",
@@ -844,7 +910,18 @@
       "costPerTaskUsd": 0.69,
       "inputUsd": 0.3,
       "outputUsd": 2.5,
-      "outputTokensPerSec": 454
+      "outputTokensPerSec": 442
+    },
+    {
+      "name": "Qwen3.8 27B (non-reasoning)",
+      "creator": "Alibaba",
+      "context": "256k",
+      "license": "Open",
+      "index": 10,
+      "costPerTaskUsd": 3.77,
+      "inputUsd": 0.5,
+      "outputUsd": 3,
+      "outputTokensPerSec": 45
     },
     {
       "name": "GPT-6 Luna (low)",
@@ -855,7 +932,7 @@
       "costPerTaskUsd": 0.01,
       "inputUsd": 0.1,
       "outputUsd": 0.5,
-      "outputTokensPerSec": 121
+      "outputTokensPerSec": 127
     },
     {
       "name": "GPT-6 Luna (non-reasoning)",
@@ -866,7 +943,7 @@
       "costPerTaskUsd": 0.07,
       "inputUsd": 0.1,
       "outputUsd": 0.5,
-      "outputTokensPerSec": 116
+      "outputTokensPerSec": 124
     },
     {
       "name": "Muse Glimmer (high)",
@@ -877,7 +954,7 @@
       "costPerTaskUsd": 0.16,
       "inputUsd": 0.3,
       "outputUsd": 1.2,
-      "outputTokensPerSec": 125
+      "outputTokensPerSec": 123
     },
     {
       "name": "Command A+",
@@ -888,7 +965,40 @@
       "costPerTaskUsd": 0,
       "inputUsd": 0,
       "outputUsd": 0,
-      "outputTokensPerSec": 150
+      "outputTokensPerSec": 133
+    },
+    {
+      "name": "Nemotron 3.5 Lightning",
+      "creator": "NVIDIA",
+      "context": "1M",
+      "license": "Open",
+      "index": 6,
+      "costPerTaskUsd": 0.29,
+      "inputUsd": 0.06,
+      "outputUsd": 0.2,
+      "outputTokensPerSec": 295
+    },
+    {
+      "name": "Granite 4.2 3B",
+      "creator": "IBM",
+      "context": "131k",
+      "license": "Open",
+      "index": 5,
+      "costPerTaskUsd": null,
+      "inputUsd": null,
+      "outputUsd": null,
+      "outputTokensPerSec": null
+    },
+    {
+      "name": "Mistral Small 4",
+      "creator": "Mistral",
+      "context": "256k",
+      "license": "Open",
+      "index": 4,
+      "costPerTaskUsd": 0.04,
+      "inputUsd": 0.15,
+      "outputUsd": 0.6,
+      "outputTokensPerSec": 170
     },
     {
       "name": "Nemotron 3 Nano 4B",
@@ -921,7 +1031,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.4,
       "outputUsd": 4.8,
-      "outputTokensPerSec": 110
+      "outputTokensPerSec": 129
     },
     {
       "name": "Nova 2.0 Omni (medium)",
@@ -943,7 +1053,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.4,
       "outputUsd": 3.2,
-      "outputTokensPerSec": 145
+      "outputTokensPerSec": 143
     },
     {
       "name": "Gemma 4 12B (non-reasoning)",
@@ -954,7 +1064,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.1,
       "outputUsd": 0.3,
-      "outputTokensPerSec": 121
+      "outputTokensPerSec": 118
     },
     {
       "name": "Gemma 3 270M",
@@ -998,18 +1108,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.25,
       "outputUsd": 0.97,
-      "outputTokensPerSec": 96
-    },
-    {
-      "name": "Granite 4.2 3B",
-      "creator": "IBM",
-      "context": "131k",
-      "license": "Open",
-      "index": null,
-      "costPerTaskUsd": null,
-      "inputUsd": 0.03,
-      "outputUsd": 0.12,
-      "outputTokensPerSec": 54
+      "outputTokensPerSec": 95
     },
     {
       "name": "Nova 2.0 Pro Preview (medium)",
@@ -1020,7 +1119,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 1.25,
       "outputUsd": 10,
-      "outputTokensPerSec": 128
+      "outputTokensPerSec": 127
     },
     {
       "name": "Qwen3.5 397B A17B",
@@ -1031,7 +1130,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.6,
       "outputUsd": 3.6,
-      "outputTokensPerSec": 59
+      "outputTokensPerSec": 57
     },
     {
       "name": "Granite 4.2 30B",
@@ -1064,7 +1163,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.15,
       "outputUsd": 0.6,
-      "outputTokensPerSec": 169
+      "outputTokensPerSec": 172
     },
     {
       "name": "Solar Pro 4",
@@ -1075,7 +1174,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.3,
       "outputUsd": 1.2,
-      "outputTokensPerSec": null
+      "outputTokensPerSec": 101
     },
     {
       "name": "gpt-oss-20b (low)",
@@ -1086,7 +1185,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.07,
       "outputUsd": 0.3,
-      "outputTokensPerSec": 247
+      "outputTokensPerSec": 256
     },
     {
       "name": "o3",
@@ -1097,7 +1196,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 2,
       "outputUsd": 8,
-      "outputTokensPerSec": 164
+      "outputTokensPerSec": 163
     },
     {
       "name": "K-EXAONE 2.0",
@@ -1111,17 +1210,6 @@
       "outputTokensPerSec": null
     },
     {
-      "name": "GLM-5.3-Flash",
-      "creator": "Z AI",
-      "context": "1M",
-      "license": "Open",
-      "index": null,
-      "costPerTaskUsd": null,
-      "inputUsd": 0.15,
-      "outputUsd": 0.5,
-      "outputTokensPerSec": 78
-    },
-    {
       "name": "North Mini Code",
       "creator": "Cohere",
       "context": "256k",
@@ -1130,7 +1218,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0,
       "outputUsd": 0,
-      "outputTokensPerSec": 68
+      "outputTokensPerSec": 89
     },
     {
       "name": "Nova 2.0 Omni (non-reasoning)",
@@ -1163,7 +1251,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.17,
       "outputUsd": 0.25,
-      "outputTokensPerSec": 79
+      "outputTokensPerSec": 103
     },
     {
       "name": "Qwen3.5 122B A10B",
@@ -1174,7 +1262,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.4,
       "outputUsd": 3.2,
-      "outputTokensPerSec": 132
+      "outputTokensPerSec": 130
     },
     {
       "name": "Hermes 4 70B (non-reasoning)",
@@ -1196,7 +1284,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.05,
       "outputUsd": 0.2,
-      "outputTokensPerSec": 271
+      "outputTokensPerSec": 269
     },
     {
       "name": "Qwen3 Next 80B A3B",
@@ -1207,18 +1295,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.1,
       "outputUsd": 1.1,
-      "outputTokensPerSec": 134
-    },
-    {
-      "name": "Nemotron 3.5 Lightning",
-      "creator": "NVIDIA",
-      "context": "1M",
-      "license": "Open",
-      "index": null,
-      "costPerTaskUsd": null,
-      "inputUsd": 0.06,
-      "outputUsd": 0.2,
-      "outputTokensPerSec": 298
+      "outputTokensPerSec": 175
     },
     {
       "name": "Phi-4 Multimodal",
@@ -1240,7 +1317,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.14,
       "outputUsd": 0.2,
-      "outputTokensPerSec": 57
+      "outputTokensPerSec": 63
     },
     {
       "name": "NVIDIA Nemotron Nano 9B V2 (non-reasoning)",
@@ -1251,7 +1328,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.05,
       "outputUsd": 0.2,
-      "outputTokensPerSec": 169
+      "outputTokensPerSec": 171
     },
     {
       "name": "EXAONE 4.0 32B (non-reasoning)",
@@ -1284,7 +1361,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.03,
       "outputUsd": 0.15,
-      "outputTokensPerSec": 20
+      "outputTokensPerSec": 17
     },
     {
       "name": "Qwen3.5 397B A17B (non-reasoning)",
@@ -1295,7 +1372,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.6,
       "outputUsd": 3.6,
-      "outputTokensPerSec": 60
+      "outputTokensPerSec": 59
     },
     {
       "name": "K2 Horizon 3.7B",
@@ -1350,7 +1427,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.04,
       "outputUsd": 0.14,
-      "outputTokensPerSec": 321
+      "outputTokensPerSec": 288
     },
     {
       "name": "EXAONE 4.5 33B (non-reasoning)",
@@ -1362,17 +1439,6 @@
       "inputUsd": null,
       "outputUsd": null,
       "outputTokensPerSec": null
-    },
-    {
-      "name": "Qwen3.8 27B (non-reasoning)",
-      "creator": "Alibaba",
-      "context": "256k",
-      "license": "Open",
-      "index": null,
-      "costPerTaskUsd": null,
-      "inputUsd": 0.5,
-      "outputUsd": 3,
-      "outputTokensPerSec": 47
     },
     {
       "name": "INTELLECT-3",
@@ -1394,7 +1460,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.05,
       "outputUsd": 0.22,
-      "outputTokensPerSec": 175
+      "outputTokensPerSec": 169
     },
     {
       "name": "Olmo 3.1 32B Think",
@@ -1427,7 +1493,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 2.5,
       "outputUsd": 10,
-      "outputTokensPerSec": 17
+      "outputTokensPerSec": 18
     },
     {
       "name": "LFM2.5-VL-1.6B",
@@ -1461,17 +1527,6 @@
       "inputUsd": null,
       "outputUsd": null,
       "outputTokensPerSec": null
-    },
-    {
-      "name": "Mistral Small 4",
-      "creator": "Mistral",
-      "context": "256k",
-      "license": "Open",
-      "index": null,
-      "costPerTaskUsd": null,
-      "inputUsd": 0.15,
-      "outputUsd": 0.6,
-      "outputTokensPerSec": 185
     },
     {
       "name": "Qwen3.5 0.8B (non-reasoning)",
@@ -1526,7 +1581,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.04,
       "outputUsd": 0.17,
-      "outputTokensPerSec": 195
+      "outputTokensPerSec": 132
     },
     {
       "name": "Llama 3.1 405B",
@@ -1669,7 +1724,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 1.75,
       "outputUsd": 14,
-      "outputTokensPerSec": 93
+      "outputTokensPerSec": 114
     },
     {
       "name": "LFM2.5-1.2B-Thinking",
@@ -1702,7 +1757,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.75,
       "outputUsd": 2.95,
-      "outputTokensPerSec": 73
+      "outputTokensPerSec": 79
     },
     {
       "name": "Qwen3.5 2B",
@@ -1746,7 +1801,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.34,
       "outputUsd": 0.34,
-      "outputTokensPerSec": 29
+      "outputTokensPerSec": 24
     },
     {
       "name": "LongCat Flash Lite",
@@ -1779,7 +1834,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.3,
       "outputUsd": 2.5,
-      "outputTokensPerSec": 206
+      "outputTokensPerSec": 195
     },
     {
       "name": "Solar Mini 4",
@@ -1790,7 +1845,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.1,
       "outputUsd": 0.4,
-      "outputTokensPerSec": 115
+      "outputTokensPerSec": 111
     },
     {
       "name": "MiniCPM5-2B",
@@ -1812,18 +1867,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.03,
       "outputUsd": 0.15,
-      "outputTokensPerSec": 18
-    },
-    {
-      "name": "Qwen3.8 27B (medium)",
-      "creator": "Alibaba",
-      "context": "256k",
-      "license": "Open",
-      "index": null,
-      "costPerTaskUsd": null,
-      "inputUsd": 0.5,
-      "outputUsd": 3,
-      "outputTokensPerSec": 44
+      "outputTokensPerSec": 15
     },
     {
       "name": "Motif-2-12.7B",
@@ -1845,7 +1889,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.38,
       "outputUsd": 2.25,
-      "outputTokensPerSec": 145
+      "outputTokensPerSec": 153
     },
     {
       "name": "Ministral 3 3B",
@@ -1856,7 +1900,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.1,
       "outputUsd": 0.1,
-      "outputTokensPerSec": 182
+      "outputTokensPerSec": 181
     },
     {
       "name": "Hermes 4 70B",
@@ -1889,7 +1933,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.1,
       "outputUsd": 0.34,
-      "outputTokensPerSec": 96
+      "outputTokensPerSec": 112
     },
     {
       "name": "NVIDIA Nemotron Nano 12B v2 VL",
@@ -1911,7 +1955,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.1,
       "outputUsd": 0.8,
-      "outputTokensPerSec": 245
+      "outputTokensPerSec": 241
     },
     {
       "name": "Nova 2.0 Lite (low)",
@@ -1922,7 +1966,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.3,
       "outputUsd": 2.5,
-      "outputTokensPerSec": 189
+      "outputTokensPerSec": 181
     },
     {
       "name": "Magistral Small 1.2",
@@ -1933,7 +1977,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.5,
       "outputUsd": 1.5,
-      "outputTokensPerSec": 98
+      "outputTokensPerSec": 75
     },
     {
       "name": "Gemma 4 26B A4B (non-reasoning)",
@@ -1944,7 +1988,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.12,
       "outputUsd": 0.4,
-      "outputTokensPerSec": 122
+      "outputTokensPerSec": 127
     },
     {
       "name": "Ministral 3 14B",
@@ -1955,7 +1999,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.2,
       "outputUsd": 0.2,
-      "outputTokensPerSec": 81
+      "outputTokensPerSec": 61
     },
     {
       "name": "Gemma 4 E2B (non-reasoning)",
@@ -1986,9 +2030,9 @@
       "license": "Proprietary",
       "index": null,
       "costPerTaskUsd": null,
-      "inputUsd": 0.25,
+      "inputUsd": 0.2,
       "outputUsd": 0.75,
-      "outputTokensPerSec": 596
+      "outputTokensPerSec": null
     },
     {
       "name": "Nova 2.0 Lite (non-reasoning)",
@@ -1999,7 +2043,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.3,
       "outputUsd": 2.5,
-      "outputTokensPerSec": 179
+      "outputTokensPerSec": 178
     },
     {
       "name": "Nemotron 3 Nano",
@@ -2010,7 +2054,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.05,
       "outputUsd": 0.2,
-      "outputTokensPerSec": 274
+      "outputTokensPerSec": 255
     },
     {
       "name": "DeepSeek V4 Flash Vision (max)",
@@ -2021,7 +2065,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.44,
       "outputUsd": 1.32,
-      "outputTokensPerSec": 182
+      "outputTokensPerSec": 162
     },
     {
       "name": "MiniCPM5-1B",
@@ -2068,17 +2112,6 @@
       "outputTokensPerSec": null
     },
     {
-      "name": "Qwen3.8 27B (low)",
-      "creator": "Alibaba",
-      "context": "256k",
-      "license": "Open",
-      "index": null,
-      "costPerTaskUsd": null,
-      "inputUsd": 0.5,
-      "outputUsd": 3,
-      "outputTokensPerSec": 47
-    },
-    {
       "name": "Solar Open2 250B",
       "creator": "Upstage",
       "context": "1.05M",
@@ -2098,7 +2131,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0,
       "outputUsd": 0,
-      "outputTokensPerSec": 58
+      "outputTokensPerSec": 57
     },
     {
       "name": "Celeris-1",
@@ -2109,7 +2142,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.2,
       "outputUsd": 0.7,
-      "outputTokensPerSec": 1613
+      "outputTokensPerSec": 1699
     },
     {
       "name": "Tiny Aya Global",
@@ -2153,7 +2186,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 1,
       "outputUsd": 3,
-      "outputTokensPerSec": 39
+      "outputTokensPerSec": 41
     },
     {
       "name": "Magistral Medium 1.2",
@@ -2175,7 +2208,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.38,
       "outputUsd": 2.25,
-      "outputTokensPerSec": 141
+      "outputTokensPerSec": 136
     },
     {
       "name": "Apertus 8B Instruct",
@@ -2195,9 +2228,9 @@
       "license": "Open",
       "index": null,
       "costPerTaskUsd": null,
-      "inputUsd": 0.4,
-      "outputUsd": 1.36,
-      "outputTokensPerSec": 229
+      "inputUsd": 0.5,
+      "outputUsd": 0.9,
+      "outputTokensPerSec": 223
     },
     {
       "name": "Kimi K2.7 Code",
@@ -2208,7 +2241,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.95,
       "outputUsd": 4,
-      "outputTokensPerSec": 66
+      "outputTokensPerSec": 46
     },
     {
       "name": "Qwen3.8 2.4T A95B",
@@ -2219,7 +2252,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 2,
       "outputUsd": 6,
-      "outputTokensPerSec": 41
+      "outputTokensPerSec": 38
     },
     {
       "name": "Olmo 3 7B",
@@ -2252,7 +2285,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.25,
       "outputUsd": 0.92,
-      "outputTokensPerSec": 54
+      "outputTokensPerSec": 59
     },
     {
       "name": "GPT-6 Sol (Daybreak Blue, max)",
@@ -2285,7 +2318,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.15,
       "outputUsd": 0.15,
-      "outputTokensPerSec": 92
+      "outputTokensPerSec": 99
     },
     {
       "name": "Llama 3.3 70B",
@@ -2296,7 +2329,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.6,
       "outputUsd": 0.71,
-      "outputTokensPerSec": 88
+      "outputTokensPerSec": 92
     },
     {
       "name": "Nemotron Cascade 2 30B A3B",
@@ -2329,7 +2362,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.15,
       "outputUsd": 0.47,
-      "outputTokensPerSec": 55
+      "outputTokensPerSec": 54
     },
     {
       "name": "Llama 3.2 90B (Vision)",
@@ -2362,7 +2395,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.07,
       "outputUsd": 0.3,
-      "outputTokensPerSec": 46
+      "outputTokensPerSec": 44
     },
     {
       "name": "Nova 2.0 Pro Preview (non-reasoning)",
@@ -2373,7 +2406,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 1.25,
       "outputUsd": 10,
-      "outputTokensPerSec": 125
+      "outputTokensPerSec": 126
     },
     {
       "name": "K2-V2 (high)",
@@ -2417,7 +2450,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.3,
       "outputUsd": 0.9,
-      "outputTokensPerSec": 221
+      "outputTokensPerSec": 217
     },
     {
       "name": "Granite 4.0 H 350M",
@@ -2461,7 +2494,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.4,
       "outputUsd": 1.6,
-      "outputTokensPerSec": 58
+      "outputTokensPerSec": 57
     },
     {
       "name": "DeepHermes 3 - Mistral 24B (non-reasoning)",
@@ -2483,7 +2516,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.2,
       "outputUsd": 0.6,
-      "outputTokensPerSec": 204
+      "outputTokensPerSec": 193
     },
     {
       "name": "Step3 VL 10B",
@@ -2505,7 +2538,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.18,
       "outputUsd": 0.66,
-      "outputTokensPerSec": 67
+      "outputTokensPerSec": 111
     },
     {
       "name": "Granite 4.2 8B",
@@ -2516,7 +2549,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.06,
       "outputUsd": 0.25,
-      "outputTokensPerSec": 53
+      "outputTokensPerSec": 59
     },
     {
       "name": "ERNIE 4.5 300B A47B",
@@ -2571,7 +2604,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.14,
       "outputUsd": 0.55,
-      "outputTokensPerSec": 84
+      "outputTokensPerSec": 96
     },
     {
       "name": "Nova 2.0 Omni (low)",
@@ -2602,9 +2635,9 @@
       "license": "Open",
       "index": null,
       "costPerTaskUsd": null,
-      "inputUsd": 0.25,
-      "outputUsd": 0.8,
-      "outputTokensPerSec": 367
+      "inputUsd": null,
+      "outputUsd": null,
+      "outputTokensPerSec": null
     },
     {
       "name": "DeepHermes 3 - Llama-3.1 8B (non-reasoning)",
@@ -2626,7 +2659,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.25,
       "outputUsd": 0.97,
-      "outputTokensPerSec": 102
+      "outputTokensPerSec": 100
     },
     {
       "name": "Gemini 3.1 Pro Preview",
@@ -2670,7 +2703,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 5,
       "outputUsd": 30,
-      "outputTokensPerSec": 163
+      "outputTokensPerSec": 159
     },
     {
       "name": "Falcon-H1R-7B",
@@ -2703,7 +2736,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.13,
       "outputUsd": 0.59,
-      "outputTokensPerSec": 260
+      "outputTokensPerSec": 263
     },
     {
       "name": "Gemma 4 31B",
@@ -2736,7 +2769,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.16,
       "outputUsd": 0.4,
-      "outputTokensPerSec": 57
+      "outputTokensPerSec": 59
     },
     {
       "name": "MiniCPM5-1B (non-reasoning)",
@@ -2758,7 +2791,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 1,
       "outputUsd": 3,
-      "outputTokensPerSec": 39
+      "outputTokensPerSec": 42
     },
     {
       "name": "DeepSeek V4 Pro 0813 (non-reasoning)",
@@ -2769,7 +2802,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 1.32,
       "outputUsd": 3.96,
-      "outputTokensPerSec": 92
+      "outputTokensPerSec": 96
     },
     {
       "name": "Exaone 4.0 1.2B",
@@ -2791,7 +2824,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.02,
       "outputUsd": 0.1,
-      "outputTokensPerSec": 50
+      "outputTokensPerSec": 48
     },
     {
       "name": "K2-V2 (low)",
@@ -2822,9 +2855,9 @@
       "license": "Open",
       "index": null,
       "costPerTaskUsd": null,
-      "inputUsd": 0.2,
-      "outputUsd": 0.8,
-      "outputTokensPerSec": 90
+      "inputUsd": 0.1,
+      "outputUsd": 0.2,
+      "outputTokensPerSec": 91
     },
     {
       "name": "Mistral Medium 3.5",
@@ -2835,7 +2868,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 1.5,
       "outputUsd": 7.5,
-      "outputTokensPerSec": 158
+      "outputTokensPerSec": 178
     },
     {
       "name": "K2-V2 (medium)",
@@ -2923,7 +2956,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.3,
       "outputUsd": 2.5,
-      "outputTokensPerSec": 118
+      "outputTokensPerSec": 125
     },
     {
       "name": "Phi-4",
@@ -2934,7 +2967,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.13,
       "outputUsd": 0.5,
-      "outputTokensPerSec": 42
+      "outputTokensPerSec": 41
     },
     {
       "name": "gpt-oss-120b (high)",
@@ -2945,7 +2978,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.15,
       "outputUsd": 0.6,
-      "outputTokensPerSec": 225
+      "outputTokensPerSec": 217
     },
     {
       "name": "NVIDIA Nemotron Nano 9B V2",
@@ -2956,7 +2989,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.04,
       "outputUsd": 0.16,
-      "outputTokensPerSec": 164
+      "outputTokensPerSec": 241
     },
     {
       "name": "Agnes 2.5 Pro Beta",
@@ -2967,7 +3000,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.1,
       "outputUsd": 0.3,
-      "outputTokensPerSec": 112
+      "outputTokensPerSec": null
     },
     {
       "name": "Nova 2.0 Pro Preview (low)",
@@ -3000,7 +3033,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.11,
       "outputUsd": 0.33,
-      "outputTokensPerSec": 177
+      "outputTokensPerSec": 183
     },
     {
       "name": "LFM2 24B A2B",
@@ -3022,7 +3055,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.3,
       "outputUsd": 2.5,
-      "outputTokensPerSec": 187
+      "outputTokensPerSec": 194
     },
     {
       "name": "KAT-Coder-Pro V2",
@@ -3044,7 +3077,7 @@
       "costPerTaskUsd": null,
       "inputUsd": 0.31,
       "outputUsd": 1,
-      "outputTokensPerSec": 84
+      "outputTokensPerSec": 80
     },
     {
       "name": "Gemma 4 12B",
