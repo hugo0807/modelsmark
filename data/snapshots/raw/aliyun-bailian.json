@@ -1796,6 +1796,44 @@
       "promotional": false,
       "promoNote": null,
       "note": "阿里云百炼官网定价页（qwen-flash-character）。上下文缓存折扣表另计，未并入本条。"
+    },
+    {
+      "modelId": "qwen3-5-plus",
+      "vendorModelId": "qwen3.5-plus",
+      "billingMode": "payg",
+      "currency": "CNY",
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "input": 0.8,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": 4.8,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": "≤128K",
+      "promotional": false,
+      "promoNote": null,
+      "note": "阿里云百炼官网定价页（qwen3.5-plus，输入档位 0<Token≤128K）。上下文缓存折扣表另计，未并入本条。"
+    },
+    {
+      "modelId": "qwen-plus",
+      "vendorModelId": "qwen-plus-2025-04-28",
+      "billingMode": "payg",
+      "currency": "CNY",
+      "sourceUrl": "https://help.aliyun.com/zh/model-studio/model-pricing",
+      "fetchedAt": "2026-10-27T15:05:23.040Z",
+      "input": 0.8,
+      "cacheRead": null,
+      "cacheWrite": null,
+      "output": 2,
+      "tier": {
+        "kind": "none"
+      },
+      "tierLabel": null,
+      "promotional": false,
+      "promoNote": null,
+      "note": "阿里云百炼官网定价页（qwen-plus-2025-04-28，输入档位 无阶梯计价）。上下文缓存折扣表另计，未并入本条。"
     }
   ],
   "newModels": [
@@ -2295,5 +2333,5 @@
       "note": "页面在售，但项目 models.json 无对应 slug，未写入 prices[]。官网原文以「元 / 每百万 Token」计价。"
     }
   ],
-  "augmentedAt": "2026-11-02T01:18:46.860Z"
+  "augmentedAt": "2026-11-09T01:27:55.143Z"
 }
