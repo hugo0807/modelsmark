@@ -166,5 +166,89 @@
     "scale": "百分比",
     "vendorOwned": false,
     "url": null
+  },
+  {
+    "id": "deep-swe-v1-1",
+    "name": "DeepSWE v1.1",
+    "category": "coding",
+    "summary": "在真实代码库上解决需要多轮修改与验证的软件工程任务。",
+    "explanation": "本节分数来自百度 2026-11-11 文心 5.5 Flash Preview 发布图表，为厂商自测披露，未经第三方独立复现；与站内 Artificial Analysis 口径的分数不可直接横向比较。",
+    "useCase": "对比长周期编码 Agent 的任务完成率时参考",
+    "scoring": "任务通过率（%）",
+    "scale": "百分比",
+    "vendorOwned": false,
+    "url": null
+  },
+  {
+    "id": "automation-bench",
+    "name": "AutomationBench（百度发布图表口径）",
+    "category": "agent",
+    "summary": "考察模型跨应用编排、调用工具完成自动化工作流的能力。",
+    "explanation": "本节分数来自百度 2026-11-11 文心 5.5 Flash Preview 发布图表，为厂商自测披露，未经第三方独立复现；与站内 Artificial Analysis 口径的分数不可直接横向比较。 注意与 Artificial Analysis 的 AutomationBench-AA 不是同一评测配置。",
+    "useCase": "评估企业流程自动化 Agent",
+    "scoring": "任务成功率（%）",
+    "scale": "百分比",
+    "vendorOwned": false,
+    "url": null
+  },
+  {
+    "id": "apex-agents-1-1",
+    "name": "APEX-Agents 1.1",
+    "category": "agent",
+    "summary": "高难度多步智能体任务，考察规划、工具使用与长程一致性。",
+    "explanation": "本节分数来自百度 2026-11-11 文心 5.5 Flash Preview 发布图表，为厂商自测披露，未经第三方独立复现；与站内 Artificial Analysis 口径的分数不可直接横向比较。",
+    "useCase": "评估长程 Agent 应用",
+    "scoring": "任务成功率（%）",
+    "scale": "百分比",
+    "vendorOwned": false,
+    "url": null
+  },
+  {
+    "id": "draco",
+    "name": "DRACO",
+    "category": "document",
+    "summary": "面向密集文档与专业资料的理解、检索与综合推理。",
+    "explanation": "本节分数来自百度 2026-11-11 文心 5.5 Flash Preview 发布图表，为厂商自测披露，未经第三方独立复现；与站内 Artificial Analysis 口径的分数不可直接横向比较。",
+    "useCase": "评估知识工作 / 深度研究场景",
+    "scoring": "得分（%）",
+    "scale": "百分比",
+    "vendorOwned": false,
+    "url": null
+  },
+  {
+    "id": "spreadsheet-bench-v2",
+    "name": "SpreadsheetBench V2",
+    "category": "document",
+    "summary": "在真实电子表格里完成公式、格式与数据分析任务。",
+    "explanation": "本节分数来自百度 2026-11-11 文心 5.5 Flash Preview 发布图表，为厂商自测披露，未经第三方独立复现；与站内 Artificial Analysis 口径的分数不可直接横向比较。",
+    "useCase": "评估办公自动化与表格处理",
+    "scoring": "任务通过率（%）",
+    "scale": "百分比",
+    "vendorOwned": false,
+    "url": null
+  },
+  {
+    "id": "exploitgym",
+    "name": "ExploitGym（OpenAI 自建）",
+    "category": "industry",
+    "summary": "考察模型针对指定已知漏洞，在授权远程目标上做出可用 exploit 的成功率。",
+    "explanation": "本节分数来自 OpenAI 2026-11-05 GPT-6 Cyber 发布帖与 System Card，为厂商自测披露，未经第三方独立复现；且属网络安全专用评测，与站内 Artificial Analysis 通用口径的分数不可直接横向比较。 官方披露对照：GPT-5.6 Cyber 32.1%、GPT-6 Astra 42.4%、GPT-6 Cyber 48.5%。",
+    "useCase": "评估渗透测试 / 漏洞验证专用模型，不适用于通用模型选型",
+    "scoring": "可用 exploit 产出率（%）",
+    "scale": "百分比",
+    "vendorOwned": true,
+    "url": null
+  },
+  {
+    "id": "exploitgym-honeypot",
+    "name": "ExploitGym Honeypot（作用域遵守率）",
+    "category": "industry",
+    "summary": "在授权目标旁放置越界诱饵服务，考察模型能否判断目标范围、拒绝触碰诱饵。",
+    "explanation": "本节分数来自 OpenAI 2026-11-05 GPT-6 Cyber 发布帖与 System Card，为厂商自测披露，未经第三方独立复现；且属网络安全专用评测，与站内 Artificial Analysis 通用口径的分数不可直接横向比较。 官方披露：未给部署安全提示词时 99.93% 守住边界，给提示词后 100%；前代 GPT-5.6 Cyber 仅 94.49%。",
+    "useCase": "评估安全专用模型的授权边界遵守能力",
+    "scoring": "不触碰诱饵的比例（%）",
+    "scale": "百分比",
+    "vendorOwned": true,
+    "url": null
   }
 ]

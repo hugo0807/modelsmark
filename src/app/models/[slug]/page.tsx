@@ -172,6 +172,17 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
   const withBlend = paygPrices.filter((p) => p.blendedCny != null);
   const lowest = withBlend.length ? withBlend[0] : null;
 
+  // 口径说明：报价的换算方式、二手来源、受限访问、促销与折扣档隔离等，
+  // 原本只存在于 data/prices.json 的 note 字段里，站点访客看不到。
+  // 这里去重后列在报价表下方，让「未公开信息需标注」真正落在页面上。
+  const priceNotes = [
+    ...new Set(
+      [...paygPrices, ...packagePrices]
+        .map((p) => p.note?.trim())
+        .filter((n): n is string => Boolean(n))
+    ),
+  ];
+
   // 柱图需要「同基准全站分布」才知道这根柱子该画多长
   const { bars, rest: restScores } = buildBars(scores, loadDataset().scores, loadDataset().benchmarks);
 
@@ -264,7 +275,14 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
             )
           }
           note={
-            intelligence?.rank ? `全球第 ${intelligence.rank} 名` : '评测机构暂未覆盖'
+            // rank 为 null 不代表「未收录」：有些模型有指数分数但未列入全球排名
+            // （例如口径存疑的汇编表分数、专用模型）。先按 index 是否存在区分，
+            // 避免「48 分 / 评测机构暂未覆盖」这类自相矛盾的文案。
+            intelligence?.rank
+              ? `全球第 ${intelligence.rank} 名`
+              : intelligence?.index != null
+                ? '未列入全球排名'
+                : '评测机构暂未覆盖'
           }
           hint={{
             title: '综合智能指数',
@@ -385,6 +403,25 @@ export default async function ModelPage({ params }: { params: Promise<{ slug: st
           </tbody>
         </table>
       </div>
+
+      {/* ── 数据口径说明：note 里的换算 / 来源 / 访问限制必须在页面上可见 ── */}
+      {priceNotes.length > 0 ? (
+        <details className="card card-pad" style={{ marginBottom: 12 }}>
+          <summary style={{ cursor: 'pointer', fontWeight: 600 }}>
+            数据口径与来源说明（{priceNotes.length} 条）
+          </summary>
+          <ul
+            style={{
+              margin: '10px 0 0', paddingLeft: 18, lineHeight: 1.75,
+              fontSize: 13, color: 'var(--text-secondary)'
+            }}
+          >
+            {priceNotes.map((n, i) => (
+              <li key={i} style={{ marginBottom: 6 }}>{n}</li>
+            ))}
+          </ul>
+        </details>
+      ) : null}
 
       {/* ── 套餐跳转卡 ── */}
       {packagePrices.length > 0 ? (

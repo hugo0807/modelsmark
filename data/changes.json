@@ -228,5 +228,25 @@
     "toCny": null,
     "delta": null,
     "tierLabel": "高峰时段"
+  },
+  {
+    "modelId": "gpt-6-cyber",
+    "channelId": "openai",
+    "billingMode": "payg",
+    "kind": "added",
+    "fromCny": null,
+    "toCny": 268.61,
+    "delta": null,
+    "tierLabel": null
+  },
+  {
+    "modelId": "gpt-6-sol",
+    "channelId": "openai",
+    "billingMode": "payg",
+    "kind": "added",
+    "fromCny": null,
+    "toCny": 26.86,
+    "delta": null,
+    "tierLabel": null
   }
 ]

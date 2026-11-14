@@ -101,7 +101,16 @@ function buildLocalIndex() {
   const map = new Map();
   const shas = git('rev-list', '--all').split('\n').filter(Boolean);
   for (const sha of shas) {
-    const tree = git('rev-parse', `${sha}^{tree}`).trim();
+    // 通过 API 镜像进来的「远端自动快照」commit 只保证 commit 对象存在，
+    // 其 tree 对象可能不在本地对象库（历史遍历用不到 tree）。
+    // 这时 `rev-parse <sha>^{tree}` 会报 unknown revision，跳过即可，
+    // 不能让整个对齐流程因为它中断。
+    let tree;
+    try {
+      tree = git('rev-parse', `${sha}^{tree}`).trim();
+    } catch {
+      continue;
+    }
     let message;
     try {
       const raw = git('cat-file', 'commit', sha);

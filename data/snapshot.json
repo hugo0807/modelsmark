@@ -1,30 +1,30 @@
 {
-  "id": "2026-W44",
-  "date": "2026-10-25",
-  "usdCny": 6.718,
+  "id": "2026-W46",
+  "date": "2026-11-14",
+  "usdCny": 6.7152,
   "channelStatus": {
     "openai": {
       "channelId": "openai",
       "status": "ok",
-      "dataAsOf": "2026-10-25T23:51:26.171Z",
-      "records": 12,
+      "dataAsOf": "2026-11-14T05:04:13.545Z",
+      "records": 11,
       "error": null,
       "changes": 3
     },
     "anthropic": {
       "channelId": "anthropic",
-      "status": "stale",
-      "dataAsOf": "2026-10-23T08:00:00Z",
-      "records": 3,
-      "error": "Anthropic 官方: 页面结构变化，未解析出任何价格",
+      "status": "ok",
+      "dataAsOf": "2026-11-14T05:04:13.545Z",
+      "records": 7,
+      "error": null,
       "changes": 0
     },
     "google-ai-studio": {
       "channelId": "google-ai-studio",
-      "status": "stale",
-      "dataAsOf": "2026-10-23T08:00:00Z",
+      "status": "ok",
+      "dataAsOf": "2026-11-14T05:04:13.545Z",
       "records": 3,
-      "error": "fetch failed",
+      "error": null,
       "changes": 0
     },
     "xai": {
@@ -101,10 +101,10 @@
     },
     "baidu-qianfan": {
       "channelId": "baidu-qianfan",
-      "status": "stale",
-      "dataAsOf": "2026-10-23T08:00:00Z",
-      "records": 2,
-      "error": "百度智能云千帆: 页面结构变化，未解析出任何价格",
+      "status": "ok",
+      "dataAsOf": "2026-11-14T05:04:13.545Z",
+      "records": 37,
+      "error": null,
       "changes": 0
     },
     "mobile-cloud": {
@@ -157,11 +157,11 @@
     }
   },
   "counts": {
-    "models": 29,
-    "channels": 19,
-    "paygPrices": 50,
-    "packagePrices": 7,
-    "scores": 83
+    "models": 84,
+    "channels": 21,
+    "paygPrices": 274,
+    "packagePrices": 136,
+    "scores": 97
   },
-  "builtAt": "2026-10-25T23:51:26.171Z"
+  "builtAt": "2026-11-14T05:04:13.545Z"
 }
