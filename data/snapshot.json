@@ -1,6 +1,6 @@
 {
   "id": "2026-W46",
-  "date": "2026-11-14",
+  "date": "2026-11-15",
   "usdCny": 6.7152,
   "channelStatus": {
     "openai": {
@@ -22,10 +22,10 @@
     "google-ai-studio": {
       "channelId": "google-ai-studio",
       "status": "ok",
-      "dataAsOf": "2026-11-14T05:04:13.545Z",
-      "records": 3,
+      "dataAsOf": "2026-11-15T01:28:25.427Z",
+      "records": 5,
       "error": null,
-      "changes": 0
+      "changes": 2
     },
     "xai": {
       "channelId": "xai",
@@ -159,9 +159,9 @@
   "counts": {
     "models": 84,
     "channels": 21,
-    "paygPrices": 274,
+    "paygPrices": 276,
     "packagePrices": 136,
-    "scores": 97
+    "scores": 105
   },
-  "builtAt": "2026-11-14T05:04:13.545Z"
+  "builtAt": "2026-11-15T01:28:25.427Z"
 }

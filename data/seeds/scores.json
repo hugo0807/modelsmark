@@ -1065,5 +1065,93 @@
     "source": "OpenAI 官方发布 / System Card（厂商自测，未经第三方复现）",
     "sourceUrl": "https://www.bytenote.net/zh/article/gpt-6-cyber-critical-model",
     "measuredAt": "2026-11-05"
+  },
+  {
+    "modelId": "gemini-4-hydrogen",
+    "benchmarkId": "terminal-bench-4",
+    "value": 54,
+    "effort": "xhigh",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis 独立评测（heise online 逐字复述；原始出处 artificialanalysis.ai）；Terminal-Bench 4.0 = 54%，high→xhigh 无提升",
+    "sourceUrl": "https://www.heise.de/en/news/Gemini-4-Hydrogen-Google-s-efficient-alternative-to-Argon-and-Carbon-11523905.html",
+    "measuredAt": "2026-11-13"
+  },
+  {
+    "modelId": "gemini-4-hydrogen",
+    "benchmarkId": "gdp-pdf",
+    "value": 33,
+    "effort": "medium",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis 独立评测（heise online 逐字复述；原始出处 artificialanalysis.ai）；33% all-pass，与榜首并列",
+    "sourceUrl": "https://www.heise.de/en/news/Gemini-4-Hydrogen-Google-s-efficient-alternative-to-Argon-and-Carbon-11523905.html",
+    "measuredAt": "2026-11-13"
+  },
+  {
+    "modelId": "gemini-4-hydrogen",
+    "benchmarkId": "agents-last-exam",
+    "value": 71.6,
+    "effort": null,
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Google 官方 11-12 发布表（AIToolsRecap 逐字转录；厂商自测、未经第三方复现，不与站内 AA 口径横比）；Agents' Last Exam v1.1 变体，与站内 AA 口径可能不同",
+    "sourceUrl": "https://aitoolsrecap.com/Comparisons/gemini-4-hydrogen-vs-gemini-4-argon-2026",
+    "measuredAt": "2026-11-13"
+  },
+  {
+    "modelId": "gemini-4-hydrogen",
+    "benchmarkId": "osworld-v2-1",
+    "value": 77.6,
+    "effort": null,
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Google 官方 11-12 发布表（AIToolsRecap 逐字转录；厂商自测、未经第三方复现，不与站内 AA 口径横比）；OSWorld-2.1 offline subset",
+    "sourceUrl": "https://aitoolsrecap.com/Comparisons/gemini-4-hydrogen-vs-gemini-4-argon-2026",
+    "measuredAt": "2026-11-13"
+  },
+  {
+    "modelId": "gemini-4-hydrogen",
+    "benchmarkId": "chartography-tools",
+    "value": 66.6,
+    "effort": null,
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Google 官方 11-12 发布表（AIToolsRecap 逐字转录；厂商自测、未经第三方复现，不与站内 AA 口径横比）；官方表写作 Chartography，未注明 w/ tools",
+    "sourceUrl": "https://aitoolsrecap.com/Comparisons/gemini-4-hydrogen-vs-gemini-4-argon-2026",
+    "measuredAt": "2026-11-13"
+  },
+  {
+    "modelId": "gemini-4-hydrogen",
+    "benchmarkId": "terminal-bench-4-1",
+    "value": 57,
+    "effort": "high",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Google 官方发布（厂商自测，Terminal-Bench 4.1 版本；网易科技逐字转录）",
+    "sourceUrl": "https://www.163.com/tech/article/LBK07QIN00098IEO.html",
+    "measuredAt": "2026-11-13"
+  },
+  {
+    "modelId": "gemini-4-hydrogen",
+    "benchmarkId": "swe-sweep",
+    "value": 13.5,
+    "effort": null,
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Google 官方 11-12 发布表（AIToolsRecap 逐字转录；厂商自测、未经第三方复现，不与站内 AA 口径横比）",
+    "sourceUrl": "https://aitoolsrecap.com/Comparisons/gemini-4-hydrogen-vs-gemini-4-argon-2026",
+    "measuredAt": "2026-11-13"
+  },
+  {
+    "modelId": "gemini-4-hydrogen",
+    "benchmarkId": "aa-omniscience-hallucination",
+    "value": 8,
+    "effort": null,
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis 独立评测（heise online 逐字复述；原始出处 artificialanalysis.ai）；幻觉率 8%（越低越好），同期 Sonnet 5.5 = 43%",
+    "sourceUrl": "https://www.heise.de/en/news/Gemini-4-Hydrogen-Google-s-efficient-alternative-to-Argon-and-Carbon-11523905.html",
+    "measuredAt": "2026-11-13"
   }
 ]

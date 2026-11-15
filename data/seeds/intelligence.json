@@ -299,8 +299,8 @@
     "modelId": "gemini-4-hydrogen",
     "index": 54,
     "rank": 7,
-    "costPerTaskUsd": null,
-    "outputTokensPerSec": null,
+    "costPerTaskUsd": 3.16,
+    "outputTokensPerSec": 188,
     "source": "Artificial Analysis Intelligence Index v5",
     "measuredAt": "2026-11-13",
     "aaName": "Gemini 4 Hydrogen"

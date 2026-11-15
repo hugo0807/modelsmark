@@ -12976,7 +12976,7 @@
     "vendorModelId": "gemini-4-hydrogen",
     "promotional": false,
     "promoNote": null,
-    "note": "2026-11-12 GA，官方称缓存价为输入价的 95% 折扣。仅隐式缓存，无缓存写入费。官方另列 Batch/Flex 五折档（$0.75/$3.75）与 Priority 档（$2.70/$13.50），本表未展开。",
+    "note": "2026-11-12 GA，1,048,576 token 上下文内统一计价，思考 token 按输出计费。缓存价为输入价的 95% 折扣（$0.075），仅隐式缓存、无缓存写入费，且需 ≥4,096 token 才生效。Batch/Flex 五折档与 Priority 优先档已在本表另列；官方页未列出 Hydrogen 的调价计划（Carbon/Argon 12-01 涨价不适用）。",
     "evidence": {
       "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
       "fetchedAt": "2026-11-14T04:47:16.133Z",
@@ -13299,5 +13299,72 @@
     "packageManualActivation": null,
     "packageCalls": null,
     "packageIncludes": null
+  },
+  {
+    "modelId": "gemini-4-hydrogen",
+    "channelId": "google-ai-studio",
+    "billingMode": "payg",
+    "currency": "USD",
+    "cacheWrite": null,
+    "vendorModelId": "gemini-4-hydrogen",
+    "promotional": false,
+    "promoNote": null,
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "input": 0.75,
+    "cacheRead": 0.0375,
+    "output": 3.75,
+    "tier": {
+      "kind": "batch",
+      "note": "Google 官方 Batch / Flex 档：面向可等待的离线任务，输入、输出、缓存读价均为标准档五折。"
+    },
+    "tierLabel": "Batch / Flex 五折档",
+    "note": "二手来源：Google 官方定价页 ai.google.dev 国内网络不可达，此档价格取自 IOSnack 对官方价目表的逐字转录（2026-11-13 读取），并与 heise 的标准档 $0.075 缓存价交叉核对。折扣档，不参与标准档均价与最低价计算。Flex 与 Batch 共用此费率。",
+    "evidence": {
+      "sourceUrl": "https://iosnack.com/blog/gemini-4-hydrogen-price-benchmarks-business",
+      "fetchedAt": "2026-11-15T01:28:25.427Z",
+      "quote": "TierInputOutputCached input Standard$1.50$7.50$0.075 Batch or Flex$0.75$3.75$0.0375 Priority$2.70$13.50$0.135",
+      "pageUpdatedAt": null
+    }
+  },
+  {
+    "modelId": "gemini-4-hydrogen",
+    "channelId": "google-ai-studio",
+    "billingMode": "payg",
+    "currency": "USD",
+    "cacheWrite": null,
+    "vendorModelId": "gemini-4-hydrogen",
+    "promotional": false,
+    "promoNote": null,
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null,
+    "input": 2.7,
+    "cacheRead": 0.135,
+    "output": 13.5,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": "Priority 优先档",
+    "note": "二手来源：同上，取自 IOSnack 对 Google 官方价目表的逐字转录。Priority 为常设溢价档（非限时促销），约为标准档 1.8 倍，不参与标准档均价与最低价计算。TierCondition 枚举没有 priority 类型，故以 kind=none + 档位标签表达。",
+    "evidence": {
+      "sourceUrl": "https://iosnack.com/blog/gemini-4-hydrogen-price-benchmarks-business",
+      "fetchedAt": "2026-11-15T01:28:25.427Z",
+      "quote": "TierInputOutputCached input Standard$1.50$7.50$0.075 Batch or Flex$0.75$3.75$0.0375 Priority$2.70$13.50$0.135",
+      "pageUpdatedAt": null
+    }
   }
 ]

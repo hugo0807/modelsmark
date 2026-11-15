@@ -250,5 +250,41 @@
     "scale": "百分比",
     "vendorOwned": true,
     "url": null
+  },
+  {
+    "id": "terminal-bench-4-1",
+    "name": "Terminal-Bench 4.1",
+    "category": "coding",
+    "summary": "Terminal-Bench 4.1 版本的终端软件工程任务通过率，与站内 4.0 版题目集不同，不可直接比较。",
+    "explanation": "Google 在 Gemini 4 Hydrogen 发布表里宣传的是 4.1 版 57%（对比 Gemini 3.8 Flash 的 18.2%），而官方表 4.0 一栏明确标注未公布。站内另有 Terminal-Bench 4.0（AA 独立评测口径），两个版本题目集与评分协议不同，切勿把 57% 当成 4.0 的成绩。",
+    "useCase": "核对厂商宣传口径、区分基准版本时",
+    "scoring": "任务通过率（%）",
+    "scale": "百分比",
+    "vendorOwned": false,
+    "url": "https://www.tbench.ai"
+  },
+  {
+    "id": "swe-sweep",
+    "name": "SWE-sweep（智能体编码）",
+    "category": "coding",
+    "summary": "在真实代码库里连续完成多步缺陷修复的智能体编码测试，考察长链路工具调用与验证能力。",
+    "explanation": "Google 11-12 基准表用它对比 Hydrogen 与 Argon（13.5% vs 4.3%）。与站内 SWE Marathon 不是同一套题目，分数不能互换；本条是厂商自测值，未经第三方复现。",
+    "useCase": "评估「模型自己跑完一整轮改代码」的智能体场景",
+    "scoring": "任务通过率（%）",
+    "scale": "百分比",
+    "vendorOwned": false,
+    "url": null
+  },
+  {
+    "id": "aa-omniscience-hallucination",
+    "name": "AA-Omniscience 幻觉率",
+    "category": "knowledge",
+    "summary": "知识问答中编造事实的比例。**反向指标：数值越低越好**，与站内其它「越高越好」的基准相反。",
+    "explanation": "Artificial Analysis 的知识可靠性测试，专门统计模型在不确定时胡编的比例。Gemini 4 Hydrogen 为 8%，同期 Claude Sonnet 5.5 为 43%、GPT-6.1 Sol 为 52%。因是反向指标，柱图按数值画宽度会显得「很短」，所以本项只进完整基准表、不进四项柱图。",
+    "useCase": "RAG 校验、文档问答、事实核查等对「不瞎编」要求高的场景",
+    "scoring": "幻觉率（%，越低越好）",
+    "scale": "百分比（反向指标，越低越好）",
+    "vendorOwned": false,
+    "url": "https://artificialanalysis.ai"
   }
 ]
