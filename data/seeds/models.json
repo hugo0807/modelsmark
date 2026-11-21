@@ -1174,5 +1174,47 @@
     "activeParams": null,
     "pricingUrl": "https://developers.openai.com/api/docs/pricing",
     "docsUrl": "https://developers.openai.com/api/docs/models"
+  },
+  {
+    "id": "gpt-6-2-astra",
+    "name": "GPT-6.2 Astra",
+    "vendor": "OpenAI",
+    "origin": "overseas",
+    "openWeights": false,
+    "contextWindow": 1050000,
+    "maxOutput": 128000,
+    "releasedAt": "2026-11-17",
+    "params": null,
+    "activeParams": null,
+    "pricingUrl": "https://developers.openai.com/api/docs/pricing",
+    "docsUrl": "https://developers.openai.com/api/docs/models/gpt-6.2-astra"
+  },
+  {
+    "id": "gpt-6-2-sol",
+    "name": "GPT-6.2 Sol",
+    "vendor": "OpenAI",
+    "origin": "overseas",
+    "openWeights": false,
+    "contextWindow": 1050000,
+    "maxOutput": 128000,
+    "releasedAt": "2026-11-17",
+    "params": null,
+    "activeParams": null,
+    "pricingUrl": "https://developers.openai.com/api/docs/pricing",
+    "docsUrl": "https://developers.openai.com/api/docs/models/gpt-6.2-sol"
+  },
+  {
+    "id": "gemini-4-neon",
+    "name": "Gemini 4 Neon",
+    "vendor": "Google",
+    "origin": "overseas",
+    "openWeights": false,
+    "contextWindow": 1048576,
+    "maxOutput": 65536,
+    "releasedAt": "2026-11-18",
+    "params": null,
+    "activeParams": null,
+    "pricingUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+    "docsUrl": "https://ai.google.dev/gemini-api/docs/models"
   }
 ]

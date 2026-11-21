@@ -357,5 +357,38 @@
     "measuredAt": "2026-11-13",
     "aaName": "GPT-6 Sol",
     "note": "BenchLM 的 AA 指数汇编表（2026-11-13 核）列 GPT-6 Sol 47.6%，本站四舍五入记 48。【口径警示】该表明确说明「compiled from provider self-reports and secondary reports, can come from different index versions」，且该行标注为「Carried from an upstream page」；llmbenchmark.ai 的 AA v5 榜单未给该型号 AA 分。因此 48 分与站内 v5 口径可能不一致，仅供参考，不用于能力指数排名。"
+  },
+  {
+    "modelId": "gpt-6-2-astra",
+    "index": 62,
+    "rank": null,
+    "costPerTaskUsd": 4,
+    "outputTokensPerSec": 49,
+    "source": "Artificial Analysis Intelligence Index v5.0.1（第三方评测）",
+    "measuredAt": "2026-11-17",
+    "aaName": "GPT-6.2 Astra (max)",
+    "note": "AA v5.0.1 综合指数 62（max / xhigh effort 同分），单任务成本 $4.00、输出约 49 tokens/s。逐字来源：heise「GPT-6.2 Astra scores 62 points on the Intelligence Index with maximum reasoning effort」、I-Scoop「GPT-6.2 Astra 62 $4.00」「Source: Artificial Analysis Intelligence Index, 17 November 2026」、Emergent.sh（62 @ Max / 49 tokens per second）交叉核对。rank 留 null：各家转录名次冲突（heise「No.2」、Emergent「3rd out of 96 models」、I-Scoop「ranks second」），且含 effort 变体，不用推测值占位；详情页走「未列入全球排名」分支。与站内 AA v5（11-13 榜单）可横比：Fable 5.2=65 / Carbon=60 / Opus 5.5=59 两版读数一致。"
+  },
+  {
+    "modelId": "gpt-6-2-sol",
+    "index": 57,
+    "rank": null,
+    "costPerTaskUsd": 1.01,
+    "outputTokensPerSec": null,
+    "source": "Artificial Analysis Intelligence Index v5.0.1（第三方评测）",
+    "measuredAt": "2026-11-17",
+    "aaName": "GPT-6.2 Sol (max)",
+    "note": "AA v5.0.1 综合指数 57（max effort），单任务成本 $1.01，与上一代旗舰 GPT-6 Astra 同分但成本约其 1/6。逐字来源：heise「GPT-6.2 Sol gains two points to reach 57」、I-Scoop「GPT-6.2 Sol 57 $1.01」、World Programming 九项对比表交叉核对。输出速度官方/第三方未给出本档可靠数值，留 null。rank 留 null，理由同 Astra。"
+  },
+  {
+    "modelId": "gemini-4-neon",
+    "index": 61,
+    "rank": null,
+    "costPerTaskUsd": null,
+    "outputTokensPerSec": 110,
+    "source": "Artificial Analysis Intelligence Index v5.0.1（第三方评测）",
+    "measuredAt": "2026-11-18",
+    "aaName": "Gemini 4 Neon (xhigh)",
+    "note": "AA v5.0.1 综合指数 61（xhigh effort），输出速度 110 tokens/s（Yumiza 逐字转录「Artificial Analysis measures Neon at 110 tokens per second」）。逐字来源：HarperFlow「Gemini 4 Neon scores 61 at xhigh on the Artificial Analysis Intelligence Index as of Nov 18, 2026」「The provider page confirms the 61 score for Neon Xhigh」、百度百科「智能指数61分居全球第三」、环球网「在xhigh最高推理档位下…智能指数榜单位列第三」交叉核对。programming-AA 的「编程 AI 智能体指数 58.6 分 / 第一」是另一套独立指数，不并入本项。costPerTaskUsd 留 null：唯一公开的 $3.74/任务是 high 档（对应 60 分）的成本，与 xhigh 档 61 分不同口径，不混写。rank 留 null：HarperFlow 明确指出 AA provider 页面未直接给出「#3 overall」名次，该说法系 Google 归因，按不推测占位原则留空。"
   }
 ]

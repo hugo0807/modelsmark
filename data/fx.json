@@ -24,6 +24,12 @@
       "usdCny": 6.7152,
       "source": "中国人民银行授权中国外汇交易中心公布",
       "sourceUrl": "https://www.chinamoney.com.cn/chinese/bkccpr/"
+    },
+    {
+      "date": "2026-11-20",
+      "usdCny": 6.7131,
+      "source": "中国人民银行授权中国外汇交易中心公布 · 银行间外汇市场人民币汇率中间价",
+      "sourceUrl": "https://www.financialnews.com.cn/2026-11/20/content_461318.html"
     }
   ]
 }

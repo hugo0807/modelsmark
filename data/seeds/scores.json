@@ -1153,5 +1153,148 @@
     "source": "Artificial Analysis 独立评测（heise online 逐字复述；原始出处 artificialanalysis.ai）；幻觉率 8%（越低越好），同期 Sonnet 5.5 = 43%",
     "sourceUrl": "https://www.heise.de/en/news/Gemini-4-Hydrogen-Google-s-efficient-alternative-to-Argon-and-Carbon-11523905.html",
     "measuredAt": "2026-11-13"
+  },
+  {
+    "modelId": "gpt-6-2-astra",
+    "benchmarkId": "terminal-bench-4",
+    "value": 64.1,
+    "effort": "max",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis Intelligence Index v5.0.1 九项子评测（第三方评测，max effort；World Programming 逐字转录 AA 对比表，并与 Emergent.sh / OpenRouter 镜像交叉核对，2026-11-21 读取）；Terminal-Bench **4.0** = 64.1%，与 4.1 不同版本",
+    "sourceUrl": "https://www.worldprogramming.org/posts/gpt-62-astra-vs-sol-why-the-2-model-is-the-smarter-default-x4jfav",
+    "measuredAt": "2026-11-17"
+  },
+  {
+    "modelId": "gpt-6-2-astra",
+    "benchmarkId": "gdp-pdf",
+    "value": 29.8,
+    "effort": "max",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis Intelligence Index v5.0.1 九项子评测（第三方评测，max effort；World Programming 逐字转录 AA 对比表，并与 Emergent.sh / OpenRouter 镜像交叉核对，2026-11-21 读取）；GDP.pdf = 29.8%",
+    "sourceUrl": "https://emergent.sh/learn/gpt-6-2-astra-vs-claude-fable-5-2",
+    "measuredAt": "2026-11-17"
+  },
+  {
+    "modelId": "gpt-6-2-astra",
+    "benchmarkId": "terminal-bench-science",
+    "value": 78.1,
+    "effort": "max",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis Intelligence Index v5.0.1 九项子评测（第三方评测，max effort；World Programming 逐字转录 AA 对比表，并与 Emergent.sh / OpenRouter 镜像交叉核对，2026-11-21 读取）；Terminal-Bench-Science 0.1 = 78.1%",
+    "sourceUrl": "https://www.worldprogramming.org/posts/gpt-62-astra-vs-sol-why-the-2-model-is-the-smarter-default-x4jfav",
+    "measuredAt": "2026-11-17"
+  },
+  {
+    "modelId": "gpt-6-2-astra",
+    "benchmarkId": "hle-diamond",
+    "value": 72.2,
+    "effort": "max",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis Intelligence Index v5.0.1 九项子评测（第三方评测，max effort；World Programming 逐字转录 AA 对比表，并与 Emergent.sh / OpenRouter 镜像交叉核对，2026-11-21 读取）；HLE-Diamond = 72.2%（非 hle-full-tools 口径）",
+    "sourceUrl": "https://emergent.sh/learn/gpt-6-2-astra-vs-claude-fable-5-2",
+    "measuredAt": "2026-11-17"
+  },
+  {
+    "modelId": "gpt-6-2-astra",
+    "benchmarkId": "aa-omniscience-hallucination",
+    "value": 59,
+    "effort": "max",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis AA-Omniscience 幻觉率（Max 档，越低越好；WentuoAI 逐字转录并与 I-Scoop 交叉核对）。反向指标，仅进完整基准表，不进四项柱图；Astra 59%（同期 Sol 55%）",
+    "sourceUrl": "https://blog.wentuo.ai/zh-hant/gpt-6-2-sol-daily-tasks-vs-coding-review-zh-hant.html",
+    "measuredAt": "2026-11-17"
+  },
+  {
+    "modelId": "gpt-6-2-sol",
+    "benchmarkId": "terminal-bench-4",
+    "value": 60.1,
+    "effort": "max",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis Intelligence Index v5.0.1 九项子评测（第三方评测，max effort；World Programming 逐字转录 AA 对比表，并与 Emergent.sh / OpenRouter 镜像交叉核对，2026-11-21 读取）；Terminal-Bench **4.0** = 60.1%，与 4.1 不同版本",
+    "sourceUrl": "https://www.worldprogramming.org/posts/gpt-62-astra-vs-sol-why-the-2-model-is-the-smarter-default-x4jfav",
+    "measuredAt": "2026-11-17"
+  },
+  {
+    "modelId": "gpt-6-2-sol",
+    "benchmarkId": "gdp-pdf",
+    "value": 30,
+    "effort": "max",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis Intelligence Index v5.0.1 九项子评测（第三方评测，max effort；World Programming 逐字转录 AA 对比表，并与 Emergent.sh / OpenRouter 镜像交叉核对，2026-11-21 读取）；GDP.pdf = 30.0%",
+    "sourceUrl": "https://www.worldprogramming.org/posts/gpt-62-astra-vs-sol-why-the-2-model-is-the-smarter-default-x4jfav",
+    "measuredAt": "2026-11-17"
+  },
+  {
+    "modelId": "gpt-6-2-sol",
+    "benchmarkId": "terminal-bench-science",
+    "value": 67.6,
+    "effort": "max",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis Intelligence Index v5.0.1 九项子评测（第三方评测，max effort；World Programming 逐字转录 AA 对比表，并与 Emergent.sh / OpenRouter 镜像交叉核对，2026-11-21 读取）；Terminal-Bench-Science 0.1 = 67.6%",
+    "sourceUrl": "https://www.worldprogramming.org/posts/gpt-62-astra-vs-sol-why-the-2-model-is-the-smarter-default-x4jfav",
+    "measuredAt": "2026-11-17"
+  },
+  {
+    "modelId": "gpt-6-2-sol",
+    "benchmarkId": "hle-diamond",
+    "value": 64,
+    "effort": "max",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis Intelligence Index v5.0.1 九项子评测（第三方评测，max effort；World Programming 逐字转录 AA 对比表，并与 Emergent.sh / OpenRouter 镜像交叉核对，2026-11-21 读取）；HLE-Diamond = 64.0%（非 hle-full-tools 口径）",
+    "sourceUrl": "https://www.worldprogramming.org/posts/gpt-62-astra-vs-sol-why-the-2-model-is-the-smarter-default-x4jfav",
+    "measuredAt": "2026-11-17"
+  },
+  {
+    "modelId": "gpt-6-2-sol",
+    "benchmarkId": "aa-omniscience-hallucination",
+    "value": 55,
+    "effort": "max",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Artificial Analysis AA-Omniscience 幻觉率（Max 档，越低越好；WentuoAI 逐字转录并与 I-Scoop 交叉核对）。反向指标，仅进完整基准表，不进四项柱图；Sol 55%（同期 Astra 59%）",
+    "sourceUrl": "https://blog.wentuo.ai/zh-hant/gpt-6-2-sol-daily-tasks-vs-coding-review-zh-hant.html",
+    "measuredAt": "2026-11-17"
+  },
+  {
+    "modelId": "gemini-4-neon",
+    "benchmarkId": "terminal-bench-4-1",
+    "value": 65.2,
+    "effort": "high",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Google 2026-11-18 Gemini 4 Neon 官方发布表（厂商自测、未经第三方独立复现；HarperFlow / AI Bacon / 小安 逐字转录，2026-11-21 读取）。与站内 AA 口径不可横比；Terminal-Bench **4.1** = 65.2%，与站内 4.0 版题目集不同，不可直接比较",
+    "sourceUrl": "https://www.harperflow.io/harperflow-blog/gemini-4-neon-explained-specs-pricing-benchmarks",
+    "measuredAt": "2026-11-18"
+  },
+  {
+    "modelId": "gemini-4-neon",
+    "benchmarkId": "frontiercode-2",
+    "value": 46.2,
+    "effort": "high",
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Google 2026-11-18 Gemini 4 Neon 官方发布表（厂商自测、未经第三方独立复现；HarperFlow / AI Bacon / 小安 逐字转录，2026-11-21 读取）。与站内 AA 口径不可横比；FrontierCode 2.0 默认 high 档 = 46.2%，与 AA 的 FrontierCode-AA 2.0 不同配置",
+    "sourceUrl": "https://xiaoan.cc/article/gemini-4-neon-fa-bu-qian-yan-zhi-neng-geng-kuai-geng-pian-yi-baf",
+    "measuredAt": "2026-11-18"
+  },
+  {
+    "modelId": "gemini-4-neon",
+    "benchmarkId": "swe-sweep",
+    "value": 12.8,
+    "effort": null,
+    "includesFallback": null,
+    "includesCyberguards": null,
+    "source": "Google 2026-11-18 Gemini 4 Neon 官方发布表（厂商自测、未经第三方独立复现；HarperFlow / AI Bacon / 小安 逐字转录，2026-11-21 读取）。与站内 AA 口径不可横比；SWE-sweep mini-SWE 独立 harness = 12.8%。同一权重在 Antigravity harness 下为 39%，属不同外围框架口径，本条只记 solo harness 值、不与 39% 混写",
+    "sourceUrl": "https://aibacon.net/posts/google-gemini-4-neon-launch-beats-carbon-coding-agents-32-percent-cheaper-per-task-swe-sweep-12-8-to-39-nov-18.html",
+    "measuredAt": "2026-11-18"
   }
 ]

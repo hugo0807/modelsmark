@@ -286,5 +286,29 @@
     "scale": "百分比（反向指标，越低越好）",
     "vendorOwned": false,
     "url": "https://artificialanalysis.ai"
+  },
+  {
+    "id": "hle-diamond",
+    "name": "HLE-Diamond（AA v5.0.1）",
+    "category": "knowledge",
+    "summary": "Artificial Analysis Intelligence Index v5.0.1 九项子评测之一， Humanity's Last Exam 的 Diamond 子集，考察高难度推理与专业知识。",
+    "explanation": "与站内已有的 hle-full-tools（HLE Full w/ tools）不是同一题目集与配置：本项是 AA v5.0.1 的 HLE-Diamond 子集（max effort），分数不可与 hle-full-tools 直接横比。GPT-6.2 Astra 72.2% / Sol 64.0% 来自 Artificial Analysis 第三方评测的逐字转录，非厂商自测。",
+    "useCase": "对比 AA v5.0.1 榜单内部各模型的高难度推理表现",
+    "scoring": "答题正确率（%）",
+    "scale": "百分比",
+    "vendorOwned": false,
+    "url": "https://artificialanalysis.ai"
+  },
+  {
+    "id": "frontiercode-2",
+    "name": "FrontierCode 2.0（Google 发布表口径）",
+    "category": "coding",
+    "summary": "考察对真实开源代码库提交的改动是否达到项目维护者可合并标准的编码基准。",
+    "explanation": "本项记录 Google 2026-11-18 Gemini 4 Neon 官方发布表披露的「FrontierCode 2.0」自测值（46.2%，默认 high 档），属厂商自测、未经第三方独立复现。与 Artificial Analysis 的「FrontierCode-AA 2.0」虽同名但评测配置与 harness 不同，分数不可直接横比，故单独建 ID、不并入站内任何 AA 口径基准。",
+    "useCase": "核对 Google 官方发布表口径，区分厂商自测与第三方评测时",
+    "scoring": "可合并改动通过率（%）",
+    "scale": "百分比",
+    "vendorOwned": false,
+    "url": null
   }
 ]

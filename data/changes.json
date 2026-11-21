@@ -248,5 +248,35 @@
     "toCny": 26.86,
     "delta": null,
     "tierLabel": null
+  },
+  {
+    "kind": "added",
+    "modelId": "gpt-6-2-astra",
+    "channelId": "openai",
+    "billingMode": "payg",
+    "fromCny": null,
+    "toCny": 107.41,
+    "delta": null,
+    "tierLabel": null
+  },
+  {
+    "kind": "added",
+    "modelId": "gpt-6-2-sol",
+    "channelId": "openai",
+    "billingMode": "payg",
+    "fromCny": null,
+    "toCny": 26.85,
+    "delta": null,
+    "tierLabel": null
+  },
+  {
+    "kind": "added",
+    "modelId": "gemini-4-neon",
+    "channelId": "google-ai-studio",
+    "billingMode": "payg",
+    "fromCny": null,
+    "toCny": 40.28,
+    "delta": null,
+    "tierLabel": null
   }
 ]

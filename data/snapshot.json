@@ -1,13 +1,13 @@
 {
-  "id": "2026-W46",
-  "date": "2026-11-15",
-  "usdCny": 6.7152,
+  "id": "2026-W47",
+  "date": "2026-11-21",
+  "usdCny": 6.7131,
   "channelStatus": {
     "openai": {
       "channelId": "openai",
       "status": "ok",
-      "dataAsOf": "2026-11-14T05:04:13.545Z",
-      "records": 11,
+      "dataAsOf": "2026-11-21T03:24:19.264Z",
+      "records": 14,
       "error": null,
       "changes": 3
     },
@@ -22,10 +22,10 @@
     "google-ai-studio": {
       "channelId": "google-ai-studio",
       "status": "ok",
-      "dataAsOf": "2026-11-15T01:28:25.427Z",
-      "records": 5,
+      "dataAsOf": "2026-11-21T03:24:19.264Z",
+      "records": 6,
       "error": null,
-      "changes": 2
+      "changes": 1
     },
     "xai": {
       "channelId": "xai",
@@ -157,11 +157,11 @@
     }
   },
   "counts": {
-    "models": 84,
+    "models": 87,
     "channels": 21,
-    "paygPrices": 276,
+    "paygPrices": 280,
     "packagePrices": 136,
-    "scores": 105
+    "scores": 118
   },
-  "builtAt": "2026-11-15T01:28:25.427Z"
+  "builtAt": "2026-11-21T03:24:19.264Z"
 }

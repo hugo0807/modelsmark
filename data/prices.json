@@ -13366,5 +13366,140 @@
       "quote": "TierInputOutputCached input Standard$1.50$7.50$0.075 Batch or Flex$0.75$3.75$0.0375 Priority$2.70$13.50$0.135",
       "pageUpdatedAt": null
     }
+  },
+  {
+    "modelId": "gpt-6-2-astra",
+    "vendorModelId": "gpt-6.2-astra",
+    "channelId": "openai",
+    "billingMode": "payg",
+    "currency": "USD",
+    "input": 8,
+    "cacheRead": 0.4,
+    "cacheWrite": 10,
+    "output": 40,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "二手来源：OpenAI 官方定价页 https://developers.openai.com/api/docs/pricing 本次实测返回 403 Forbidden（已知阻断），无法直连复核，故采用 Promptea 对 OpenAI 官方 model pages 价目表的逐字转录（2026-11-21 核对），并与 Models at Work、CASRAI、Silicon Report、I-Scoop、OpenRouter 镜像五家独立站点交叉核对，四组数字（$8/$0.40/$40、$2/$0.10/$10）完全一致。原始出处：OpenAI 官方定价页与 GPT-6.2 Astra/Sol model pages。本条为标准档（Standard，≤272K 输入 token），按每 1M tokens 计价；cacheWrite 记 30 分钟缓存写入价，官方另有 12 小时缓存写入档（更贵、未列具体数值）。【不录入的档位，均不参与首页均价与最低价】Batch 半价、Fast 2x、Ultrafast 3x（2027-02-28 前）/6x（2027-03-01 起）、Background 2 小时 -30% / 8 小时 -40%、data residency +10%；>272K 输入的长上下文溢价档另列一条。Astra 较 GPT-6 Astra（$10/$50）降价 20%，缓存读价降 60%。两模型均不支持 Flex。1,050,000 token 上下文、最大输出 128,000 token；Astra 知识截止 2026-05-18、Sol 2026-06-01。",
+    "evidence": {
+      "sourceUrl": "https://www.promptea.me/en/blog/openai-gpt-6-2-astra-sol-launch",
+      "fetchedAt": "2026-11-21T03:24:19.264Z",
+      "quote": "Astra costs $8 per million input tokens and $40 per million output tokens, with cached input at $0.40. Sol costs $2 input and $10 output, with cached input at $0.10, the same as GPT-6.1 Sol. A 30-minute cache write costs $10 per million tokens on Astra and $2.50 on Sol.",
+      "pageUpdatedAt": null
+    },
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null
+  },
+  {
+    "modelId": "gpt-6-2-astra",
+    "vendorModelId": "gpt-6.2-astra",
+    "channelId": "openai",
+    "billingMode": "payg",
+    "currency": "USD",
+    "input": 16,
+    "cacheRead": null,
+    "cacheWrite": null,
+    "output": 60,
+    "tier": {
+      "kind": "long_context",
+      "threshold": 272000,
+      "unit": "token",
+      "note": "官网口径：Over 272K tokens"
+    },
+    "tierLabel": ">272K 输入",
+    "promotional": false,
+    "promoNote": null,
+    "note": "二手来源：同上，OpenAI 官方页 403 无法直连复核，此档价格取自 Silicon Report 对 OpenAI 官方 model page 长上下文计费规则的逐字转录（2026-11-21 核对，页面 HTTP 200 可达），并与 Models at Work「Above 272,000 input tokens in one request, input rates double and output costs 1.5 times as much for the whole request」、Kingy AI「Astra becomes $16 input and $60 output per million」交叉核对。长上下文溢价档：输入 >272,000 token 时输入与缓存读价翻倍、输出按 1.5x 对整次请求计费。tier.kind=long_context 且档位标签含「>」，被 isStandardTier 双重排除，不参与首页均价、最低价与官方刊例价计算。 该档只公开输入 $16 / 输出 $60，未单列缓存读价，故 cacheRead 记 null（不推测）。",
+    "evidence": {
+      "sourceUrl": "https://www.siliconreport.com/openai-releases-gpt-6-2-astra-and-sol-cutting-astra-api-rates-20",
+      "fetchedAt": "2026-11-21T03:24:19.264Z",
+      "quote": "For requests with more than 272,000 input tokens, OpenAI doubles input and cache rates and applies a 1.5-times multiplier to output tokens, lifting long-context Astra calls to $16 per million input tokens and $60 per million output tokens.",
+      "pageUpdatedAt": null
+    },
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null
+  },
+  {
+    "modelId": "gpt-6-2-sol",
+    "vendorModelId": "gpt-6.2-sol",
+    "channelId": "openai",
+    "billingMode": "payg",
+    "currency": "USD",
+    "input": 2,
+    "cacheRead": 0.1,
+    "cacheWrite": 2.5,
+    "output": 10,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "二手来源：OpenAI 官方定价页 https://developers.openai.com/api/docs/pricing 本次实测返回 403 Forbidden（已知阻断），无法直连复核，故采用 Promptea 对 OpenAI 官方 model pages 价目表的逐字转录（2026-11-21 核对），并与 Models at Work、CASRAI、Silicon Report、I-Scoop、OpenRouter 镜像五家独立站点交叉核对，四组数字（$8/$0.40/$40、$2/$0.10/$10）完全一致。原始出处：OpenAI 官方定价页与 GPT-6.2 Astra/Sol model pages。本条为标准档（Standard，≤272K 输入 token），按每 1M tokens 计价；cacheWrite 记 30 分钟缓存写入价，官方另有 12 小时缓存写入档（更贵、未列具体数值）。【不录入的档位，均不参与首页均价与最低价】Batch 半价、Fast 2x、Ultrafast 3x（2027-02-28 前）/6x（2027-03-01 起）、Background 2 小时 -30% / 8 小时 -40%、data residency +10%；>272K 输入的长上下文溢价档另列一条。Sol 定价与 GPT-6.1 Sol 完全一致（$2/$10/$0.10），为 Astra 的四分之一。两模型均不支持 Flex。1,050,000 token 上下文、最大输出 128,000 token；Astra 知识截止 2026-05-18、Sol 2026-06-01。",
+    "evidence": {
+      "sourceUrl": "https://www.promptea.me/en/blog/openai-gpt-6-2-astra-sol-launch",
+      "fetchedAt": "2026-11-21T03:24:19.264Z",
+      "quote": "Astra costs $8 per million input tokens and $40 per million output tokens, with cached input at $0.40. Sol costs $2 input and $10 output, with cached input at $0.10, the same as GPT-6.1 Sol. A 30-minute cache write costs $10 per million tokens on Astra and $2.50 on Sol.",
+      "pageUpdatedAt": null
+    },
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null
+  },
+  {
+    "modelId": "gemini-4-neon",
+    "vendorModelId": "gemini-4-neon",
+    "channelId": "google-ai-studio",
+    "billingMode": "payg",
+    "currency": "USD",
+    "input": 3,
+    "cacheRead": 0.15,
+    "cacheWrite": null,
+    "output": 15,
+    "tier": {
+      "kind": "none"
+    },
+    "tierLabel": null,
+    "promotional": false,
+    "promoNote": null,
+    "note": "二手来源：Google 官方定价页 https://ai.google.dev/gemini-api/docs/pricing 国内网络不可达（已知阻断），无法直连复核，故采用财联社《科创板日报》对 Google 2026-11-18 官方发布定价的逐字转录（2026-11-21 核对），并与环球网/网易、每日经济新闻、百度百科、CSuite 五家独立来源交叉核对，$3/$0.15/$15 完全一致。原始出处：Google「Introducing Gemini 4 Neon」官方发布页（2026-11-18）与 Google Cloud「Agent Platform Pricing」价目表。本条为付费层标准档（官方明确无免费 API tier），按每 1M tokens 计价；缓存输入享 0.5 折（即输入价的 5%）为常设缓存读价，非限时促销；官方未单列缓存写入费，cacheWrite 记 null。四档推理级别 low/medium/high/xhigh 属 effort 设置、不是价格档，不另列报价。输出价是否含 thinking tokens 官方转录未说明，此处不推测。1,048,576 token 上下文，同步输出上限 65,536 token。窗口内另有 12-01 起 Carbon/Argon 引入价到期的预告，与本模型无关。",
+    "evidence": {
+      "sourceUrl": "https://www.cls.cn/detail/2538684",
+      "fetchedAt": "2026-11-21T03:24:19.264Z",
+      "quote": "该模型定价为每百万输入token 3美元（缓存输入token享0.5折优惠，仅需0.15美元/百万），每百万输出token 15美元。",
+      "pageUpdatedAt": null
+    },
+    "packageQuota": null,
+    "packageQuotaUnit": "mixed",
+    "packagePeriod": null,
+    "packagePrice": null,
+    "packageTierName": null,
+    "packageMerged": null,
+    "packageManualActivation": null,
+    "packageCalls": null,
+    "packageIncludes": null
   }
 ]
